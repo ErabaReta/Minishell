@@ -5,7 +5,7 @@ CFILES = main.c ./execution/execution.c ./execution/ft_split.c ./execution/ft_me
 OFILES = ${CFILES:.c=.o}
 NAME = minishell
 
-INCLUDES = -I. -I./get_next_line/ -I./execution/
+# INCLUDES = -I. -I./get_next_line/ -I./execution/
 
 all : ${NAME}
 
