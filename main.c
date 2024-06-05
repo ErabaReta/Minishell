@@ -33,26 +33,77 @@ int	main(int ac, char **av, char **env)
 
 
 
-
 	/// ls -la | 
 	(void)ac;
 	(void)av;
 
+
 	t_data *cmd1 = (t_data *)malloc(sizeof(t_data));
-	cmd1->cmd = "ls -la";
-	cmd1->rederiction = '|';
+	cmd1->cmd = "/usr/bin/ls -la";
+	cmd1->rederiction = '|';//0
 	cmd1->prev = NULL;
+	// cmd1->next = NULL;////
+
 
 	t_data *cmd2 = (t_data *)malloc(sizeof(t_data));
-	cmd2->cmd = "wc -l";
-	cmd2->rederiction = 0;
+	cmd2->cmd = "/usr/bin/grep total";
+	cmd2->rederiction = '|';
 	cmd2->prev = cmd1;
 
+
+
+	t_data *cmd3 = (t_data *)malloc(sizeof(t_data));
+	cmd3->cmd = "/usr/bin/wc -c";
+	cmd3->rederiction = 0;
+	cmd3->prev = cmd2;
+
+
 	cmd1->next = cmd2;
-	cmd2->next = cmd1;
+	cmd2->next = cmd3;
+	cmd3->next = NULL;
 	
-	execution(cmd1, 2, env);
+
+	execution(cmd1, 3, env);
+
+	//===========================================
+	// int *pipes = (int *)malloc(sizeof(int) * 2);
+	// if (pipe(pipes) == -1)
+	// {
+	// 		printf("error : cant create pipe %d\n",-1);
+	// }
+
+	// int id1 = fork();
+
+	// if (id1 == 0)
+	// {
+	// 	dup2(pipes[1], STDOUT_FILENO);
+	// 	close(pipes[0]);
+	// 	close(pipes[1]);
+	// 	char **args = ft_split(cmd1->cmd, ' ');
+	// 	execve(args[0], args, env);
+
+	// }
+
+	// id1 = fork();
+
+	// if (id1 == 0)
+	// {
+	// 	dup2(pipes[0], STDIN_FILENO);
+	// 	close(pipes[0]);
+	// 	close(pipes[1]);
+	// 	char **args = ft_split(cmd2->cmd, ' ');
+	// 	execve(args[0], args, env);
+	// }	
 	
-	
+	// 	close(pipes[0]);
+	// 	close(pipes[1]);
+
+	// int i = 0;
+	// while (i < 2)
+	// {
+	// 	wait(NULL);
+	// 	i++;
+	// }
+
 	return (0);
 }

@@ -13,16 +13,21 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#define PIPE_INPUT 1
+#define PIPE_OUTPUT 0
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <readline/readline.h>
 // #include <readline/history.h>
 # include "get_next_line/get_next_line_bonus.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 
 typedef struct s_data
 {
-	char rederiction; // |    <     >    <<     >>   
+	char rederiction; // |    <     >    <<     >>   &&    ||
 	char *cmd;
 	struct s_data *next;
 	struct s_data *prev;
