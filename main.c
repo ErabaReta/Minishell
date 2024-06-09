@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/06/04 16:14:52 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/06/05 17:28:28 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,21 @@ int	main(int ac, char **av, char **env)
 
 
 	t_data *cmd1 = (t_data *)malloc(sizeof(t_data));
-	cmd1->cmd = "/usr/bin/ls -la";
+	cmd1->cmd = "./myls -la";
 	cmd1->rederiction = '|';//0
 	cmd1->prev = NULL;
 	// cmd1->next = NULL;////
 
 
 	t_data *cmd2 = (t_data *)malloc(sizeof(t_data));
-	cmd2->cmd = "/usr/bin/grep total";
+	cmd2->cmd = "grep total";
 	cmd2->rederiction = '|';
 	cmd2->prev = cmd1;
 
 
 
 	t_data *cmd3 = (t_data *)malloc(sizeof(t_data));
-	cmd3->cmd = "/usr/bin/wc -c";
+	cmd3->cmd = "wc -c";
 	cmd3->rederiction = 0;
 	cmd3->prev = cmd2;
 
