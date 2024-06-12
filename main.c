@@ -1,109 +1,40 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/06/05 17:28:28 by eouhrich         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-
-
-
-int	main(int ac, char **av, char **env)
+char  **ft_slit(char *str, char c)
 {
-	// char *str;
-	// printf("user >$ ");
-	// fflush(stdout);
-	// str = readline("");
-	// while (str != NULL)
-	// {
-	// 	printf("your command is %s\n", str);
-	// 	// free(str);
-	// 	printf("user >$ ");
-	// 	fflush(stdout);
+}
 
-	// 	str = readline("");
-	// }
+void  makenode(char *str, i, t_all *all)
+{
+}
 
+void  parser(char *str, char separator, t_all *all)
+{
+  int i;
+  int last_index;
 
+  i = 0;
+  last_index = 0;
+  while (str[i])
+  {
+    if (str[i] == '|')
+    {
+      makenode(str, i, all);
+    }
+  }
+}
 
-	/// ls -la | 
-	(void)ac;
-	(void)av;
+int main(void)
+{
+  char *str;
+  t_all all;
+  t_malloc malloc_list;
 
-
-	t_data *cmd1 = (t_data *)malloc(sizeof(t_data));
-	cmd1->cmd = "./myls -la";
-	cmd1->rederiction = '|';//0
-	cmd1->prev = NULL;
-	// cmd1->next = NULL;////
-
-
-	t_data *cmd2 = (t_data *)malloc(sizeof(t_data));
-	cmd2->cmd = "grep total";
-	cmd2->rederiction = '|';
-	cmd2->prev = cmd1;
-
-
-
-	t_data *cmd3 = (t_data *)malloc(sizeof(t_data));
-	cmd3->cmd = "wc -c";
-	cmd3->rederiction = 0;
-	cmd3->prev = cmd2;
-
-
-	cmd1->next = cmd2;
-	cmd2->next = cmd3;
-	cmd3->next = NULL;
-	
-
-	execution(cmd1, 3, env);
-
-	//===========================================
-	// int *pipes = (int *)malloc(sizeof(int) * 2);
-	// if (pipe(pipes) == -1)
-	// {
-	// 		printf("error : cant create pipe %d\n",-1);
-	// }
-
-	// int id1 = fork();
-
-	// if (id1 == 0)
-	// {
-	// 	dup2(pipes[1], STDOUT_FILENO);
-	// 	close(pipes[0]);
-	// 	close(pipes[1]);
-	// 	char **args = ft_split(cmd1->cmd, ' ');
-	// 	execve(args[0], args, env);
-
-	// }
-
-	// id1 = fork();
-
-	// if (id1 == 0)
-	// {
-	// 	dup2(pipes[0], STDIN_FILENO);
-	// 	close(pipes[0]);
-	// 	close(pipes[1]);
-	// 	char **args = ft_split(cmd2->cmd, ' ');
-	// 	execve(args[0], args, env);
-	// }	
-	
-	// 	close(pipes[0]);
-	// 	close(pipes[1]);
-
-	// int i = 0;
-	// while (i < 2)
-	// {
-	// 	wait(NULL);
-	// 	i++;
-	// }
-
-	return (0);
+  malloc_list = (t_malloc) malloc(sizeof(t_malloc));
+  all = (t_all)allocator(sizeof(t_all), 1, &malloc_list);
+  all.malloc_list = malloc_list;
+  while (1) {
+    str = readline("$ ");
+    parser(str, '|', &all);
+  }
 }
