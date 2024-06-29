@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/06/29 10:01:46 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/06/29 12:41:14 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,54 +17,62 @@
 
 int	main(int ac, char **av, char **env)
 {
+		(void)ac;
+	(void)av;
+	(void)env;
+
 	
-	// char *str;
-	// printf("user >$ ");
-	// fflush(stdout);
-	// str = readline("");
-	// while (str != NULL)
-	// {
-	// 	printf("your command is %s\n", str);
-	// 	// free(str);
-	// 	printf("user >$ ");
-	// 	fflush(stdout);
+	char *str;
+	int	size;
+	printf("minishell >$ ");
+	fflush(stdout);
+	str = readline("");
+	t_data *tmp;
 
-	// 	str = readline("");
-	// }
+	
+	while (str != NULL)
+	{
+		// printf("your command is %s\n", str);
+		
+		tmp = mini_parsing(str, &size);
+		execution(tmp, size, env);
+		printf("minishell >$ ");
+		fflush(stdout);
 
+		str = readline("");
+	}
 
+	printf("str is %s\n", str);
 
 	/// ls -la | 
-	(void)ac;
-	(void)av;
+	// (void)ac;
+	// (void)av;
 
 
-	t_data *cmd1 = (t_data *)malloc(sizeof(t_data));
-	cmd1->cmd = "ls -la";
-	cmd1->rederiction = '|';//0
-	cmd1->prev = NULL;
-	// cmd1->next = NULL;////
+	// t_data *cmd1 = (t_data *)malloc(sizeof(t_data));
+	// cmd1->cmd = "ls -la";
+	// cmd1->rederiction = '|';//0
+	// cmd1->prev = NULL;
+	// // cmd1->next = NULL;////
+
+	// t_data *cmd2 = (t_data *)malloc(sizeof(t_data));
+	// cmd2->cmd = "grep total";
+	// cmd2->rederiction = '|';
+	// cmd2->prev = cmd1;
 
 
-	t_data *cmd2 = (t_data *)malloc(sizeof(t_data));
-	cmd2->cmd = "grep total";
-	cmd2->rederiction = '|';
-	cmd2->prev = cmd1;
+	// t_data *cmd3 = (t_data *)malloc(sizeof(t_data));
+	// cmd3->cmd = "wc -c";
+	// cmd3->rederiction = 0;
+	// cmd3->prev = cmd2;
 
 
-
-	t_data *cmd3 = (t_data *)malloc(sizeof(t_data));
-	cmd3->cmd = "wc -c";
-	cmd3->rederiction = 0;
-	cmd3->prev = cmd2;
-
-
-	cmd1->next = cmd2;
-	cmd2->next = cmd3;
-	cmd3->next = NULL;
+	// cmd1->next = cmd2;
+	// cmd2->next = cmd3;
+	// cmd3->next = NULL;
 	
 
-	execution(cmd1, 3, env);
+	// execution(cmd1, 3, env);
 
 	//===========================================
 	// int *pipes = (int *)malloc(sizeof(int) * 2);

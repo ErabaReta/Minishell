@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/06/29 10:01:18 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/06/29 12:41:32 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,5 +200,4 @@ void execution(t_data *data, int length, char **env)
 		wait(NULL);
 		i++;
 	}
-	exit(0);
 }
