@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/06/27 21:53:04 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/06/29 12:37:57 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_data
 }	t_data;
 
 //== Parsing =================================================
-
+t_data	*mini_parsing(char *cmd_line, int *count);
 //== Execution ===============================================
 void execution(t_data *data, int length, char **env);
 
