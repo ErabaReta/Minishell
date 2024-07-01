@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 15:56:47 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/06/04 16:15:26 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/06/30 19:04:27 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static size_t	indexer(char const *s, char c, size_t i, size_t *end_index)
 	return (i);
 }
 
-static size_t	count_words(char const *s, char c)
+size_t	count_words(char const *s, char c)
 {
 	size_t	i;
 	size_t	count;

@@ -6,43 +6,30 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/06/29 12:41:14 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:04:14 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
-
 int	main(int ac, char **av, char **env)
 {
 		(void)ac;
 	(void)av;
-	(void)env;
+	// (void)env;
 
 	
 	char *str;
 	int	size;
-	printf("minishell >$ ");
-	fflush(stdout);
-	str = readline("");
+	str = readline("minishell >$ ");
 	t_data *tmp;
-
 	
 	while (str != NULL)
 	{
-		// printf("your command is %s\n", str);
-		
 		tmp = mini_parsing(str, &size);
 		execution(tmp, size, env);
-		printf("minishell >$ ");
-		fflush(stdout);
-
-		str = readline("");
+		str = readline("minishell >$ ");
 	}
-
-	printf("str is %s\n", str);
 
 	/// ls -la | 
 	// (void)ac;

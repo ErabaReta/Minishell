@@ -1,5 +1,9 @@
 #include "../minishell.h"
 
+
+
+
+//	create a liked list data out of commmand line and sets the count variable size of the lined list
 t_data	*mini_parsing(char *cmd_line, int *count)
 {
 	char **cmds;
@@ -12,20 +16,24 @@ t_data	*mini_parsing(char *cmd_line, int *count)
 	i = 0;
 	prev = NULL;
 	*count = 0;
+	head = NULL; // for wall wextra werror
 	while (cmds[i] != NULL)
 	{
 		next = (t_data *)malloc(sizeof(t_data));
 		next->cmd = cmds[i];
+		// next->in_rederiction = char_in_cmd(cmds[i], '<');//
+		// next->out_rederiction = char_in_cmd(cmds[i], '>');//
+		//TODO need to store a char ** NULL terminated of all infiles and outfiles and generate splited cmd whit space without the redirection and files
+		redirector(next, cmds[i]);
 		next->next = NULL;
 		if (prev == NULL)
 		{
-			// next->prev = NULL;
+			next->prev = NULL;
 			head = next;
 			// printf("cmd%d => %s \n", i, head->cmd);
 		}
 		else
 		{
-			// next->prev = prev;
 			prev->next = next;
 		}
 			prev = next;
