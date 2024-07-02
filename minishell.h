@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/01 14:50:10 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/02 10:09:27 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ void	redirector(t_data *data, char *cmd);
 //== Execution ===============================================
 
 void execution(t_data *data, int length, char **env);
-char	*check_relative_path( char *cmd);
+char	*check_relative_path( char *file);
 char	*check_paths(char **env, char *cmd);
+void	exiter();
 //== Utils ===================================================
 
 char	**ft_split(char const *s, char c);
