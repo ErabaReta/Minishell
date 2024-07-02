@@ -6,29 +6,29 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:47:08 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/06/29 12:47:22 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/02 10:05:41 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*check_relative_path( char *cmd)
+char	*check_relative_path( char *file)
 {	
-	if (access(cmd, F_OK) == 0)
+	if (access(file, F_OK) == 0)
 	{
-		if (access(cmd, X_OK) == 0)
+		if (access(file, X_OK) == 0)
 		{
-			return (cmd);
+			return (file);
 		}
 		else
 		{
-			printf("Minishell: permission denied: %s\n", cmd);
+			printf("Minishell: permission denied: %s\n", file);
 			return (NULL);
 		}
 	}
 	else
 	{
-		printf("Minishell: command not found: %s\n", cmd);
+		printf("Minishell: command not found: %s\n", file);
 		return (NULL);
 	}
 }

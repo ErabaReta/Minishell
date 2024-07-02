@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/01 15:20:25 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/02 10:37:21 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,88 @@ void execute_cmd(t_data *data,  char **env)
 	
 	execve(full_cmd, data->args, env);
 }
+void	open_infiles(t_data *data)
+{
+	int	fd;
+	int	i;
+
+	i = 0;
+	while (data->in_files[i] != NULL)
+	{
+		if (access(data->in_files[i], F_OK) == 0)
+		{
+			if (access(data->in_files[i], R_OK) == 0)
+			{
+				i++;
+			}
+			else
+			{
+				printf("Minishell: permission denied: %s\n", data->in_files[i]);
+				exiter();
+			}
+		}
+		else
+		{
+			printf("Minishell: %s: No such file or directory\n", data->in_files[i]);
+			exiter();
+		}
+	}
+	fd = open(data->in_files[i - 1], O_RDONLY);// TODO open the last infile not the first one and protect failing
+	if (fd < 0)
+	{
+		printf("minishell: %s: No such file or directory\n", data->in_files[i - 1]);//TODO custume ERR here
+		exiter();
+	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+}
+
+void	open_outfiles(t_data *data)
+{
+	int	fd;
+	int	i;
+
+	i = 0;
+	while (data->out_files[i] != NULL)
+	{
+		if (access(data->out_files[i], F_OK) == 0)
+		{
+			if (access(data->out_files[i], W_OK) == 0)
+			{
+				fd = open(data->out_files[i], O_WRONLY | O_TRUNC);// TODO open the last infile not the first one and protect failing
+				if (fd < 0)
+				{
+					printf("minishell: %s: No such file or directory\n", data->out_files[i]);//TODO custume ERR here
+					exiter();
+				}
+				i++;
+			}
+			else
+			{
+				printf("Minishell: permission denied: %s\n", data->out_files[i]);
+				exiter();
+			}
+		}
+		else
+		{
+				fd = open(data->out_files[i], O_WRONLY | O_TRUNC | O_CREAT);// TODO open the last infile not the first one and protect failing
+				if (fd < 0)
+				{
+					printf("minishell: %s: No such file or directory\n", data->out_files[i]);//TODO custume ERR here
+					exiter();
+				}
+				i++;
+		}
+		if (data->out_files[i] != NULL)
+			close(fd);
+	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+}
 
 // closing all the not needed pipes and redirect the needed ones
 void	piping(t_data *data, int **pipes, int length, int i)
 {
-	(void)data;
-	int fd;
 	int j = 0;
 
 	while (j < length - 1) // closing all the not needed pipes
@@ -61,9 +137,7 @@ void	piping(t_data *data, int **pipes, int length, int i)
 	{
 		if (data->in_files[0] != NULL)
 		{
-				fd = open(data->in_files[0], O_RDONLY);// TODO open the last infile not the first one and protect failing
-				dup2(fd, STDIN_FILENO);
-				close(fd);
+			open_infiles(data);
 		}
 		else
 			dup2(pipes[i - 1][PIPE_OUTPUT], STDIN_FILENO);
@@ -72,13 +146,8 @@ void	piping(t_data *data, int **pipes, int length, int i)
 	}
 	if (i != length - 1) // chande the output to be the input of the next cmd exept if this is the last cmd
 	{
-			printf("there is an outfile which is %s", data->out_files[0]);
 		if (data->out_files[0] != NULL)
-		{
-			fd = open(data->out_files[0], O_WRONLY);// TODO open the last infile not the first one and protect failing
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
-		}
+			open_outfiles(data);
 		else
 			dup2(pipes[i][PIPE_INPUT], STDOUT_FILENO);
 		close(pipes[i][PIPE_INPUT]);
@@ -128,19 +197,12 @@ void execution(t_data *data, int length, char **env)
 			}
 			else
 			{
-				int fd; /////
 				if (data->in_files[0] != NULL)
 				{
-					fd = open(data->in_files[0], O_RDONLY);// TODO open the last infile not the first one and protect failing
-					dup2(fd, STDIN_FILENO);
-					close(fd);
+					open_infiles(data);
 				}
 				if (data->out_files[0] != NULL)
-				{
-					fd = open(data->out_files[0], O_WRONLY);// TODO open the last infile not the first one and protect failing
-					dup2(fd, STDOUT_FILENO);
-					close(fd);
-				}
+					open_outfiles(data);
 			}
 			execute_cmd(tmp, env);
 		}
