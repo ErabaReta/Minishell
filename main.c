@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/01 15:04:14 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/02 14:15:45 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int ac, char **av, char **env)
 	
 	while (str != NULL)
 	{
+		add_history(str);
 		tmp = mini_parsing(str, &size);
 		execution(tmp, size, env);
 		str = readline("minishell >$ ");

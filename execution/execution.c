@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/02 10:37:21 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/02 14:35:02 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,16 +193,17 @@ void execution(t_data *data, int length, char **env)
 		{
 			if (length >= 2)
 			{
-				piping(data, pipes, length, i);
+				// fprintf(stderr, "infile1=>%s, cmd=>%s\n", tmp->in_files[0], tmp->cmd);
+				piping(tmp, pipes, length, i);
 			}
 			else
 			{
-				if (data->in_files[0] != NULL)
+				if (tmp->in_files[0] != NULL)
 				{
-					open_infiles(data);
+					open_infiles(tmp);
 				}
-				if (data->out_files[0] != NULL)
-					open_outfiles(data);
+				if (tmp->out_files[0] != NULL)
+					open_outfiles(tmp);
 			}
 			execute_cmd(tmp, env);
 		}
