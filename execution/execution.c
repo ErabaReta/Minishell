@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/04 15:08:28 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/04 20:33:57 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void execute_cmd(t_data *data,  char **env)
 		//TODO free if there is somtihn to free (probably not)
 		exit(1);
 	}
+
+
 	// printf("full cmd is -> %s\n", full_cmd);
 	
 	execve(full_cmd, data->args, env);
@@ -133,25 +135,31 @@ void	piping(t_data *data, int **pipes, int length, int i)
 		}
 		j++;
 	}
-	if (i != 0) // change the input to be the output of cmd before exept if this is the first cmd
+	if (i != 0) // change the input to be the output of cmd before exept if this is the not first cmd
 	{
-		if (data->in_files[0] != NULL)
-		{
-			open_infiles(data);
-		}
-		else
+			
+			// fprintf(stderr, "cmd => \"%s\"data->in_files[0] %s", data->cmd, data->in_files[0]);
+		// if (data->in_files[0] != NULL)
+		// {
+		// 	open_infiles(data);
+		// }
+		// else
 			dup2(pipes[i - 1][PIPE_OUTPUT], STDIN_FILENO);
 		close(pipes[i - 1][PIPE_OUTPUT]);
 				// printf("changing the standard input of child %d to be ouput of pipe %d then close it\n", i, i - 1);
 	}
-	if (i != length - 1) // chande the output to be the input of the next cmd exept if this is the last cmd
+	if (i != length - 1) // chande the output to be the input of the next cmd exept if this is not the last cmd
 	{
-		if (data->out_files[0] != NULL)
-			open_outfiles(data);
-		else
+		// if (data->out_files[0] != NULL)
+		// 	open_outfiles(data);
+		// else
 			dup2(pipes[i][PIPE_INPUT], STDOUT_FILENO);
 		close(pipes[i][PIPE_INPUT]);
 	}
+	if (data->in_files[0] != NULL)
+		open_infiles(data);
+	if (data->out_files[0] != NULL)
+		open_outfiles(data);
 }
 
 void execution(t_data *data, int length, char **env)
@@ -202,8 +210,11 @@ void execution(t_data *data, int length, char **env)
 			}
 			else
 			{
+
 				if (tmp->in_files[0] != NULL)
+				{
 					open_infiles(tmp);
+				}
 				if (tmp->out_files[0] != NULL)
 					open_outfiles(tmp);
 			}

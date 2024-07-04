@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 20:03:44 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/04 14:13:47 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/04 15:40:48 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	echo(t_data *data)
 	int	i;
 	int	j;
 	
-	mode = includes_option_n(data->args);
+	mode = includes_option_n(data->args); //TODO must check only if the option at the begining
 	i = 1;
 	while (data->args[i])
 	{
@@ -47,5 +47,4 @@ void	echo(t_data *data)
 	}
 	if (mode == 0)
 		write(STDOUT_FILENO, "\n", 1);
-
 }
