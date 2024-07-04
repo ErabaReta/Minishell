@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/02 14:35:02 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/04 15:08:28 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,20 @@ void	open_infiles(t_data *data)
 			else
 			{
 				printf("Minishell: permission denied: %s\n", data->in_files[i]);
-				exiter();
+				exiter(data, 1);
 			}
 		}
 		else
 		{
 			printf("Minishell: %s: No such file or directory\n", data->in_files[i]);
-			exiter();
+			exiter(data, 1);
 		}
 	}
 	fd = open(data->in_files[i - 1], O_RDONLY);// TODO open the last infile not the first one and protect failing
 	if (fd < 0)
 	{
 		printf("minishell: %s: No such file or directory\n", data->in_files[i - 1]);//TODO custume ERR here
-		exiter();
+		exiter(data, 1);
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
@@ -87,14 +87,14 @@ void	open_outfiles(t_data *data)
 				if (fd < 0)
 				{
 					printf("minishell: %s: No such file or directory\n", data->out_files[i]);//TODO custume ERR here
-					exiter();
+					exiter(data, 1);
 				}
 				i++;
 			}
 			else
 			{
 				printf("Minishell: permission denied: %s\n", data->out_files[i]);
-				exiter();
+				exiter(data, 1);
 			}
 		}
 		else
@@ -103,7 +103,7 @@ void	open_outfiles(t_data *data)
 				if (fd < 0)
 				{
 					printf("minishell: %s: No such file or directory\n", data->out_files[i]);//TODO custume ERR here
-					exiter();
+					exiter(data, 1);
 				}
 				i++;
 		}
@@ -161,7 +161,10 @@ void execution(t_data *data, int length, char **env)
 	int	**pipes;
 	t_data	*tmp;
 
-
+	if (length == 1 && check_builtins(data, 1) == 0)
+	{
+		return ;
+	}
 	if (length >= 2) // if there is no '|' in the cmd there is no need to create pipe
 		pipes = (int **)malloc(sizeof(int *) * (length - 1));
 	i = 0;
@@ -187,10 +190,11 @@ void execution(t_data *data, int length, char **env)
 		id = fork();// creating process
 		if (id == -1) // check if prossess created
 		{
-			printf("error : cant create process %d\n", i + 1);
+			printf("error : cant create process %d\n", i);
 		}
 		if (id == 0) // if we are in the child proccess do this :
 		{
+			// printf("cmd => \"%s\"\n", tmp->args[0]);
 			if (length >= 2)
 			{
 				// fprintf(stderr, "infile1=>%s, cmd=>%s\n", tmp->in_files[0], tmp->cmd);
@@ -199,12 +203,11 @@ void execution(t_data *data, int length, char **env)
 			else
 			{
 				if (tmp->in_files[0] != NULL)
-				{
 					open_infiles(tmp);
-				}
 				if (tmp->out_files[0] != NULL)
 					open_outfiles(tmp);
 			}
+			check_builtins(tmp, 0);
 			execute_cmd(tmp, env);
 		}
 		tmp = tmp->next;

@@ -1,1 +1,21 @@
-naaah
+total 128$
+drwxr-xr-x 9 eouhrich candidates  4096 Jul  4 14:04 .$
+drwxr-xr-x 3 eouhrich candidates  4096 Jul  1 19:11 ..$
+drwxr-xr-x 2 eouhrich candidates  4096 Jul  2 10:18 direc$
+drwxr-xr-x 2 eouhrich candidates  4096 Jun 29 12:56 directory$
+drwxr-xr-x 3 eouhrich candidates  4096 Jul  4 14:04 execution$
+drwxr-xr-x 8 eouhrich candidates  4096 Jul  3 12:52 .git$
+-rw-r--r-- 1 eouhrich candidates    21 Jun 26 19:18 .gitignore$
+-rw-r--r-- 1 eouhrich candidates     0 Jul  4 14:05 input.txt$
+-rw-r--r-- 1 eouhrich candidates  2538 Jul  2 14:15 main.c$
+-rw-r--r-- 1 eouhrich candidates  3528 Jul  4 14:04 main.o$
+-rw-r--r-- 1 eouhrich candidates   847 Jul  2 18:22 makefile$
+-rwxr-xr-x 1 eouhrich candidates 35016 Jul  4 14:04 minishell$
+-rw-r--r-- 1 eouhrich candidates  2625 Jul  2 18:22 minishell.h$
+-rw-r--r-- 1 eouhrich candidates     8 Jul  2 19:05 output.txt$
+drwxr-xr-x 2 eouhrich candidates  4096 Jul  4 14:04 parsing$
+-rw-r--r-- 1 eouhrich candidates   887 Jun 27 16:49 .pipes_test.c$
+-rw-r--r-- 1 eouhrich candidates   610 Jun 26 19:18 README.md$
+-rw-r--r-- 1 eouhrich candidates 17506 Jun 29 13:06 .tldr$
+drwxr-xr-x 2 eouhrich candidates  4096 Jul  4 14:04 utils$
+drwxr-xr-x 2 eouhrich candidates  4096 Jun 26 23:24 .vscode$
