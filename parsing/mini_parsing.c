@@ -23,7 +23,6 @@ t_data	*mini_parsing(char *cmd_line, int *count)
 		next->cmd = cmds[i];
 		// next->in_rederiction = char_in_cmd(cmds[i], '<');//
 		// next->out_rederiction = char_in_cmd(cmds[i], '>');//
-		//TODO need to store a char ** NULL terminated of all infiles and outfiles and generate splited cmd whit space without the redirection and files
 		redirector(next, cmds[i]);
 		next->next = NULL;
 		if (prev == NULL)

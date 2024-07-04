@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:16:16 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/01 15:14:20 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:16:23 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	redirector(t_data *data, char *cmd)
 	////
 	out_count = 0;
 	i = 0;
-	while (cmd[i] != '\0')
+	while (cmd[i] != '\0') //TODO make linked list instead each conatains redirection type ('>' or '>>') and the file name
 	{
 		locate = char_in_cmd(&(cmd[i]), '>');
 		if (locate == -1)
