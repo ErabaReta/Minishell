@@ -6,31 +6,65 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/02 14:15:45 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/06 20:07:48 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+// # include <signal.h>
 
-int	main(int ac, char **av, char **env)
+void	sigint_handler(int sig, siginfo_t *info, void *context)
 {
-		(void)ac;
-	(void)av;
-	// (void)env;
-
+	(void)info;
+	(void)sig;
+	(void)context;
 	
+	write(1, "\n", 1);
+}
+
+void	looper(char **env)
+{
 	char *str;
 	int	size;
-	str = readline("minishell >$ ");
+	str = readline("minishell $> ");
 	t_data *tmp;
 	
 	while (str != NULL)
 	{
-		add_history(str);
+		// printf("line=>\"%s\"\n", str);
+		if (ft_strlen(str) != 2 && str[0] != '\n')
+			add_history(str);
 		tmp = mini_parsing(str, &size);
 		execution(tmp, size, env);
-		str = readline("minishell >$ ");
+		str = readline("minishell $> ");
 	}
+}
+
+int	main(int ac, char **av, char **env)
+{
+	(void)ac;
+	(void)av;
+	// struct sigaction	sigact;
+
+	// sigact.sa_sigaction = sigint_handler;
+	// sigact.sa_flags = SA_SIGINFO;
+	// sigemptyset(&sigact.sa_mask);
+	// if (sigaction(SIGINT, &sigact, NULL) != 0)
+	// 	return (1);
+	looper(env);
+	// char *str;
+	// int	size;
+	// str = readline("minishell >$ ");
+	// t_data *tmp;
+	
+	// while (str != NULL)
+	// {
+	// 	if (str[0] != '\0')
+	// 		add_history(str);
+	// 	tmp = mini_parsing(str, &size);
+	// 	execution(tmp, size, env);
+	// 	str = readline("minishell >$ ");
+	// }
 
 	/// ls -la | 
 	// (void)ac;
