@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/04 20:33:57 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/06 20:18:51 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,40 +76,48 @@ void	open_infiles(t_data *data)
 void	open_outfiles(t_data *data)
 {
 	int	fd;
-	int	i;
+	// int	i;
+	t_outfile_list *tmp;
 
-	i = 0;
-	while (data->out_files[i] != NULL)
+	// i = 0;
+	tmp = data->out_files;
+	while (tmp != NULL)
 	{
-		if (access(data->out_files[i], F_OK) == 0)
+		if (access(tmp->file, F_OK) == 0) // it exist
 		{
-			if (access(data->out_files[i], W_OK) == 0)
+			if (access(tmp->file, W_OK) == 0)// can be writen to it
 			{
-				fd = open(data->out_files[i], O_WRONLY | O_TRUNC);// TODO open the last infile not the first one and protect failing
+				if (ft_strncmp(tmp->redirection, ">", 2) == 0)
+					fd = open(tmp->file, O_WRONLY | O_TRUNC);// TODO open the last infile not the first one and protect failing
+				else
+					fd = open(tmp->file, O_WRONLY | O_APPEND);// TODO open the last infile not the first one and protect failing
 				if (fd < 0)
 				{
-					printf("minishell: %s: No such file or directory\n", data->out_files[i]);//TODO custume ERR here
+					printf("minishell: %s: failed to open file\n", tmp->file);//TODO custume ERR here
 					exiter(data, 1);
 				}
-				i++;
 			}
 			else
 			{
-				printf("Minishell: permission denied: %s\n", data->out_files[i]);
+				printf("Minishell: permission denied: %s\n", tmp->file);
 				exiter(data, 1);
 			}
+			tmp = tmp->next;
 		}
 		else
 		{
-				fd = open(data->out_files[i], O_WRONLY | O_TRUNC | O_CREAT);// TODO open the last infile not the first one and protect failing
-				if (fd < 0)
-				{
-					printf("minishell: %s: No such file or directory\n", data->out_files[i]);//TODO custume ERR here
-					exiter(data, 1);
-				}
-				i++;
+			if (ft_strncmp(tmp->redirection, ">", 2) == 0)
+				fd = open(tmp->file, O_WRONLY | O_TRUNC | O_CREAT);// TODO open the last infile not the first one and protect failing
+			else
+				fd = open(tmp->file, O_WRONLY | O_APPEND | O_CREAT);// TODO open the last infile not the first one and protect failing	
+			if (fd < 0)
+			{
+				printf("minishell: %s: No such file or directory\n",tmp->file);//TODO custume ERR here
+				exiter(data, 1);
+			}
+			tmp = tmp->next;
 		}
-		if (data->out_files[i] != NULL)
+		if (tmp != NULL && tmp->next != NULL)
 			close(fd);
 	}
 	dup2(fd, STDOUT_FILENO);
@@ -158,8 +166,11 @@ void	piping(t_data *data, int **pipes, int length, int i)
 	}
 	if (data->in_files[0] != NULL)
 		open_infiles(data);
-	if (data->out_files[0] != NULL)
+	if (data->out_files != NULL)
+	{
 		open_outfiles(data);
+		
+	}
 }
 
 void execution(t_data *data, int length, char **env)
@@ -215,7 +226,7 @@ void execution(t_data *data, int length, char **env)
 				{
 					open_infiles(tmp);
 				}
-				if (tmp->out_files[0] != NULL)
+				if (tmp->out_files != NULL)
 					open_outfiles(tmp);
 			}
 			check_builtins(tmp, 0);
