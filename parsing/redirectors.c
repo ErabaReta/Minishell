@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:16:16 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/06 22:23:21 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:27:25 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,132 @@ void	ft_lstadd_back(t_outfile_list **lst, t_outfile_list *new)
 	last_node->next = new;
 }
 
+int	calc_new_size(char *cmd)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;	
+	while (cmd[i] != '\0')
+	{
+		if (cmd[i] == '\"')
+		{
+			i++;
+			count++;	
+			while (cmd[i] != '\"' && cmd[i] != '\0')
+			{
+				i++;
+				count++;	
+			}
+		}
+		else if (cmd[i] == '\'')
+		{
+			i++;
+			count++;	
+			while (cmd[i] != '\'' && cmd[i] != '\0')
+			{
+				i++;
+				count++;	
+			}
+		}
+		if((cmd[i] != '\0') && ((cmd[i] == '>' && cmd[i + 1] == '>') || (cmd[i] == '<' && cmd[i + 1] == '<')))
+		{
+			count +=4;
+			i +=2;	
+		}
+		else if ((cmd[i] != '\0') && (cmd[i] == '>' || cmd[i] == '<'))
+		{
+			count +=3;
+			i++;
+		}
+		else 
+		{
+			count++;
+			i++;
+		}
+	}
+	return (count);
+}
+
+char	*split_redirct_from_word(char *cmd)
+{
+	int	size;
+	char *new_cmd;
+	int	i;
+	int	j;
+
+	size = calc_new_size(cmd);
+	new_cmd = (char *)malloc(sizeof(char) * (size + 1));
+	i = 0;
+	j = 0;
+	while (cmd[i] != '\0')
+	{
+		if (cmd[i] == '\"')
+		{
+			new_cmd[j++] = cmd[i++];
+			while (cmd[i] != '\"' && cmd[i] != '\0')
+			{
+				new_cmd[j++] = cmd[i++];
+			}
+		}
+		else if (cmd[i] == '\'')
+		{
+			new_cmd[j++] = cmd[i++];
+			while (cmd[i] != '\'' && cmd[i] != '\0')
+			{
+				new_cmd[j++] = cmd[i++];
+			}
+		}
+		if((cmd[i] != '\0') && (cmd[i] == '>' && cmd[i + 1] == '>') )
+		{
+			new_cmd[j++] = ' ';
+			new_cmd[j++] = '>';
+			new_cmd[j++] = '>';
+			new_cmd[j++] = ' ';
+			i +=2;
+		}
+		else if ((cmd[i] != '\0') && cmd[i] == '<' && cmd[i + 1] == '<')
+		{
+			new_cmd[j++] = ' ';
+			new_cmd[j++] = '<';
+			new_cmd[j++] = '<';
+			new_cmd[j++] = ' ';
+			i +=2;
+		}
+		else if (cmd[i] != '\0' && cmd[i] == '>')
+		{
+			new_cmd[j++] = ' ';
+			new_cmd[j++] = '>';
+			new_cmd[j++] = ' ';
+			i ++;
+		}
+		else if (cmd[i] != '\0' && cmd[i] == '<')
+		{
+			new_cmd[j++] = ' ';
+			new_cmd[j++] = '<';
+			new_cmd[j++] = ' ';
+			i ++;
+		}
+		else 
+		{
+			new_cmd[j++] = cmd[i++];
+		}
+	}
+	new_cmd[j] = '\0';
+	free(cmd);////////////////////
+	return (new_cmd);
+}
+
 void	redirector(t_data *data, char *cmd)
 {
 	int	in_count;
 	int	out_count;
 	int	i;
 	char	**words;
-	// int	locate;
 
+	// printf("new cmd=>\"%s\"\n", split_redirct_from_word(cmd));
+	cmd = split_redirct_from_word(cmd);
 	words = ft_split(cmd, ' ');
 	in_count = 0;
 	i = 0;
