@@ -6,12 +6,13 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/06 20:18:51 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:35:37 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+//executes the cmd with its argiments after checking of its existence and its permissions
 void execute_cmd(t_data *data,  char **env)
 {
 	char	*full_cmd;
@@ -37,6 +38,9 @@ void execute_cmd(t_data *data,  char **env)
 	
 	execve(full_cmd, data->args, env);
 }
+
+//opens the file after checking it existence and its permission then redirect the standard intput to it
+
 void	open_infiles(t_data *data)
 {
 	int	fd;
@@ -73,6 +77,7 @@ void	open_infiles(t_data *data)
 	close(fd);
 }
 
+//opens the file after checking it existence and its permission then redirect the standard output to it
 void	open_outfiles(t_data *data)
 {
 	int	fd;
@@ -172,7 +177,7 @@ void	piping(t_data *data, int **pipes, int length, int i)
 		
 	}
 }
-
+// takes the cmd line and execute or turns an error if it counter one
 void execution(t_data *data, int length, char **env)
 {
 	int	i;
@@ -180,7 +185,7 @@ void execution(t_data *data, int length, char **env)
 	int	**pipes;
 	t_data	*tmp;
 
-	if (length == 1 && check_builtins(data, 1) == 0)
+	if (length == 1 && check_builtins(data, 1) == 0) // check if there is no pipes and the cmd is a builtin so it executes it on the parent process
 	{
 		return ;
 	}
@@ -221,11 +226,8 @@ void execution(t_data *data, int length, char **env)
 			}
 			else
 			{
-
 				if (tmp->in_files[0] != NULL)
-				{
 					open_infiles(tmp);
-				}
 				if (tmp->out_files != NULL)
 					open_outfiles(tmp);
 			}

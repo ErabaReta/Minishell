@@ -1,3 +1,5 @@
 .vscode
 *.o
 minishell
+input.txt
+output.txt

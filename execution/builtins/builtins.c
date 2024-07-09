@@ -6,18 +6,20 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/06 23:17:32 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:38:34 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+
+// checks is the cmd is builtin than execute it
 int	check_builtins(t_data *data, int is_parent)
 {
 	int	fd[2];
 
-	fd[0] = dup(STDIN_FILENO);
-	fd[1] = dup(STDOUT_FILENO);
+	fd[0] = dup(STDIN_FILENO);// keeps the standerd inputs in case of redirecting it
+	fd[1] = dup(STDOUT_FILENO);// keeps the standerd outputs in case of redirecting it
 	if (ft_strncmp(data->args[0], "pwd", 4) == 0)
 	{
 		if (is_parent && data->in_files[0] != NULL)

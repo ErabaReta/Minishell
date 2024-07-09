@@ -6,13 +6,13 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:16:16 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/08 14:27:25 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:27:41 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
+// creates a new node frm data entered
 t_outfile_list	*ft_lstnew_outfile(char *redirection, char *file)
 {
 	t_outfile_list	*ptr;
@@ -27,7 +27,7 @@ t_outfile_list	*ft_lstnew_outfile(char *redirection, char *file)
 	ptr->next = NULL;
 	return (ptr);
 }
-
+// returns the last node of a linked list
 t_outfile_list	*ft_lstlast(t_outfile_list *lst)
 {
 	if (lst == NULL)
@@ -38,7 +38,7 @@ t_outfile_list	*ft_lstlast(t_outfile_list *lst)
 	}
 	return (ft_lstlast(lst->next));
 }
-
+// adds a list at the end of a linked list
 void	ft_lstadd_back(t_outfile_list **lst, t_outfile_list *new)
 {
 	t_outfile_list	*last_node;
@@ -53,7 +53,7 @@ void	ft_lstadd_back(t_outfile_list **lst, t_outfile_list *new)
 	last_node = ft_lstlast(*lst);
 	last_node->next = new;
 }
-
+// counts the new size of the string after adding spaces before and after each redirection
 int	calc_new_size(char *cmd)
 {
 	int	i;
@@ -101,7 +101,7 @@ int	calc_new_size(char *cmd)
 	}
 	return (count);
 }
-
+// handle redirection inside the word by splitting it from it by add space before splitting the entire cmd with space
 char	*split_redirct_from_word(char *cmd)
 {
 	int	size;
@@ -170,7 +170,7 @@ char	*split_redirct_from_word(char *cmd)
 	free(cmd);////////////////////
 	return (new_cmd);
 }
-
+// handling redirectors in each cmd if they exist
 void	redirector(t_data *data, char *cmd)
 {
 	int	in_count;
@@ -178,18 +178,13 @@ void	redirector(t_data *data, char *cmd)
 	int	i;
 	char	**words;
 
-	// printf("new cmd=>\"%s\"\n", split_redirct_from_word(cmd));
-	cmd = split_redirct_from_word(cmd);
-	words = ft_split(cmd, ' ');
+	cmd = split_redirct_from_word(cmd); // handle redirection inside the word by splitting it from it by add space before splitting the entire cmd with space
+	words = ft_split(cmd, ' '); // splitiing the cmd into words
 	in_count = 0;
 	i = 0;
 	///////////////////////////////////////
-	while (words[i] != NULL)
+	while (words[i] != NULL)// calculating number of inFiles
 	{
-		// locate = char_in_cmd(&(cmd[i]), '<');
-		// if (locate == -1)
-		// 	break ;
-		// i+= locate + 1;
 		if (ft_strncmp(words[i], "<", 2) == 0)
 			in_count++;
 		i++;
@@ -197,12 +192,8 @@ void	redirector(t_data *data, char *cmd)
 	////
 	out_count = 0;
 	i = 0;
-	while (words[i] != NULL) //TODO make linked list instead each conatains redirection type ('>' or '>>') and the file name
+	while (words[i] != NULL) // calculating number of outFiles
 	{
-		// locate = char_in_cmd(&(cmd[i]), '>');
-		// if (locate == -1)
-		// 	break ;
-		// i+= locate + 1;
 		if (ft_strncmp(words[i], ">", 2) == 0)
 			out_count++;
 		i++;
@@ -218,24 +209,19 @@ void	redirector(t_data *data, char *cmd)
 	int	l = 0;
 	while (words[i] != NULL)
 	{
-		if(ft_strncmp(words[i], "<", 2) == 0 && words[i + 1] != NULL)//TODO '<' not nessecery to be alone in one word it can be in the middle splitting two words
+		if(ft_strncmp(words[i], "<", 2) == 0 && words[i + 1] != NULL)
 		{
 			data->in_files[l] = ft_strdup(words[i + 1]);
 			l++;
 			i += 2;
 		}
-		else if(ft_strncmp(words[i], ">", 2) == 0 && words[i + 1] != NULL)//TODO '>' not nessecery to be alone in one word it can be in the middle splitting two words
+		else if(ft_strncmp(words[i], ">", 2) == 0 && words[i + 1] != NULL)
 		{
-			// data->out_files[k] = ft_strdup(words[i + 1]);
-			// k++;
 			ft_lstadd_back(&data->out_files, ft_lstnew_outfile(">", ft_strdup(words[i + 1])));
-			
 			i += 2;
 		}
-		else if(ft_strncmp(words[i], ">>", 3) == 0 && words[i + 1] != NULL)//TODO '>' not nessecery to be alone in one word it can be in the middle splitting two words
+		else if(ft_strncmp(words[i], ">>", 3) == 0 && words[i + 1] != NULL)
 		{
-			// data->out_files[k] = ft_strdup(words[i + 1]);
-			// k++;
 			ft_lstadd_back(&data->out_files, ft_lstnew_outfile(">>", ft_strdup(words[i + 1])));
 			i += 2;
 		}
@@ -249,7 +235,7 @@ void	redirector(t_data *data, char *cmd)
 	// data->out_files[k] = NULL;
 	data->args[j] = NULL;
 	data->in_files[l] = NULL;
-//=======================================================
+//=============== for Debug ========================================
 	// printf("out_files===============\n");
 	// for ( t_outfile_list *tmp = data->out_files; tmp != NULL;tmp = tmp->next)
 	// {
@@ -268,20 +254,3 @@ void	redirector(t_data *data, char *cmd)
 	// }
 	// exit(0);///////////
 }
-// void out_redirector(t_data *data, char *cmd)
-// {
-// 	int	i;
-// 	int	place;
-
-// 	i = 0;
-// 	place = -1;
-// 	while (cmd[i] != '\0')
-// 	{
-// 		i = char_in_cmd(&(cmd[i]), '>');
-// 		if (i == -1)
-// 			break ;
-// 		place = i;
-// 	}
-// 	if (place == -1)
-// 		data->in_files = NULL;
-// }

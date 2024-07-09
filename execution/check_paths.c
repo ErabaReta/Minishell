@@ -6,12 +6,12 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:47:08 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/02 10:05:41 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:36:57 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+//checks relative path of cmd (existence and permissions)
 char	*check_relative_path( char *file)
 {	
 	if (access(file, F_OK) == 0)
@@ -32,7 +32,7 @@ char	*check_relative_path( char *file)
 		return (NULL);
 	}
 }
-
+//checks if the cmd exist in any path the are in the enveriment (env)
 char	*check_paths(char **env, char *cmd)
 {
 	int	i;
