@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/02 18:19:43 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/02 18:27:07 by eouhrich         ###   ########.fr       */
+/*   Created: 2024/07/02 16:04:06 by eouhrich          #+#    #+#             */
+/*   Updated: 2024/07/09 20:48:47 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	cd(t_data *data)
+void	ft_pwd(void)
 {
-	if (data->args[1] != NULL)
-		chdir(data->args[1]);
+	char *buff;
+
+	buff = (char *)malloc(sizeof(char) * 100);//TODO get the correct size
+	getcwd(buff, 100); //TODO get the correct size and check for errs
+	printf("%s\n", buff);
+	free(buff);
 }
