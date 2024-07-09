@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/09 14:28:37 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/09 20:16:37 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 // 	write(1, "\n", 1);
 // }
 
-void	looper(char **env)
+void	looper(char ***env)
 {
 	char *str;
 	int	size;
@@ -40,6 +40,32 @@ void	looper(char **env)
 	}
 }
 
+int	env_size(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i] != NULL)
+		i++;
+	return (i);
+}
+
+char **put_env_on_heap(char **env)
+{
+	char	**new_env;
+	int		i;
+	
+	new_env = (char **)malloc(sizeof(char *) * (env_size(env) + 1));// TODO check if malloc failed
+	i = 0;
+	while (i < env_size(env))
+	{
+		new_env[i] = ft_strdup(env[i]);
+		i++;
+	}
+	new_env[i] = NULL;
+	return (new_env);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	(void)ac;
@@ -51,7 +77,8 @@ int	main(int ac, char **av, char **env)
 	// sigemptyset(&sigact.sa_mask);
 	// if (sigaction(SIGINT, &sigact, NULL) != 0)
 	// 	return (1);
-	looper(env);
+	char **new_env = put_env_on_heap(env);
+	looper(&new_env);
 	// char *str;
 	// int	size;
 	// str = readline("minishell >$ ");

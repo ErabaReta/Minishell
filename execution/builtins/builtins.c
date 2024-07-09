@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/09 14:38:34 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/09 20:50:20 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,29 @@
 
 
 // checks is the cmd is builtin than execute it
-int	check_builtins(t_data *data, int is_parent)
+int	check_builtins(t_data *data, int is_parent, char ***env)
 {
 	int	fd[2];
 
 	fd[0] = dup(STDIN_FILENO);// keeps the standerd inputs in case of redirecting it
 	fd[1] = dup(STDOUT_FILENO);// keeps the standerd outputs in case of redirecting it
+	
 	if (ft_strncmp(data->args[0], "pwd", 4) == 0)
 	{
 		if (is_parent && data->in_files[0] != NULL)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
 			open_outfiles(data);
-		pwd();
+		ft_pwd();
+		// exiter(data, 0);
+	}
+	if (ft_strncmp(data->args[0], "env", 4) == 0)
+	{
+		if (is_parent && data->in_files[0] != NULL)
+			open_infiles(data);
+		if (is_parent && data->out_files != NULL)
+			open_outfiles(data);
+		ft_env(*env);
 		// exiter(data, 0);
 	}
 	else if (ft_strncmp(data->args[0], "exit", 5) == 0)
@@ -41,7 +51,7 @@ int	check_builtins(t_data *data, int is_parent)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
 			open_outfiles(data);
-		cd(data);
+		ft_cd(data);
 		// exiter(data, 0);
 	}
 	else if (ft_strncmp(data->args[0], "echo", 5) == 0)
@@ -50,7 +60,25 @@ int	check_builtins(t_data *data, int is_parent)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
 			open_outfiles(data);
-		echo(data);
+		ft_echo(data);
+		// exiter(data, 0);
+	}
+	else if (ft_strncmp(data->args[0], "unset", 6) == 0)
+	{
+		if (is_parent && data->in_files[0] != NULL)
+			open_infiles(data);
+		if (is_parent && data->out_files != NULL)
+			open_outfiles(data);
+		ft_unset(data, env);
+		// exiter(data, 0);
+	}
+	else if (ft_strncmp(data->args[0], "export", 7) == 0)
+	{
+		if (is_parent && data->in_files[0] != NULL)
+			open_infiles(data);
+		if (is_parent && data->out_files != NULL)
+			open_outfiles(data);
+		ft_export(data, env);
 		// exiter(data, 0);
 	}
 	else

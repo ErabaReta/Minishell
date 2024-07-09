@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/09 14:35:37 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/09 20:11:22 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,14 +178,14 @@ void	piping(t_data *data, int **pipes, int length, int i)
 	}
 }
 // takes the cmd line and execute or turns an error if it counter one
-void execution(t_data *data, int length, char **env)
+void execution(t_data *data, int length, char ***env)
 {
 	int	i;
 	int	id;
 	int	**pipes;
 	t_data	*tmp;
 
-	if (length == 1 && check_builtins(data, 1) == 0) // check if there is no pipes and the cmd is a builtin so it executes it on the parent process
+	if (length == 1 && check_builtins(data, 1, env) == 0) // check if there is no pipes and the cmd is a builtin so it executes it on the parent process
 	{
 		return ;
 	}
@@ -231,8 +231,8 @@ void execution(t_data *data, int length, char **env)
 				if (tmp->out_files != NULL)
 					open_outfiles(tmp);
 			}
-			check_builtins(tmp, 0);
-			execute_cmd(tmp, env);
+			check_builtins(tmp, 0, env);
+			execute_cmd(tmp, *env);
 		}
 		tmp = tmp->next;
 		i++;

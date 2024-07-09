@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/06 22:39:58 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/09 20:49:33 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,18 @@ typedef struct s_data
 	struct s_data *prev; // not used yet
 }	t_data;
 
+
+
+
+
+int	env_size(char **env);
 //== Parsing =================================================
 
 t_data	*mini_parsing(char *cmd_line, int *count);
 void	redirector(t_data *data, char *cmd);
 //== Execution ===============================================
 
-void	execution(t_data *data, int length, char **env);
+void	execution(t_data *data, int length, char ***env);
 char	*check_relative_path( char *file);
 char	*check_paths(char **env, char *cmd);
 void	open_infiles(t_data *data);
@@ -62,11 +67,13 @@ void	open_outfiles(t_data *data);
 void	exiter(t_data *data, int code);//-toke as builtin exit too-
 //-- Builtins ------------------------------------------------
 
-int	check_builtins(t_data *data, int is_parent);
-void	env(char **env);
-void	pwd(void);
-void	cd(t_data *data);
-void	echo(t_data *data);
+int		check_builtins(t_data *data, int is_parent, char ***env);
+void	ft_env(char **env);
+void	ft_pwd(void);
+void	ft_cd(t_data *data);
+void	ft_echo(t_data *data);
+void	ft_unset(t_data *data, char ***env);
+void	ft_export(t_data *data, char ***env);
 //------------------------------------------------------------
 //== Utils ===================================================
 

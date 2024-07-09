@@ -1,1 +1,18 @@
-hi
+total 128$
+drwxr-xr-x 7 eouhrich nogroup  4096 Jul  9 18:49 .$
+drwxr-xr-x 3 eouhrich nogroup  4096 Jul  1 19:11 ..$
+drwxr-xr-x 3 eouhrich nogroup  4096 Jul  9 18:49 execution$
+drwxr-xr-x 8 eouhrich nogroup  4096 Jul  9 18:07 .git$
+-rw-r--r-- 1 eouhrich nogroup    43 Jul  9 14:40 .gitignore$
+-rw-r--r-- 1 eouhrich nogroup     7 Jul  8 13:30 input.txt$
+-rw-r--r-- 1 eouhrich nogroup  3299 Jul  9 14:28 main.c$
+-rw-r--r-- 1 eouhrich nogroup   904 Jul  9 17:47 makefile$
+-rwxr-xr-x 1 eouhrich nogroup 44040 Jul  9 18:49 minishell$
+-rw-r--r-- 1 eouhrich nogroup  2947 Jul  9 17:50 minishell.h$
+-rwxrwxrwx 1 eouhrich nogroup  1043 Jul  9 15:22 output.txt$
+drwxr-xr-x 2 eouhrich nogroup  4096 Jul  9 18:49 parsing$
+-rw-r--r-- 1 eouhrich nogroup   887 Jun 27 16:49 .pipes_test.c$
+-rw-r--r-- 1 eouhrich nogroup   610 Jun 26 19:18 README.md$
+-rw-r--r-- 1 eouhrich nogroup 17506 Jun 29 13:06 .tldr$
+drwxr-xr-x 2 eouhrich nogroup  4096 Jul  9 18:49 utils$
+drwxr-xr-x 2 eouhrich nogroup  4096 Jun 26 23:24 .vscode$
