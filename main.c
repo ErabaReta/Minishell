@@ -6,21 +6,21 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/06 20:07:48 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:28:37 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 // # include <signal.h>
 
-void	sigint_handler(int sig, siginfo_t *info, void *context)
-{
-	(void)info;
-	(void)sig;
-	(void)context;
+// void	sigint_handler(int sig, siginfo_t *info, void *context)
+// {
+// 	(void)info;
+// 	(void)sig;
+// 	(void)context;
 	
-	write(1, "\n", 1);
-}
+// 	write(1, "\n", 1);
+// }
 
 void	looper(char **env)
 {

@@ -1,8 +1,5 @@
 #include "../minishell.h"
 
-
-
-
 //	create a liked list data out of commmand line and sets the count variable size of the lined list
 t_data	*mini_parsing(char *cmd_line, int *count)
 {
@@ -12,18 +9,16 @@ t_data	*mini_parsing(char *cmd_line, int *count)
 	t_data	*next;
 	t_data	*head;
 
-	cmds = ft_split(cmd_line, '|');
+	cmds = ft_split(cmd_line, '|'); // splitting the command line by '|' into shorter simpler commands
 	i = 0;
 	prev = NULL;
 	*count = 0;
-	head = NULL; // for wall wextra werror
+	head = NULL; // for wall wextra werror flags .. 
 	while (cmds[i] != NULL)
 	{
 		next = (t_data *)malloc(sizeof(t_data));
 		next->cmd = cmds[i];
-		// next->in_rederiction = char_in_cmd(cmds[i], '<');//
-		// next->out_rederiction = char_in_cmd(cmds[i], '>');//
-		redirector(next, cmds[i]);
+		redirector(next, cmds[i]); // handling redirectors in each cmd if they exist
 		next->next = NULL;
 		if (prev == NULL)
 		{
