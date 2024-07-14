@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/09 20:49:33 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/14 11:38:55 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ typedef struct	s_outfile_list
 
 typedef struct s_data
 {
-	char *cmd;
+	char *cmd;  // --> ls > out.txt -la 
 	int in_rederiction;
 	int out_rederiction;
-	char	**args;
+	char	**args; 
 	char	**in_files;
 	// char	**out_files;
 	t_outfile_list	*out_files;

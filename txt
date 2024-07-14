@@ -1,6 +1,7 @@
 execution
 input.txt
 main.c
+main.o
 makefile
 minishell
 minishell.h
