@@ -26,17 +26,18 @@
 void	looper(char ***env)
 {
 	char *str;
-	int	size;
+	//int	size;
 	str = readline("minishell $> ");
-	t_data *tmp;
-	
+	//t_data *tmp;
+	(void)env;
 	while (str != NULL)
 	{
 		// printf("line=>\"%s\"\n", str);
 		if (ft_strlen(str) != 2 && str[0] != '\n')
 			add_history(str);
-		tmp = mini_parsing(str, &size);
-		execution(tmp, size, env);
+    lexer(str);
+		//tmp = mini_parsing(str, &size);
+		//execution(tmp, size, env);
 		str = readline("minishell $> ");
 	}
 }

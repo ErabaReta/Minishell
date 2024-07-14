@@ -79,6 +79,7 @@ int	env_size(char **env);
 
 t_data	*mini_parsing(char *cmd_line, int *count);
 void	redirector(t_data *data, char *cmd);
+int   lexer(char *str);
 //== Execution ===============================================
 
 void	execution(t_data *data, int length, char ***env);
