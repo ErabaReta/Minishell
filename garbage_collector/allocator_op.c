@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 void  add_front(t_malloc **list, t_malloc *node)
 {
