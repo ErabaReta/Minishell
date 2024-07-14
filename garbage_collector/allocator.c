@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 void  *allocator(int size, int time, t_malloc *malloc_list)
 {
