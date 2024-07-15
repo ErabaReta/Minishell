@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/09 20:50:20 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/14 21:49:19 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_builtins(t_data *data, int is_parent, char ***env)
 	
 	if (ft_strncmp(data->args[0], "pwd", 4) == 0)
 	{
-		if (is_parent && data->in_files[0] != NULL)
+		if (is_parent && data->in_files != NULL)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
 			open_outfiles(data);
@@ -32,7 +32,7 @@ int	check_builtins(t_data *data, int is_parent, char ***env)
 	}
 	if (ft_strncmp(data->args[0], "env", 4) == 0)
 	{
-		if (is_parent && data->in_files[0] != NULL)
+		if (is_parent && data->in_files != NULL)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
 			open_outfiles(data);
@@ -47,7 +47,7 @@ int	check_builtins(t_data *data, int is_parent, char ***env)
 	}
 	else if (ft_strncmp(data->args[0], "cd", 3) == 0)
 	{
-		if (is_parent && data->in_files[0] != NULL)
+		if (is_parent && data->in_files != NULL)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
 			open_outfiles(data);
@@ -56,7 +56,7 @@ int	check_builtins(t_data *data, int is_parent, char ***env)
 	}
 	else if (ft_strncmp(data->args[0], "echo", 5) == 0)
 	{
-		if (is_parent && data->in_files[0] != NULL)
+		if (is_parent && data->in_files != NULL)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
 			open_outfiles(data);
@@ -65,7 +65,7 @@ int	check_builtins(t_data *data, int is_parent, char ***env)
 	}
 	else if (ft_strncmp(data->args[0], "unset", 6) == 0)
 	{
-		if (is_parent && data->in_files[0] != NULL)
+		if (is_parent && data->in_files != NULL)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
 			open_outfiles(data);
@@ -74,7 +74,7 @@ int	check_builtins(t_data *data, int is_parent, char ***env)
 	}
 	else if (ft_strncmp(data->args[0], "export", 7) == 0)
 	{
-		if (is_parent && data->in_files[0] != NULL)
+		if (is_parent && data->in_files != NULL)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
 			open_outfiles(data);
