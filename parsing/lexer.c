@@ -1,11 +1,13 @@
 #include "../minishell.h"
 
-int lexer(char *str)
+t_data  lexer(char *str)
 {
-  int i;
-  int j;
+  int     i;
+  int     j;
+  t_data  *data;
 
   i = 0;
+  data = (t_data *)malloc(sizeof(t_data));
   while (str[i])
   {
     while (str[i] == ' ')
@@ -13,7 +15,7 @@ int lexer(char *str)
     j = i;
     while (str[i] != ' ')
       i++;
-    ft_substr(str, j, i - 1);
+    data->cmd = ft_substr(str, j, i - 1);
   }
   return (0);
 }
