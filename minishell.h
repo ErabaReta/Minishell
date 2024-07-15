@@ -53,7 +53,7 @@ typedef struct s_data
 	char *cmd;  // --> ex: ls > out.txt -la 
 	int in_rederiction; // not used anymore
 	int out_rederiction; // not used anymore
-	char	**args; //--> cmd args ex: "ls" "-la"
+	char  **args; //--> cmd args ex: "ls" "-la"
 	t_files_list	*in_files;// TODO make the list , linked list instead of 2d array
 	t_files_list	*out_files;
 	struct s_data *next; // next node
@@ -108,6 +108,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
 int char_in_cmd(char *cmd, char	c);/////////
+char  *ft_substr(char const *s, unsigned int start, size_t len);
 //============================================================
 
 #endif
