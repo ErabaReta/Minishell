@@ -1,42 +1,19 @@
 #include "../minishell.h"
 
-int quote_checker(char *str)
-{
-  int i;
-  int founded;
-
-  founded = 0;
-  i = 0;
-  while (str[i])
-  {
-    if (str[i] == '\"')
-      founded++;
-    else if (str[i] == '\'')
-      founded++;
-    i++;
-  }
-  if (founded % 2 == 0)
-    return (1);
-  else
-    return (0);
-}
-
 int lexer(char *str)
 {
   int i;
-  char **words;
+  int j;
 
   i = 0;
-  if (quote_checker(str) == 0)
-    printf("Syntax Error\n");
-  words = ft_split(str, ' ');
-  while (words[i])
+  while (str[i])
   {
-    printf("%s\n", words[i]);
-    if (ft_strncmp(words[i], "|", 2) == 0)
-      if (words[i + 1] == NULL)
-        printf("Syntax Error\n");
-    i++;
+    while (str[i] == ' ')
+      i++;
+    j = i;
+    while (str[i] != ' ')
+      i++;
+    ft_substr(str, j, i - 1);
   }
   return (0);
 }
