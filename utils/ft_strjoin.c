@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strnjoin(char const *s1, char const *s2, size_t len)
 {
 	char	*ptr;
 	size_t	i;
@@ -33,8 +33,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		ptr[i] = s1[i];
 		i++;
 	}
+  if (len == 0)
+      len = ft_strlen(s2);
 	j = -1;
-	while (s2[++j] != '\0')
+	while (s2[++j] != '\0' && j < len)
 		ptr[i + j] = s2[j];
 	ptr[i + j] = '\0';
 	return (ptr);

@@ -104,7 +104,7 @@ char	**ft_split(char const *s, char c);
 size_t	count_words(char const *s, char c);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strnjoin(char const *s1, char const *s2, size_t len);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
 int char_in_cmd(char *cmd, char	c);/////////

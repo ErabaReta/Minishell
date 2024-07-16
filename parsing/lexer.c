@@ -38,32 +38,74 @@ void  *quotes(char *str, int *start, int *end)
   return (betwen_quotes);
 }
 
-char **ft_split_args(char *str)
+char  *str_maker(char *first, char *second)
 {
-  int i;
-  int start;
-  int end;
+  char  *str;
+
+  str = ft_strnjoin(first, second, 0);
+  return (str);
+}
+
+char **ft_tablejoin(char **table, char *new)
+{
+  int     i;
+  char   **res;
 
   i = 0;
-  while (str[i])
+  if (new == NULL)
+    return (table);
+  while (table[i])
+    i++;
+  printf("%d\n", i);
+  res = (char **)malloc(sizeof(char *) * (i + 2));
+  i = 0;
+  while (table[i])
   {
-    if (str[i] == '\"' || str[i] == '\'')
-    {
-      start = i;
-      while (str[i] && str[i] != '\"' & str[i] != '\'')
-      {
-        i++;
-      }
-      if (str[i] == '\"' || str[i] == '\'')
-        end = i;
-    }
-    if (str[i] == '\0')
-        printf("quote not closed\n");
-    else
-    {
-      end = i;
-    }
+    res[i] = ft_strdup(table[i]);
+    i++;
   }
+  res[i++] = ft_strdup(new);
+  res[i] = NULL;
+  return (res);
+}
+
+t_data  *ft_split_args(char *str)
+{
+  int     i;
+  t_data  *data;
+  char    *cmd;
+  char    **args;
+
+  data = (t_data *)malloc(sizeof(t_data));
+  args = (char **)malloc(sizeof(char *));
+  args[0] = NULL;
+  cmd = NULL;
+  i = 0;
+  while (str[i] == ' ')
+    i++;
+  while (str[i] && str[i] != ' ' && str[i] != '|')
+  {
+    printf("letter = %c\n", str[i]);
+    cmd = ft_strnjoin(cmd, &str[i], 1);
+    i++;
+  }
+  printf("cmd = %s\n", cmd);
+  args = ft_tablejoin(args, cmd);
+  free(cmd);
+  cmd = NULL;
+  while (str[i] == ' ')
+    i++;
+  while (str[i] != '|' && str[i])
+  {
+    printf("letter = %c\n", str[i]);
+    cmd = ft_strnjoin(cmd, &str[i], 1);
+    i++;
+  }
+  args = ft_tablejoin(args, cmd);
+  i = 0;
+  while (args[i])
+    printf("args = %s.\n", args[i++]);
+  return (data);
 }
 
 t_data  *lexer(char *str)
@@ -73,14 +115,11 @@ t_data  *lexer(char *str)
   //int     start;
   //int     end;
   t_data  *data = NULL;
-  char    **cmds;
+  //char    **cmds;
 
   j = 0;
   i = 0;
-  cmds = ft_split_args(str);
-  i = 0;
-  while (cmds[i])
-    printf("quotes = %s\n", cmds[i++]);
+  data = ft_split_args(str);
   return (data);
 }
 
