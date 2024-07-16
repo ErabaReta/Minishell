@@ -54,7 +54,7 @@ char	*check_paths(char **env, char *cmd)
 	i = 0;
 	while (paths[i] != NULL)
 	{
-		tmp_path = ft_strjoin(ft_strjoin(paths[i], "/"), cmd);//TODO remove leak here
+		tmp_path = ft_strnjoin(ft_strnjoin(paths[i], "/", 0), cmd, 0);//TODO remove leak here
 		// printf("%s\n", tmp_path);
 		if (access(tmp_path, F_OK) == 0)
 		{
