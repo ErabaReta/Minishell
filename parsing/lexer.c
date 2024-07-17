@@ -75,7 +75,7 @@ char **ft_tablejoin(char **table, char *new)
   return (res);
 }
 
-t_data  *ft_split_args(char *str)
+t_data  *ft_split_args(char *str, int *i)
 {
   int     start;
   int     end;
@@ -83,9 +83,9 @@ t_data  *ft_split_args(char *str)
   t_data  *data;
   char    **args;
 
-  start = 0;
+  start = *i;
   end = 0;
-  data = (t_data *)malloc(sizeof(t_data));
+  data = ft_lstnew();
   args = (char **)malloc(sizeof(char *));
   args[0] = NULL;
   while (str[start] && str[start] != '|')
@@ -103,9 +103,10 @@ t_data  *ft_split_args(char *str)
       free(cmd);
     }
   }
-  start = 0;
-  while (args[start])
-    printf("cmd = %s\n", args[start++]);
+  if (str[start] == '|')
+    start++;
+  *i = start;
+  data->args = args;
   return (data);
 }
 
@@ -113,14 +114,28 @@ t_data  *lexer(char *str)
 {
   int     i;
   int     j;
-  //int     start;
-  //int     end;
-  t_data  *data = NULL;
-  //char    **cmds;
+  t_data  *data;
+  t_data  *new;
 
   j = 0;
   i = 0;
-  data = ft_split_args(str);
+  data = NULL;
+  while (str[i])
+  {
+    new = ft_split_args(str, &i);
+    ft_lstadd_back(&data, new);
+  }
+  i = 0;
+  while (data)
+  {
+    i = 0;
+    while (data->args[i])
+    {
+      printf("cmd = %s\n", data->args[i]);
+      i++;
+    }
+    data = data->next;
+  }
   return (data);
 }
 

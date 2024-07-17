@@ -51,13 +51,11 @@ typedef struct	s_files_list
 typedef struct s_data
 {
 	char *cmd;  // --> ex: ls > out.txt -la 
-	int in_rederiction; // not used anymore
-	int out_rederiction; // not used anymore
 	char  **args; //--> cmd args ex: "ls" "-la"
-	t_files_list	*in_files;// TODO make the list , linked list instead of 2d array
+	t_files_list	*in_files;//
 	t_files_list	*out_files;
 	struct s_data *next; // next node
-	struct s_data *prev; // not used yet
+	struct s_data *prev; // prev node
 }	t_data;
 
 typedef struct s_all {
@@ -109,6 +107,8 @@ size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
 int char_in_cmd(char *cmd, char	c);/////////
 char  *ft_substr(char const *s, unsigned int start, size_t len);
+void	ft_lstadd_back(t_data **lst, t_data *new);
+t_data  *ft_lstnew();
 //============================================================
 
 #endif
