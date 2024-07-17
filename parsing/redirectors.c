@@ -28,7 +28,7 @@ t_files_list	*ft_lstnew_outfile(char *redirection, char *file)
 	return (ptr);
 }
 // returns the last node of a linked list
-t_files_list	*ft_lstlast(t_files_list *lst)
+t_files_list	*ft_lstlast_mo(t_files_list *lst)
 {
 	if (lst == NULL)
 		return (NULL);
@@ -36,10 +36,10 @@ t_files_list	*ft_lstlast(t_files_list *lst)
 	{
 		return (lst);
 	}
-	return (ft_lstlast(lst->next));
+	return (ft_lstlast_mo(lst->next));
 }
 // adds a list at the end of a linked list
-void	ft_lstadd_back(t_files_list **lst, t_files_list *new)
+void	ft_lstadd_back_mo(t_files_list **lst, t_files_list *new)
 {
 	t_files_list	*last_node;
 
@@ -50,7 +50,7 @@ void	ft_lstadd_back(t_files_list **lst, t_files_list *new)
 		*lst = new;
 		return ;
 	}
-	last_node = ft_lstlast(*lst);
+	last_node = ft_lstlast_mo(*lst);
 	last_node->next = new;
 }
 // counts the new size of the string after adding spaces before and after each redirection
@@ -211,22 +211,22 @@ void	redirector(t_data *data, char *cmd)
 	{
 		if(ft_strncmp(words[i], "<", 2) == 0  && words[i + 1] != NULL)
 		{
-			ft_lstadd_back(&data->in_files, ft_lstnew_outfile("<", ft_strdup(words[i + 1])));
+			ft_lstadd_back_mo(&data->in_files, ft_lstnew_outfile("<", ft_strdup(words[i + 1])));
 			i += 2;
 		}
 		else if (ft_strncmp(words[i], "<<", 3) == 0 && words[i + 1] != NULL)
 		{
-			ft_lstadd_back(&data->in_files, ft_lstnew_outfile("<<", ft_strdup(words[i + 1])));
+			ft_lstadd_back_mo(&data->in_files, ft_lstnew_outfile("<<", ft_strdup(words[i + 1])));
 			i += 2;
 		}
 		else if(ft_strncmp(words[i], ">", 2) == 0 && words[i + 1] != NULL)
 		{
-			ft_lstadd_back(&data->out_files, ft_lstnew_outfile(">", ft_strdup(words[i + 1])));
+			ft_lstadd_back_mo(&data->out_files, ft_lstnew_outfile(">", ft_strdup(words[i + 1])));
 			i += 2;
 		}
 		else if(ft_strncmp(words[i], ">>", 3) == 0 && words[i + 1] != NULL)
 		{
-			ft_lstadd_back(&data->out_files, ft_lstnew_outfile(">>", ft_strdup(words[i + 1])));
+			ft_lstadd_back_mo(&data->out_files, ft_lstnew_outfile(">>", ft_strdup(words[i + 1])));
 			i += 2;
 		}
 		else
