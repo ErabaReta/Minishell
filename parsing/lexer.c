@@ -54,9 +54,15 @@ char **ft_tablejoin(char **table, char *new)
   i = 0;
   if (new == NULL)
     return (table);
+  if (table == NULL)
+  {
+    res = (char **)malloc(sizeof(char *) * 2);
+    res[0] = new;
+    res[1] = NULL;
+    return (res);
+  }
   while (table[i])
     i++;
-  printf("%d\n", i);
   res = (char **)malloc(sizeof(char *) * (i + 2));
   i = 0;
   while (table[i])
@@ -71,40 +77,35 @@ char **ft_tablejoin(char **table, char *new)
 
 t_data  *ft_split_args(char *str)
 {
-  int     i;
-  t_data  *data;
+  int     start;
+  int     end;
   char    *cmd;
+  t_data  *data;
   char    **args;
 
+  start = 0;
+  end = 0;
   data = (t_data *)malloc(sizeof(t_data));
   args = (char **)malloc(sizeof(char *));
   args[0] = NULL;
-  cmd = NULL;
-  i = 0;
-  while (str[i] == ' ')
-    i++;
-  while (str[i] && str[i] != ' ' && str[i] != '|')
+  while (str[start] && str[start] != '|')
   {
-    printf("letter = %c\n", str[i]);
-    cmd = ft_strnjoin(cmd, &str[i], 1);
-    i++;
+    while (str[start] && str[start] == ' ')
+      start++;
+    while (str[start] && str[start] != '|' && str[start] != ' ')
+    {
+      end = start;
+      while (str[end] && str[end] != ' ' && str[end] != '|')
+        end++;
+      cmd = ft_substr(str, start, end - start);
+      start = end;
+      args = ft_tablejoin(args, cmd);
+      free(cmd);
+    }
   }
-  printf("cmd = %s\n", cmd);
-  args = ft_tablejoin(args, cmd);
-  free(cmd);
-  cmd = NULL;
-  while (str[i] == ' ')
-    i++;
-  while (str[i] != '|' && str[i])
-  {
-    printf("letter = %c\n", str[i]);
-    cmd = ft_strnjoin(cmd, &str[i], 1);
-    i++;
-  }
-  args = ft_tablejoin(args, cmd);
-  i = 0;
-  while (args[i])
-    printf("args = %s.\n", args[i++]);
+  start = 0;
+  while (args[start])
+    printf("cmd = %s\n", args[start++]);
   return (data);
 }
 
