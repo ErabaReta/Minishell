@@ -37,6 +37,7 @@ void	ft_lstadd_back(t_data **lst, t_data *new)
 			last = ft_lstlast(*lst);
 			last->next = new;
       new->prev = last;
+      new->next = NULL;
 		}
 	}
 }
