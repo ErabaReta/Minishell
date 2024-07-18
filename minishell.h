@@ -50,7 +50,6 @@ typedef struct	s_files_list
 
 typedef struct s_data
 {
-	char *cmd;  // --> ex: ls > out.txt -la 
 	char  **args; //--> cmd args ex: "ls" "-la"
 	t_files_list	*in_files;//
 	t_files_list	*out_files;

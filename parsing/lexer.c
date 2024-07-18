@@ -75,6 +75,47 @@ char **ft_tablejoin(char **table, char *new)
   return (res);
 }
 
+char *quotes_remove(char *str)
+{
+  int   begin;
+  char  quote;
+  int   start;
+  int   end;
+  char  *cmd;
+  char  *mini_cmd;
+  int   i;//for testing whiles
+
+  begin = 0;
+  i = 0;
+  start = 0;
+  end = 0;
+  cmd = NULL;
+  while (str[start])
+  {
+    mini_cmd = NULL;
+    if (str[start] == '\"' || str[start] == '\'')
+    {
+      quote = str[start];
+      start++;
+      end = start;
+      while (str[end] != quote)
+        end++;
+      mini_cmd = ft_substr(str, start, end - start);
+      start = end + 1;
+      cmd = ft_strnjoin(cmd, mini_cmd, 0);
+      free(mini_cmd);
+    }
+    else
+    {
+      cmd = ft_strnjoin(cmd, str + start, 1);
+      start++;
+    }
+  }
+  if (cmd == NULL)
+    return (str);
+  return (cmd);
+}
+
 t_data  *ft_split_args(char *str, int *i)
 {
   int     start;
@@ -82,6 +123,7 @@ t_data  *ft_split_args(char *str, int *i)
   char    *cmd;
   t_data  *data;
   char    **args;
+  char    quote;
 
   start = *i;
   end = 0;
@@ -96,15 +138,23 @@ t_data  *ft_split_args(char *str, int *i)
     {
       end = start;
       while (str[end] && str[end] != ' ' && str[end] != '|')
-        end++;
-      cmd = ft_substr(str, start, end - start);
+      {
+        if (str[end] == '\"' || str[end] == '\'')
+        {
+          quote = str[end];
+          end++;
+          while (str[end] != quote && str[end])
+            end++;
+        }
+        if (str[end])
+          end++;
+      }
+      cmd = quotes_remove(ft_substr(str, start, end - start));
       start = end;
       args = ft_tablejoin(args, cmd);
       free(cmd);
     }
   }
-  if (str[start] == '|')
-    start++;
   *i = start;
   data->args = args;
   return (data);
@@ -122,6 +172,8 @@ t_data  *lexer(char *str)
   data = NULL;
   while (str[i])
   {
+    if (str[i] == '|')
+      i++;
     new = ft_split_args(str, &i);
     ft_lstadd_back(&data, new);
   }
@@ -135,6 +187,8 @@ t_data  *lexer(char *str)
       i++;
     }
     data = data->next;
+    if (data != NULL)
+      printf("|\n");
   }
   return (data);
 }
