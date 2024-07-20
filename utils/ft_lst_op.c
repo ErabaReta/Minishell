@@ -18,7 +18,8 @@ t_data  *ft_lstnew()
   new = (t_data *)malloc(sizeof(t_data));
   new->prev = NULL;
   new->next = NULL;
-
+  new->in_files = NULL;
+  new->out_files = NULL;
   return (new);
 }
 
