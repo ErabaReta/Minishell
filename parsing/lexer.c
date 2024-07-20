@@ -160,6 +160,114 @@ t_data  *ft_split_args(char *str, int *i)
   return (data);
 }
 
+void  free_char(char **args)
+{
+  int i;
+
+  i = 0;
+  while (args[i])
+  {
+    free(args[i]);
+    i++;
+  }
+  free(args);
+}
+
+void    del_elem_char(t_data *data, int i)
+{
+  char  **new;
+  int   size;
+  int   deff;
+
+  deff = 0;
+  size = 0;
+  while (data->args[size])
+    size++;
+  new = (char **)malloc((sizeof(char *) * size) - 1);
+  size = 0;
+  while (data->args[size])
+  {
+    if (size == i)
+      deff++;
+    else
+      new[size - deff] = ft_strdup(data->args[size]);
+    size++;
+  }
+  free_char(data->args);
+  data->args = new;
+}
+
+t_files_list  *add_last(t_files_list **head, t_files_list *new)
+{
+  t_files_list *curr;
+
+  if (*head == NULL)
+    *head = new;
+  else 
+  {
+    curr = *head;
+    while (curr->next)
+      curr = curr->next;
+    curr->next = new;
+  }
+  if (*head == NULL)
+    printf("yes new\n");
+  return (*head);
+}
+
+t_files_list  *make_new(char *redirection, char *file)
+{
+  t_files_list  *new;
+
+  new = (t_files_list *)malloc(sizeof(t_files_list));
+  new->redirection = redirection;
+  new->file = file;
+  new->next = NULL;
+  return (new);
+}
+
+void  redirection(t_data *data)
+{
+  int   i;
+  int   j;
+  int   passed;
+  char   **reds_in;
+  char   **reds_out;
+
+  reds_in = ft_split("< <<", ' ');
+  reds_out = ft_split("> >>", ' ');
+  passed = -1;
+  while (data)
+  {
+    i = 0;
+    while (data->args[i])
+    {
+      j = 0;
+      while (reds_in[j])
+      {
+        if (ft_strncmp(data->args[i], reds_in[j], 2) == 0)
+        {
+          data->in_files = add_last(&data->in_files, make_new(data->args[i], data->args[i + 1]));
+          i++;
+        }
+        j++;
+      }
+      j = 0;
+      while (reds_out[j])
+      {
+        if (ft_strncmp(data->args[i], reds_out[j], 2) == 0)
+        {
+          data->out_files = add_last(&data->in_files, make_new(data->args[i], data->args[i + 1]));
+          i++;
+        }
+        j++;
+      }
+      i++;
+    }
+    data = data->next;
+  }
+}
+
 t_data  *lexer(char *str)
 {
   int     i;
@@ -177,6 +285,7 @@ t_data  *lexer(char *str)
     new = ft_split_args(str, &i);
     ft_lstadd_back(&data, new);
   }
+  redirection(data);
   i = 0;
   while (data)
   {
@@ -185,6 +294,11 @@ t_data  *lexer(char *str)
     {
       printf("cmd = %s\n", data->args[i]);
       i++;
+    }
+    while (data->in_files) 
+    {
+      printf("red = %s, file = %s\n", data->in_files->redirection, data->in_files->file);
+      data->in_files = data->in_files->next;
     }
     data = data->next;
     if (data != NULL)
