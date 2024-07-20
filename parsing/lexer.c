@@ -57,7 +57,7 @@ char **ft_tablejoin(char **table, char *new)
   if (table == NULL)
   {
     res = (char **)malloc(sizeof(char *) * 2);
-    res[0] = new;
+    res[0] = ft_strdup(new);
     res[1] = NULL;
     return (res);
   }
@@ -160,7 +160,7 @@ t_data  *ft_split_args(char *str, int *i)
   return (data);
 }
 
-void  free_char(char **args)
+void  free_table(char **args)
 {
   int i;
 
@@ -193,7 +193,7 @@ void    del_elem_char(t_data *data, int i)
       new[size - deff] = ft_strdup(data->args[size]);
     size++;
   }
-  free_char(data->args);
+  free_table(data->args);
   data->args = new;
 }
 
@@ -210,8 +210,6 @@ t_files_list  *add_last(t_files_list **head, t_files_list *new)
       curr = curr->next;
     curr->next = new;
   }
-  if (*head == NULL)
-    printf("yes new\n");
   return (*head);
 }
 
@@ -220,8 +218,8 @@ t_files_list  *make_new(char *redirection, char *file)
   t_files_list  *new;
 
   new = (t_files_list *)malloc(sizeof(t_files_list));
-  new->redirection = redirection;
-  new->file = file;
+  new->redirection = ft_strdup(redirection);
+  new->file = ft_strdup(file);
   new->next = NULL;
   return (new);
 }
@@ -233,6 +231,7 @@ void  redirection(t_data *data)
   int   passed;
   char   **reds_in;
   char   **reds_out;
+  char   **cmds;
 
   reds_in = ft_split("< <<", ' ');
   reds_out = ft_split("> >>", ' ');
@@ -240,6 +239,7 @@ void  redirection(t_data *data)
   while (data)
   {
     i = 0;
+    cmds = NULL;
     while (data->args[i])
     {
       j = 0;
@@ -247,6 +247,7 @@ void  redirection(t_data *data)
       {
         if (ft_strncmp(data->args[i], reds_in[j], 2) == 0)
         {
+          passed = 1;
           data->in_files = add_last(&data->in_files, make_new(data->args[i], data->args[i + 1]));
           i++;
         }
@@ -257,13 +258,20 @@ void  redirection(t_data *data)
       {
         if (ft_strncmp(data->args[i], reds_out[j], 2) == 0)
         {
+          passed = 1;
           data->out_files = add_last(&data->in_files, make_new(data->args[i], data->args[i + 1]));
           i++;
         }
         j++;
       }
+      if(passed == -1)
+        cmds = ft_tablejoin(cmds, data->args[i]);
+      passed= -1;
       i++;
     }
+    free_table(data->args);
+    data->args = ft_tabledup(cmds);
+    free_table(cmds);
     data = data->next;
   }
 }

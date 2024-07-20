@@ -96,7 +96,7 @@ void	ft_unset(t_data *data, char ***env);
 void	ft_export(t_data *data, char ***env);
 //------------------------------------------------------------
 //== Utils ===================================================
-
+char  **ft_tabledup(char **tabe);
 char	**ft_split(char const *s, char c);
 size_t	count_words(char const *s, char c);
 void	*ft_memmove(void *dst, const void *src, size_t len);
