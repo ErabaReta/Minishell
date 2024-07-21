@@ -299,7 +299,8 @@ t_data  *lexer(char *str)
     new = ft_split_args(str, &i);
     ft_lstadd_back(&data, new);
   }
-  syntax_error(data);
+  if (syntax_error(data) == NULL)
+    return (NULL);
   redirection(data);
   i = 0;
   while (data)
