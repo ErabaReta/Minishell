@@ -98,8 +98,10 @@ char *quotes_remove(char *str)
       quote = str[start];
       start++;
       end = start;
-      while (str[end] != quote)
+      while (str[end] != quote && str[end])
         end++;
+      if (str[end] == '\0')
+        return (NULL);
       mini_cmd = ft_substr(str, start, end - start);
       start = end + 1;
       cmd = ft_strnjoin(cmd, mini_cmd, 0);
@@ -150,6 +152,8 @@ t_data  *ft_split_args(char *str, int *i)
           end++;
       }
       cmd = quotes_remove(ft_substr(str, start, end - start));
+      if (cmd == NULL)
+        return (NULL);
       start = end;
       args = ft_tablejoin(args, cmd);
       free(cmd);
@@ -297,6 +301,11 @@ t_data  *lexer(char *str)
   while (str[i])
   {
     new = ft_split_args(str, &i);
+    if (new == NULL)
+    {
+      printf("syntax error near unexpected token\n");
+      return (NULL);
+    }
     ft_lstadd_back(&data, new);
   }
   if (syntax_error(data) == NULL)
