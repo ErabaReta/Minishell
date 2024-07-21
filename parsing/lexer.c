@@ -155,6 +155,8 @@ t_data  *ft_split_args(char *str, int *i)
       free(cmd);
     }
   }
+  if (str[start] == '|')
+    start++;
   *i = start;
   data->args = args;
   return (data);
@@ -269,9 +271,12 @@ void  redirection(t_data *data)
       passed= -1;
       i++;
     }
-    free_table(data->args);
-    data->args = ft_tabledup(cmds);
-    free_table(cmds);
+    if (cmds != NULL)
+    {
+      free_table(data->args);
+      data->args = ft_tabledup(cmds);
+      free_table(cmds);
+    }
     data = data->next;
   }
 }
@@ -282,21 +287,24 @@ t_data  *lexer(char *str)
   int     j;
   t_data  *data;
   t_data  *new;
+  int     node;
 
   j = 0;
   i = 0;
+  node = 0;
   data = NULL;
+  str = ft_strnjoin(str, " ", 1);
   while (str[i])
   {
-    if (str[i] == '|')
-      i++;
     new = ft_split_args(str, &i);
     ft_lstadd_back(&data, new);
   }
+  syntax_error(data);
   redirection(data);
   i = 0;
   while (data)
   {
+    node++;
     i = 0;
     while (data->args[i])
     {
@@ -312,6 +320,7 @@ t_data  *lexer(char *str)
     if (data != NULL)
       printf("|\n");
   }
+  printf("node = %d\n", node);
   return (data);
 }
 

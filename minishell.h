@@ -72,10 +72,10 @@ void  free_allocator(t_malloc **list);
 
 //== Parsing =================================================
 
-t_data	*mini_parsing(char *cmd_line, int *count);
 void	redirector(t_data *data, char *cmd);
 t_data	*lexer(char *str);
 int		env_size(char **env);
+void  syntax_error(t_data *data);
 //== Execution ===============================================
 
 void	execution(t_data *data, int length, char ***env);
