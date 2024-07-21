@@ -75,7 +75,7 @@ void  free_allocator(t_malloc **list);
 void	redirector(t_data *data, char *cmd);
 t_data	*lexer(char *str);
 int		env_size(char **env);
-void  syntax_error(t_data *data);
+t_data  *syntax_error(t_data *data);
 //== Execution ===============================================
 
 void	execution(t_data *data, int length, char ***env);
