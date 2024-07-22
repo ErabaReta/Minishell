@@ -265,7 +265,7 @@ void  redirection(t_data *data)
         if (ft_strncmp(data->args[i], reds_out[j], 2) == 0)
         {
           passed = 1;
-          data->out_files = add_last(&data->in_files, make_new(data->args[i], data->args[i + 1]));
+          data->out_files = add_last(&data->out_files, make_new(data->args[i], data->args[i + 1]));
           i++;
         }
         j++;
@@ -321,10 +321,17 @@ t_data  *lexer(char *str)
       printf("cmd = %s\n", data->args[i]);
       i++;
     }
+    printf("in files\n");
     while (data->in_files) 
     {
       printf("red = %s, file = %s\n", data->in_files->redirection, data->in_files->file);
       data->in_files = data->in_files->next;
+    }
+    printf("out files\n");
+    while (data->out_files) 
+    {
+      printf("red = %s, file = %s\n", data->out_files->redirection, data->out_files->file);
+      data->out_files = data->out_files->next;
     }
     data = data->next;
     if (data != NULL)
