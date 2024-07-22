@@ -73,7 +73,7 @@ void  free_allocator(t_malloc **list);
 //== Parsing =================================================
 
 void	redirector(t_data *data, char *cmd);
-t_data	*lexer(char *str);
+t_data	*lexer(char *str, char **env);
 int		env_size(char **env);
 t_data  *syntax_error(t_data *data);
 //== Execution ===============================================
