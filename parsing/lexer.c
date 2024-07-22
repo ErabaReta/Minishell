@@ -285,17 +285,89 @@ void  redirection(t_data *data)
   }
 }
 
-t_data  *lexer(char *str)
+char  *find_expand(char **env, char *find)
+{
+  int   i;
+  int   j;
+  char  *res;
+
+  i = 0;
+  res = NULL;
+  while (env[i])
+  {
+    j = 0;
+    while (env[i][j] == find[j])
+      j++;
+    if (env[i][j] == '=')
+    {
+      res = ft_substr(env[i], j + 1, ft_strlen(env[i]) - j);
+      return (res);
+    }
+    i++;
+  }
+  return (NULL);
+}
+
+void  expand(t_data *data, char **env)
+{
+  int i;
+  int j;
+  int end;
+  char  *exp;
+  char  *res;
+
+  end = 0;
+  j = 0;
+  i = 0;
+  (void)env;
+  exp = NULL;
+  res = NULL;
+  while (data)
+  {
+    while (data->args[i])
+    {
+      j = 0;
+      while (data->args[i][j])
+      {
+        printf("arg char = %c\n", data->args[i][j]);
+        if (data->args[i][j] == '$')
+        {
+          end = j++;
+          while (data->args[i][end] != '$' && data->args[i][end] != '\0')
+            end++;
+          printf("bef end = %d\n", end);
+          exp = ft_substr(data->args[i], j, end - j);
+          j = end;
+          printf("aft j = %d\n", j);
+        }
+        else
+          j++;
+        if (exp != NULL)
+        {
+          printf("exp after = %s\n", exp);
+          exp = find_expand(env, exp);
+          printf("exp after = %s\n", exp);
+          res = ft_strnjoin(res, exp, 0);
+          free(exp);
+          exp = NULL;
+        }
+      }
+      i++;
+    }
+    data = data->next;
+  }
+  printf("to expnad = %s\n", res);
+}
+
+t_data  *lexer(char *str, char **env)
 {
   int     i;
   int     j;
   t_data  *data;
   t_data  *new;
-  int     node;
 
   j = 0;
   i = 0;
-  node = 0;
   data = NULL;
   str = ft_strnjoin(str, " ", 1);
   while (str[i])
@@ -311,23 +383,21 @@ t_data  *lexer(char *str)
   if (syntax_error(data) == NULL)
     return (NULL);
   redirection(data);
+  expand(data, env);
   i = 0;
   while (data)
   {
-    node++;
     i = 0;
     while (data->args[i])
     {
       printf("cmd = %s\n", data->args[i]);
       i++;
     }
-    printf("in files\n");
     while (data->in_files) 
     {
       printf("red = %s, file = %s\n", data->in_files->redirection, data->in_files->file);
       data->in_files = data->in_files->next;
     }
-    printf("out files\n");
     while (data->out_files) 
     {
       printf("red = %s, file = %s\n", data->out_files->redirection, data->out_files->file);
@@ -337,7 +407,6 @@ t_data  *lexer(char *str)
     if (data != NULL)
       printf("|\n");
   }
-  printf("node = %d\n", node);
   return (data);
 }
 

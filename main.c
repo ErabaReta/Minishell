@@ -35,7 +35,7 @@ void	looper(char ***env)
 		// printf("line=>\"%s\"\n", str);
 		if (ft_strlen(str) != 2 && str[0] != '\n')
 			add_history(str);
-    lexer(str);
+    lexer(str, *env);
 		//tmp = mini_parsing(str, &size);
 		//execution(tmp, size, env);
 		str = readline("minishell $> ");
