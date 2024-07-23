@@ -2,5 +2,6 @@
 *.o
 minishell
 .*
+.tldr
 input.txt
 output.txt
