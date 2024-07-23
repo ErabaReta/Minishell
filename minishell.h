@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/15 14:51:17 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:18:24 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	ft_unset(t_data *data, char ***env);
 void	ft_export(t_data *data, char ***env);
 //------------------------------------------------------------
 //== Utils ===================================================
+
 char  **ft_tabledup(char **tabe);
 char	**ft_split(char const *s, char c);
 size_t	count_words(char const *s, char c);
