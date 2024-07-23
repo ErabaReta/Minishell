@@ -311,33 +311,35 @@ t_data  *lexer(char *str)
   if (syntax_error(data) == NULL)
     return (NULL);
   redirection(data);
-  i = 0;
-  while (data)
-  {
-    node++;
-    i = 0;
-    while (data->args[i])
-    {
-      printf("cmd = %s\n", data->args[i]);
-      i++;
-    }
-    printf("in files\n");
-    while (data->in_files) 
-    {
-      printf("red = %s, file = %s\n", data->in_files->redirection, data->in_files->file);
-      data->in_files = data->in_files->next;
-    }
-    printf("out files\n");
-    while (data->out_files) 
-    {
-      printf("red = %s, file = %s\n", data->out_files->redirection, data->out_files->file);
-      data->out_files = data->out_files->next;
-    }
-    data = data->next;
-    if (data != NULL)
-      printf("|\n");
-  }
-  printf("node = %d\n", node);
+  // ==== for debugging ===============================
+  // i = 0;
+  // while (data)
+  // {
+  //   node++;
+  //   i = 0;
+  //   while (data->args[i])
+  //   {
+  //     printf("cmd = %s\n", data->args[i]);
+  //     i++;
+  //   }
+  //   printf("in files\n");
+  //   while (data->in_files) 
+  //   {
+  //     printf("red = %s, file = %s\n", data->in_files->redirection, data->in_files->file);
+  //     data->in_files = data->in_files->next;
+  //   }
+  //   printf("out files\n");
+  //   while (data->out_files) 
+  //   {
+  //     printf("red = %s, file = %s\n", data->out_files->redirection, data->out_files->file);
+  //     data->out_files = data->out_files->next;
+  //   }
+  //   data = data->next;
+  //   if (data != NULL)
+  //     printf("|\n");
+  // }
+  // printf("node = %d\n", node);
+  // ==================================================
   return (data);
 }
 

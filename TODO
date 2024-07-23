@@ -1,1 +1,10 @@
 hello
+
+bad test cases :
+
+minishell $> echo hi >input.txt 
+hi>input.txt
+minishell $> echo hi > input.txt 
+minishell $> 
+
+TODO handle when the redirect is touching the words

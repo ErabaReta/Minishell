@@ -1,11 +1,1 @@
-execution
-input.txt
-main.c
-makefile
-minishell
-minishell.h
-output.txt
-parsing
-README.md
-txt
-utils
+hi

@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/14 21:48:09 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:12:56 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void execution(t_data *data, int length, char ***env)
 		pipes[i] = (int *)malloc(sizeof(int) * 2);
 		if (pipe(pipes[i]) == -1)
 		{
-				printf("error : cant create pipe %d\n", i + 1);
+			printf("error : cant create pipe %d\n", i + 1);
 		}
 		i++;
 	}
