@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/14 21:49:19 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:06:53 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	check_builtins(t_data *data, int is_parent, char ***env)
 	
 	if (ft_strncmp(data->args[0], "pwd", 4) == 0)
 	{
+		// fprintf(stderr, "it is the cmd pwd\n");///////////
 		if (is_parent && data->in_files != NULL)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
@@ -30,7 +31,7 @@ int	check_builtins(t_data *data, int is_parent, char ***env)
 		ft_pwd();
 		// exiter(data, 0);
 	}
-	if (ft_strncmp(data->args[0], "env", 4) == 0)
+	else if (ft_strncmp(data->args[0], "env", 4) == 0)
 	{
 		if (is_parent && data->in_files != NULL)
 			open_infiles(data);
@@ -83,6 +84,7 @@ int	check_builtins(t_data *data, int is_parent, char ***env)
 	}
 	else
 	{
+		// fprintf(stderr, "check builtins will return -1\n");///////////
 		return (-1);
 	}
 	if (!is_parent)

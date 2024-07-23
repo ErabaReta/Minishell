@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/14 12:50:13 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:35:58 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,31 @@
 // 	write(1, "\n", 1);
 // }
 
+int	ft_lstsize(t_data *lst)
+{
+	if (lst == NULL)
+		return (0);
+	if (lst->next == NULL)
+		return (1);
+	return (1 + ft_lstsize(lst->next));
+}
+
 void	looper(char ***env)
 {
 	char *str;
 	//int	size;
 	str = readline("minishell $> ");
-	//t_data *tmp;
+	t_data *tmp;
 	(void)env;
 	while (str != NULL)
 	{
 		// printf("line=>\"%s\"\n", str);
 		if (ft_strlen(str) != 2 && str[0] != '\n')
 			add_history(str);
-    lexer(str);
+		tmp = lexer(str);
 		//tmp = mini_parsing(str, &size);
-		//execution(tmp, size, env);
+		if(tmp != NULL)
+			execution(tmp, ft_lstsize(tmp), env);
 		str = readline("minishell $> ");
 	}
 }
