@@ -5,6 +5,8 @@ char  **ft_tabledup(char **table)
   char  **res;
 
   i = 0;
+  if (table == NULL)
+    return (NULL);
   while (table[i])
     i++;
   res = (char **)malloc(sizeof(char *) * (i + 1));
