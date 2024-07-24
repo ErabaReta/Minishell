@@ -139,7 +139,14 @@ t_data  *ft_split_args(char *str, int *i)
     while (str[start] && str[start] != '|' && str[start] != ' ')
     {
       end = start;
-      while (str[end] && str[end] != ' ' && str[end] != '|')
+      if (str[start] == '<' || str[start] == '>')
+      {
+        quote = str[start];
+        end = start;
+        while (str[end] == quote && str[end])
+          end++;
+      }
+      while (str[end] && str[end] != ' ' && str[end] != '|' && str[start] != '<' && str[start] != '>' && str[end] != '<' && str[end] != '>')
       {
         if (str[end] == '\"' || str[end] == '\'')
         {
@@ -171,7 +178,7 @@ void  free_table(char **args)
   int i;
 
   i = 0;
-  while (args[i])
+  while (args && args[i])
   {
     free(args[i]);
     i++;
@@ -246,7 +253,7 @@ void  redirection(t_data *data)
   {
     i = 0;
     cmds = NULL;
-    while (data->args[i])
+    while (data->args && data->args[i])
     {
       j = 0;
       while (reds_in[j])
@@ -275,12 +282,9 @@ void  redirection(t_data *data)
       passed= -1;
       i++;
     }
-    if (cmds != NULL)
-    {
-      free_table(data->args);
-      data->args = ft_tabledup(cmds);
-      free_table(cmds);
-    }
+    free_table(data->args);
+    data->args = ft_tabledup(cmds);
+    free_table(cmds);
     data = data->next;
   }
 }
@@ -296,9 +300,9 @@ char  *find_expand(char **env, char *find)
   while (env[i])
   {
     j = 0;
-    while (env[i][j] == find[j])
+    while (env[i][j] == find[j] && env[i][j] != '=')
       j++;
-    if (env[i][j] == '=')
+    if (env[i][j] == '=' && find[j] == '\0')
     {
       res = ft_substr(env[i], j + 1, ft_strlen(env[i]) - j);
       return (res);
@@ -329,12 +333,12 @@ void  expand_out_file(t_data *data, char **env)
         if (data->out_files->file[i] == '$')
         {
           end = ++i;
-          while (data->out_files->file[end] != '$' && data->out_files->file[i])
+          while (data->out_files->file[end] != '$' && data->out_files->file[end])
             end++;
           exp = ft_substr(data->out_files->file, i, end - i);
           i = end;
         }
-        else 
+        else
         {
           res = ft_strnjoin(res, data->out_files->file + i, 1);
           i++;
@@ -343,16 +347,18 @@ void  expand_out_file(t_data *data, char **env)
         {
           exp = find_expand(env, exp);
           res = ft_strnjoin(res, exp, 0);
-          printf("res = %s\n", res);
           free(exp);
           exp = NULL;
         }
+        printf("res = %s\n", res);
       }
       if (res != NULL)
       {
+        printf("res exp = %s\n", res);
         free(data->out_files->file);
         data->out_files->file = ft_strdup(res);
         free(res);
+        printf("data file %s\n", data->out_files->file);
         res = NULL;
       }
       data->out_files = data->out_files->next;
@@ -432,7 +438,7 @@ void  expand(t_data *data, char **env)
   while (data)
   {
     i = 0;
-    while (data->args[i])
+    while (data->args && data->args[i])
     {
       j = 0;
       while (data->args[i][j])
@@ -498,12 +504,12 @@ t_data  *lexer(char *str, char **env)
   redirection(data);
   expand(data, env);
   //expand_in_file(data, env);
-  expand_out_file(data, env);
+  //expand_out_file(data, env);
   i = 0;
   while (data)
   {
     i = 0;
-    while (data->args[i])
+    while (data->args && data->args[i])
     {
       printf("cmd = %s\n", data->args[i]);
       i++;
@@ -513,7 +519,6 @@ t_data  *lexer(char *str, char **env)
       printf("red = %s, file = %s\n", data->in_files->redirection, data->in_files->file);
       data->in_files = data->in_files->next;
     }
-    printf("out = %p\n", data->out_files);
     while (data->out_files) 
     {
       printf("red = %s, file = %s\n", data->out_files->redirection, data->out_files->file);
