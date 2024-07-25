@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:38:47 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/09 20:48:36 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/23 20:15:59 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_env(char **env)
 	int	i;
 
 	i = 0;
-	while (env[i] != NULL)
+	while (env != NULL && env[i] != NULL)
 	{
 		printf("%s\n", env[i]);
 		i++;

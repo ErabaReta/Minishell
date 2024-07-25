@@ -225,6 +225,12 @@ t_files_list  *make_new(char *redirection, char *file)
 
   new = (t_files_list *)malloc(sizeof(t_files_list));
   new->redirection = ft_strdup(redirection);
+  //========================================================
+  if (ft_strncmp(redirection, "<<", 3) == 0)
+  {
+    new->heredoc_fd = open_heredoc(file);// TODO watch out for FD leak
+  }
+  //========================================================
   new->file = ft_strdup(file);
   new->next = NULL;
   return (new);

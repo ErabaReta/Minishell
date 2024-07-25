@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/23 14:18:24 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:49:54 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct	s_files_list
 {
 	char					*redirection;
 	char					*file;
+	int						heredoc_fd;//<------- 
 	struct	s_files_list	*next;
 }	t_files_list;
 
@@ -54,7 +55,7 @@ typedef struct s_data
 	t_files_list	*in_files;//
 	t_files_list	*out_files;
 	struct s_data *next; // next node
-	struct s_data *prev; // prev node
+	struct s_data *prev; // prev node (not used yet)
 }	t_data;
 
 typedef struct s_all {
@@ -84,6 +85,7 @@ char	*check_paths(char **env, char *cmd);
 void	piping(t_data *data, int **pipes, int length, int i);
 void	open_infiles(t_data *data);
 void	open_outfiles(t_data *data);
+int		open_heredoc(char *limiter);
 void	exiter(t_data *data, int code);//-toke as builtin exit too-
 //-- Builtins ------------------------------------------------
 
