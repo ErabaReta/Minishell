@@ -503,7 +503,7 @@ t_data  *lexer(char *str, char **env)
     return (NULL);
   redirection(data);
   expand(data, env);
-  //expand_in_file(data, env);
+  expand_in_file(data, env);
   //expand_out_file(data, env);
   i = 0;
   while (data)
