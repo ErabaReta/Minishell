@@ -139,7 +139,14 @@ t_data  *ft_split_args(char *str, int *i)
     while (str[start] && str[start] != '|' && str[start] != ' ')
     {
       end = start;
-      while (str[end] && str[end] != ' ' && str[end] != '|')
+      if (str[start] == '<' || str[start] == '>')
+      {
+        quote = str[start];
+        end = start;
+        while (str[end] == quote && str[end])
+          end++;
+      }
+      while (str[end] && str[end] != ' ' && str[end] != '|' && str[start] != '<' && str[start] != '>' && str[end] != '<' && str[end] != '>')
       {
         if (str[end] == '\"' || str[end] == '\'')
         {
@@ -171,7 +178,7 @@ void  free_table(char **args)
   int i;
 
   i = 0;
-  while (args[i])
+  while (args && args[i])
   {
     free(args[i]);
     i++;
@@ -252,7 +259,7 @@ void  redirection(t_data *data)
   {
     i = 0;
     cmds = NULL;
-    while (data->args[i])
+    while (data->args && data->args[i])
     {
       j = 0;
       while (reds_in[j])
@@ -281,27 +288,211 @@ void  redirection(t_data *data)
       passed= -1;
       i++;
     }
-    if (cmds != NULL)
+    free_table(data->args);
+    data->args = ft_tabledup(cmds);
+    free_table(cmds);
+    data = data->next;
+  }
+}
+
+char  *find_expand(char **env, char *find)
+{
+  int   i;
+  int   j;
+  char  *res;
+
+  i = 0;
+  res = NULL;
+  while (env[i])
+  {
+    j = 0;
+    while (env[i][j] == find[j] && env[i][j] != '=')
+      j++;
+    if (env[i][j] == '=' && find[j] == '\0')
     {
-      free_table(data->args);
-      data->args = ft_tabledup(cmds);
-      free_table(cmds);
+      res = ft_substr(env[i], j + 1, ft_strlen(env[i]) - j);
+      return (res);
+    }
+    i++;
+  }
+  return (ft_strdup(""));
+}
+
+
+void  expand_out_file(t_data *data, char **env)
+{
+  int   i;
+  int   end;
+  char  *exp;
+  char  *res;
+
+  res = NULL;
+  exp = NULL;
+  end = 0;
+  while (data)
+  {
+    while (data->out_files)
+    {
+      i = 0;
+      while (data->out_files->file[i])
+      {
+        if (data->out_files->file[i] == '$')
+        {
+          end = ++i;
+          while (data->out_files->file[end] != '$' && data->out_files->file[end])
+            end++;
+          exp = ft_substr(data->out_files->file, i, end - i);
+          i = end;
+        }
+        else
+        {
+          res = ft_strnjoin(res, data->out_files->file + i, 1);
+          i++;
+        }
+        if (exp != NULL)
+        {
+          exp = find_expand(env, exp);
+          res = ft_strnjoin(res, exp, 0);
+          free(exp);
+          exp = NULL;
+        }
+        printf("res = %s\n", res);
+      }
+      if (res != NULL)
+      {
+        printf("res exp = %s\n", res);
+        free(data->out_files->file);
+        data->out_files->file = ft_strdup(res);
+        free(res);
+        printf("data file %s\n", data->out_files->file);
+        res = NULL;
+      }
+      data->out_files = data->out_files->next;
     }
     data = data->next;
   }
 }
 
-t_data  *lexer(char *str)
+void  expand_in_file(t_data *data, char **env)
+{
+  int   i;
+  int   end;
+  char  *exp;
+  char  *res;
+
+  res = NULL;
+  exp = NULL;
+  i = 0;
+  end = 0;
+  while (data)
+  {
+    while (data->in_files)
+    {
+      if (ft_strncmp(data->in_files->redirection, "<<", 2) != 0)
+      {
+        while (data->in_files->file[i])
+        {
+          if (data->in_files->file[i] == '$')
+          {
+            end = ++i;
+            while (data->in_files->file[end] != '$' && data->in_files->file[i])
+              end++;
+            exp = ft_substr(data->in_files->file, i, end - i);
+            i = end;
+          }
+          else 
+          {
+            res = ft_strnjoin(res, data->in_files->file + i, 1);
+            i++;
+          }
+          if (exp != NULL)
+          {
+            exp = find_expand(env, exp);
+            res = ft_strnjoin(res, exp, 0);
+            printf("res = %s\n", res);
+            free(exp);
+            exp = NULL;
+          }
+        }
+        if (res != NULL)
+        {
+          free(data->in_files->file);
+          data->in_files->file = ft_strdup(res);
+          free(res);
+          res = NULL;
+        }
+      }
+      data->in_files = data->in_files->next;
+    }
+    data = data->next;
+  }
+}
+
+void  expand(t_data *data, char **env)
+{
+  int i;
+  int j;
+  int end;
+  char  *exp;
+  char  *res;
+
+  end = 0;
+  j = 0;
+  (void)env;
+  exp = NULL;
+  res = NULL;
+  while (data)
+  {
+    i = 0;
+    while (data->args && data->args[i])
+    {
+      j = 0;
+      while (data->args[i][j])
+      {
+        if (data->args[i][j] == '$')
+        {
+          end = ++j;
+          while (data->args[i][end] != '$' && data->args[i][end] != '\0')
+            end++;
+          exp = ft_substr(data->args[i], j, end - j);
+          j = end;
+        }
+        else
+        {
+          res = ft_strnjoin(res, data->args[i] + j, 1);
+          j++;
+        }
+        if (exp != NULL)
+        {
+          exp = find_expand(env, exp);
+          res = ft_strnjoin(res, exp, 0);
+          printf("res = %s\n", res);
+          free(exp);
+          exp = NULL;
+        }
+      }
+      if (res != NULL)
+      {
+        free(data->args[i]);
+        data->args[i] = ft_strdup(res);
+        free(res);
+        res = NULL;
+      }
+      i++;
+    }
+    data = data->next;
+  }
+}
+
+t_data  *lexer(char *str, char **env)
 {
   int     i;
   int     j;
   t_data  *data;
   t_data  *new;
-  int     node;
 
   j = 0;
   i = 0;
-  node = 0;
   data = NULL;
   str = ft_strnjoin(str, " ", 1);
   while (str[i])
@@ -317,35 +508,32 @@ t_data  *lexer(char *str)
   if (syntax_error(data) == NULL)
     return (NULL);
   redirection(data);
-  // ==== for debugging ===============================
-  // i = 0;
-  // while (data)
-  // {
-  //   node++;
-  //   i = 0;
-  //   while (data->args[i])
-  //   {
-  //     printf("cmd = %s\n", data->args[i]);
-  //     i++;
-  //   }
-  //   printf("in files\n");
-  //   while (data->in_files) 
-  //   {
-  //     printf("red = %s, file = %s\n", data->in_files->redirection, data->in_files->file);
-  //     data->in_files = data->in_files->next;
-  //   }
-  //   printf("out files\n");
-  //   while (data->out_files) 
-  //   {
-  //     printf("red = %s, file = %s\n", data->out_files->redirection, data->out_files->file);
-  //     data->out_files = data->out_files->next;
-  //   }
-  //   data = data->next;
-  //   if (data != NULL)
-  //     printf("|\n");
-  // }
-  // printf("node = %d\n", node);
-  // ==================================================
+  expand(data, env);
+  //expand_in_file(data, env);
+  //expand_out_file(data, env);
+  i = 0;
+  while (data)
+  {
+    i = 0;
+    while (data->args && data->args[i])
+    {
+      printf("cmd = %s\n", data->args[i]);
+      i++;
+    }
+    while (data->in_files) 
+    {
+      printf("red = %s, file = %s\n", data->in_files->redirection, data->in_files->file);
+      data->in_files = data->in_files->next;
+    }
+    while (data->out_files) 
+    {
+      printf("red = %s, file = %s\n", data->out_files->redirection, data->out_files->file);
+      data->out_files = data->out_files->next;
+    }
+    data = data->next;
+    if (data != NULL)
+      printf("|\n");
+  }
   return (data);
 }
 
