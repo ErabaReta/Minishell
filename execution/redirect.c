@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/14 22:09:11 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:53:11 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	open_infiles(t_data *data)
 	{
 		if (ft_strncmp(tmp->redirection, "<<", 3) == 0)
 		{
-			fd = open_heredoc(tmp->file);
+			// fd = open_heredoc(tmp->file);
+			fd = tmp->heredoc_fd;
 			tmp = tmp->next;
 		}
 		else if (access(tmp->file, F_OK) == 0) // it exist
