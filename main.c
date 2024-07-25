@@ -44,7 +44,7 @@ void	looper(char ***env)
 		// printf("line=>\"%s\"\n", str);
 		if (ft_strlen(str) != 2 && str[0] != '\n')
 			add_history(str);
-		tmp = lexer(str);
+    tmp = lexer(str, *env);
 		//tmp = mini_parsing(str, &size);
 		if(tmp != NULL)
 			execution(tmp, ft_lstsize(tmp), env);
