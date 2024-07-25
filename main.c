@@ -41,13 +41,11 @@ void	looper(char ***env)
 	(void)env;
 	while (str != NULL)
 	{
-		// printf("line=>\"%s\"\n", str);
 		if (ft_strlen(str) != 2 && str[0] != '\n')
 			add_history(str);
     tmp = lexer(str, *env);
-		//tmp = mini_parsing(str, &size);
-		if(tmp != NULL)
-			execution(tmp, ft_lstsize(tmp), env);
+		//if(tmp != NULL)
+		//	execution(tmp, ft_lstsize(tmp), env);
 		str = readline("minishell $> ");
 	}
 }
