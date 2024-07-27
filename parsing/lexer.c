@@ -102,7 +102,7 @@ char *quotes_remove(char *str)
         end++;
       if (str[end] == '\0')
         return (NULL);
-      mini_cmd = ft_substr(str, start, end - start);
+      mini_cmd = ft_substr(str, start - 1, (end  - start) + 2);
       start = end + 1;
       cmd = ft_strnjoin(cmd, mini_cmd, 0);
       free(mini_cmd);
@@ -321,6 +321,7 @@ char  *find_expand(char **env, char *find)
 
 void  expand_out_file(t_data *data, char **env)
 {
+  t_files_list  *tmp;
   int   i;
   int   end;
   char  *exp;
@@ -331,6 +332,7 @@ void  expand_out_file(t_data *data, char **env)
   end = 0;
   while (data)
   {
+    tmp = data->out_files;
     while (data->out_files)
     {
       i = 0;
@@ -356,19 +358,17 @@ void  expand_out_file(t_data *data, char **env)
           free(exp);
           exp = NULL;
         }
-        printf("res = %s\n", res);
       }
       if (res != NULL)
       {
-        printf("res exp = %s\n", res);
         free(data->out_files->file);
         data->out_files->file = ft_strdup(res);
         free(res);
-        printf("data file %s\n", data->out_files->file);
         res = NULL;
       }
       data->out_files = data->out_files->next;
     }
+    data->out_files = tmp;
     data = data->next;
   }
 }
@@ -447,26 +447,33 @@ void  expand(t_data *data, char **env)
     while (data->args && data->args[i])
     {
       j = 0;
+      if (data->args[i][j] == '\'')
+      {
+        data->args[i] = ft_substr(data->args[i], 1, ft_strlen(data->args[i]) - 2);
+        break;
+      }
+      else if (data->args[i][j] == '\"')
+        j++;
       while (data->args[i][j])
       {
         if (data->args[i][j] == '$')
         {
           end = ++j;
-          while (data->args[i][end] != '$' && data->args[i][end] != '\0')
+          while (data->args[i][end] != '$' && data->args[i][end] != '\0' && data->args[i][end] != '\"')
             end++;
           exp = ft_substr(data->args[i], j, end - j);
           j = end;
         }
         else
         {
-          res = ft_strnjoin(res, data->args[i] + j, 1);
+          if (data->args[i][j] != '\"')
+            res = ft_strnjoin(res, data->args[i] + j, 1);
           j++;
         }
         if (exp != NULL)
         {
           exp = find_expand(env, exp);
           res = ft_strnjoin(res, exp, 0);
-          printf("res = %s\n", res);
           free(exp);
           exp = NULL;
         }
@@ -495,6 +502,7 @@ t_data  *lexer(char *str, char **env)
   i = 0;
   data = NULL;
   str = ft_strnjoin(str, " ", 1);
+  (void)env;
   while (str[i])
   {
     new = ft_split_args(str, &i);
@@ -509,8 +517,8 @@ t_data  *lexer(char *str, char **env)
     return (NULL);
   redirection(data);
   expand(data, env);
-  expand_in_file(data, env);
-  //expand_out_file(data, env);
+  //expand_in_file(data, env);
+  expand_out_file(data, env);
   i = 0;
   while (data)
   {
