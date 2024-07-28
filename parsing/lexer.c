@@ -471,7 +471,6 @@ void  expand(t_data *data, char **env)
               while (data->args[i][end] != '$' && data->args[i][end] != '\0' && data->args[i][end] != '\"' && data->args[i][end] != '\'')
                 end++;
               exp = ft_substr(data->args[i], j, end - j);
-              printf("exp = %s\n", exp);
               exp = find_expand(env, exp);
               res = ft_strnjoin(res, exp, 0);
               free(exp);
@@ -488,8 +487,23 @@ void  expand(t_data *data, char **env)
         }
         else
         {
-          res = ft_strnjoin(res, data->args[i] + j, 1);
-          j++;
+          if (data->args[i][j] == '$')
+          {
+            end = ++j;
+            while (data->args[i][end] != '$' && data->args[i][end] != '\0' && data->args[i][end] != '\"' && data->args[i][end] != '\'')
+              end++;
+            exp = ft_substr(data->args[i], j, end - j);
+            exp = find_expand(env, exp);
+            res = ft_strnjoin(res, exp, 0);
+            free(exp);
+            exp = NULL;
+            j = end;
+          }
+          else
+          {
+            res = ft_strnjoin(res, data->args[i] + j, 1);
+            j++;
+          }
         }
       }
       if (res != NULL && data->args[i][j] == '\0')
