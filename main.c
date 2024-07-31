@@ -43,9 +43,9 @@ void	looper(char ***env)
 	{
 		if (ft_strlen(str) != 2 && str[0] != '\n')
 			add_history(str);
-    tmp = lexer(str, *env);
-		//if(tmp != NULL)
-		//	execution(tmp, ft_lstsize(tmp), env);
+    	tmp = lexer(str, *env);
+		// if(tmp != NULL)
+		// 	execution(tmp, ft_lstsize(tmp), env);
 		str = readline("minishell $> ");
 	}
 }
@@ -80,6 +80,9 @@ int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
+	t_malloc	*malloc_list;
+
+	malloc_list = NULL;
 	// struct sigaction	sigact;
 
 	// sigact.sa_sigaction = sigint_handler;
