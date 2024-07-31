@@ -1,10 +1,11 @@
 CC = cc
 CFLAGS = -Werror -Wextra -Wall -g3 #-fsanitize=address
 RM = rm -rf
-UTILS_FILES = ./utils/ft_split.c ./utils/ft_memmove.c ./utils/ft_strncmp.c ./utils/ft_strjoin.c ./utils/ft_strlen.c ./utils/ft_strdup.c ./utils/char_in_cmd.c ./utils/ft_substr.c ./utils/ft_lst_op.c ./utils/ft_tabledup.c
+GARBAGE_MAKER=./garbage_collector/allocator.c ./garbage_collector/allocator_op.c
+UTILS_FILES = ./utils/ft_split.c ./utils/ft_memmove.c ./utils/ft_strncmp.c ./utils/ft_strjoin.c ./utils/ft_strlen.c ./utils/ft_strdup.c ./utils/char_in_cmd.c ./utils/ft_substr.c ./utils/ft_lst_op.c ./utils/ft_tabledup.c ./utils/ft_tablejoin.c ./utils/is_alnum.c
 EXEC_FILES =  ./execution/execution.c execution/check_paths.c ./execution/exiter.c ./execution/builtins/builtins.c ./execution/builtins/ft_env.c ./execution/builtins/ft_pwd.c ./execution/builtins/ft_cd.c ./execution/builtins/ft_echo.c ./execution/builtins/ft_unset.c ./execution/builtins/ft_export.c ./execution/redirect.c
-PARSING_FILES = ./parsing/lexer.c ./parsing/syntax_error.c
-CFILES = main.c ${EXEC_FILES} ${PARSING_FILES} ${UTILS_FILES}
+PARSING_FILES = ./parsing/lexer.c ./parsing/syntax_error.c ./parsing/ft_expand.c ./parsing/ft_quotes.c ./parsing/ft_redirection.c ./parsing/catch_expand.c
+CFILES = main.c ${EXEC_FILES} ${PARSING_FILES} ${UTILS_FILES} ${GARBAGE_MAKER}
 OFILES = ${CFILES:.c=.o}
 NAME = minishell
 
