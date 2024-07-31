@@ -14,9 +14,9 @@
 
 char	*find_expand(char **env, char *find)
 {
-	int i;
-	int j;
-	char *res;
+	int		i;
+	int		j;
+	char	*res;
 
 	i = 0;
 	res = NULL;
@@ -37,8 +37,8 @@ char	*find_expand(char **env, char *find)
 
 void	var_to_val(char *arg, int *i, char **res, char **env)
 {
-	int end;
-	char *exp;
+	int		end;
+	char	*exp;
 
 	end = 0;
 	if (arg[*i] == '$' && isalnum(arg[*i + 1]))
@@ -50,7 +50,6 @@ void	var_to_val(char *arg, int *i, char **res, char **env)
 		exp = ft_substr(arg, *i, end - *i);
 		exp = find_expand(env, exp);
 		*res = ft_strnjoin(*res, exp, 0);
-		free(exp);
 		exp = NULL;
 		*i = end;
 	}
@@ -63,15 +62,11 @@ void	var_to_val(char *arg, int *i, char **res, char **env)
 
 void	expand_out_file(t_data *data, char **env)
 {
-	t_files_list *tmp;
-	int i;
-	int end;
-	char *exp;
-	char *res;
+	t_files_list	*tmp;
+	int				i;
+	char			*res;
 
 	res = NULL;
-	exp = NULL;
-	end = 0;
 	while (data)
 	{
 		tmp = data->out_files;
@@ -79,14 +74,10 @@ void	expand_out_file(t_data *data, char **env)
 		{
 			i = 0;
 			while (data->out_files->file[i])
-			{
 				var_to_val(data->out_files->file, &i, &res, env);
-			}
 			if (res != NULL)
 			{
-				free(data->out_files->file);
 				data->out_files->file = ft_strdup(res);
-				free(res);
 				res = NULL;
 			}
 			data->out_files = data->out_files->next;
@@ -98,13 +89,11 @@ void	expand_out_file(t_data *data, char **env)
 
 void	expand_in_file(t_data *data, char **env)
 {
-	t_files_list *tmp;
-	int i;
-	int end;
-	char *res;
+	t_files_list	*tmp;
+	int				i;
+	char			*res;
 
 	res = NULL;
-	end = 0;
 	while (data)
 	{
 		tmp = data->in_files;
@@ -114,16 +103,10 @@ void	expand_in_file(t_data *data, char **env)
 			if (ft_strncmp(data->in_files->redirection, "<<", 2) != 0)
 			{
 				while (data->in_files->file[i])
-				{
 					var_to_val(data->in_files->file, &i, &res, env);
-				}
 				if (res != NULL)
-				{
-					free(data->in_files->file);
 					data->in_files->file = ft_strdup(res);
-					free(res);
-					res = NULL;
-				}
+				res = NULL;
 			}
 			data->in_files = data->in_files->next;
 		}
@@ -134,16 +117,9 @@ void	expand_in_file(t_data *data, char **env)
 
 void	expand(t_data *data, char **env)
 {
-	int i;
-	int j;
-	int end;
-	char *exp;
-	char *res;
+	int		i;
+	char	*res;
 
-	end = 0;
-	j = 0;
-	(void)env;
-	exp = NULL;
 	res = NULL;
 	while (data)
 	{
@@ -153,9 +129,7 @@ void	expand(t_data *data, char **env)
 			res = catch_expnad(data->args[i], env);
 			if (res != NULL)
 			{
-				free(data->args[i]);
 				data->args[i] = ft_strdup(res);
-				free(res);
 				res = NULL;
 			}
 			i++;

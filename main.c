@@ -32,6 +32,20 @@ int	ft_lstsize(t_data *lst)
 	return (1 + ft_lstsize(lst->next));
 }
 
+char	*get_last_arg(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (data && data->next == NULL)
+	{
+		while (data->args[i + 1])
+			i++;
+		
+	}
+	return (data->args[i]);
+}
+
 void	looper(char ***env)
 {
 	char *str;

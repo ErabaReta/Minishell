@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/24 15:49:54 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/31 20:09:53 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char					*find_expand(char **env, char *find);
 void					expand_out_file(t_data *data, char **env);
 void					expand_in_file(t_data *data, char **env);
 void					expand(t_data *data, char **env);
-void					*quotes(char *str, int *start, int *end);
+// void					*quotes(char *str, int *start, int *end);
 char					*quotes_remove(char *str);
 void	var_to_val(char *arg, int *i, char **res, char **env);
 char					*catch_expnad(char *arg, char **env);

@@ -1,14 +1,25 @@
-#include "../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_redirection.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/31 21:23:31 by ayechcha          #+#    #+#             */
+/*   Updated: 2024/07/31 21:23:31 by ayechcha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../minishell.h"
 
 void	redirection(t_data *data)
 {
-	int i;
-	int j;
-	int passed;
-	char **reds_in;
-	char **reds_out;
-	char **cmds;
+	int		i;
+	int		j;
+	int		passed;
+	char	**reds_in;
+	char	**reds_out;
+	char	**cmds;
 
 	reds_in = ft_split("< <<", ' ');
 	reds_out = ft_split("> >>", ' ');

@@ -1,75 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_quotes.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/31 19:55:13 by ayechcha          #+#    #+#             */
+/*   Updated: 2024/07/31 19:55:13 by ayechcha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-
-void	*quotes(char *str, int *start, int *end)
+void	init_vars(char **cmd, int *start)
 {
-	int i;
-	char quote;
-	char *betwen_quotes;
-
-	i = 0;
-	quote = '\0';
-	betwen_quotes = NULL;
-	while (str[i])
-	{
-		if (str[i] == '\"' || str[i] == '\'')
-		{
-			quote = str[i];
-			i++;
-			*start = i;
-			*end = *start;
-			break ;
-		}
-		i++;
-	}
-	while (str[i] != quote)
-	{
-		if (str[i] == '\0')
-		{
-			printf("quotes not closed\n");
-			break ;
-		}
-		i++;
-	}
-	if (str[i] == quote && quote != '\0')
-	{
-		*end = i;
-		betwen_quotes = ft_substr(str, *start, i - *start);
-	}
-	return (betwen_quotes);
+	*cmd = NULL;
+	*start = 0;
 }
 
 char	*quotes_remove(char *str)
 {
-	int begin;
-	char quote;
-	int start;
-	int end;
-	char *cmd;
-	char *mini_cmd;
-	int i; // for testing whiles
+	int		start;
+	int		end;
+	char	*cmd;
 
-	begin = 0;
-	i = 0;
-	start = 0;
-	end = 0;
-	cmd = NULL;
+	init_vars(&cmd, &start);
 	while (str[start])
 	{
-		mini_cmd = NULL;
 		if (str[start] == '\"' || str[start] == '\'')
 		{
-			quote = str[start];
-			start++;
-			end = start;
-			while (str[end] != quote && str[end])
+			end = start++;
+			while (str[end] != str[start - 1] && str[end])
 				end++;
 			if (str[end] == '\0')
 				return (NULL);
-			mini_cmd = ft_substr(str, start - 1, (end - start) + 2);
+			cmd = ft_strnjoin(cmd, ft_substr(str, start - 1,
+						(end - start) + 2), 0);
 			start = end + 1;
-			cmd = ft_strnjoin(cmd, mini_cmd, 0);
-			free(mini_cmd);
 		}
 		else
 		{
@@ -77,7 +44,5 @@ char	*quotes_remove(char *str)
 			start++;
 		}
 	}
-	if (cmd == NULL)
-		return (str);
 	return (cmd);
 }
