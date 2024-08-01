@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hunter <hunter@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/23 17:52:49 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/01 18:09:09 by hunter           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	looper(char ***env)
 	str = readline("minishell $> ");
 	t_data *tmp;
 	(void)env;
+	(void)tmp;
 	while (str != NULL)
 	{
 		if (ft_strlen(str) != 2 && str[0] != '\n')
@@ -96,7 +97,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	t_malloc	*malloc_list;
 
-	malloc_list = NULL;
+	(void)malloc_list;
 	// struct sigaction	sigact;
 
 	// sigact.sa_sigaction = sigint_handler;

@@ -32,7 +32,7 @@ char	*find_expand(char **env, char *find)
 		}
 		i++;
 	}
-	return (ft_strdup(""));
+	return (NULL);
 }
 
 void	var_to_val(char *arg, int *i, char **res, char **env)
@@ -49,6 +49,7 @@ void	var_to_val(char *arg, int *i, char **res, char **env)
 			end++;
 		exp = ft_substr(arg, *i, end - *i);
 		exp = find_expand(env, exp);
+		printf("exp = %s\n", exp);
 		*res = ft_strnjoin(*res, exp, 0);
 		exp = NULL;
 		*i = end;
