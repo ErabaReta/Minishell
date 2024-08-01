@@ -43,7 +43,7 @@ void	var_to_val(char *arg, int *i, char **res, char **env)
 	end = 0;
 	if (arg[*i] == '$' && isalnum(arg[*i + 1]))
 	{
-		end = ++(*i);
+		end = *i + 1;
 		while (arg[end] != '$' && arg[end] != '\0' && arg[end] != '\"'
 			&& arg[end] != '\'' && isalnum(arg[end]))
 			end++;

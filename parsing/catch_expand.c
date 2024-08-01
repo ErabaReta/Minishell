@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   catch_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunter <hunter@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/01 18:15:57 by hunter            #+#    #+#             */
-/*   Updated: 2024/08/01 18:15:57 by hunter           ###   ########.fr       */
+/*   Created: 2024/08/01 22:07:33 by ayechcha          #+#    #+#             */
+/*   Updated: 2024/08/01 22:07:33 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ char	*catch_expnad(char *arg, char **env)
 	int		i;
 	int		end;
 	char	*res;
+	char	*exp;
 
 	i = 0;
 	end = 0;
 	res = NULL;
+	exp = NULL;
 	while (arg[i])
 	{
 		if (arg[i] == '\'')
