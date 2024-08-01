@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hunter <hunter@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:30:27 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/07/15 13:54:40 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/01 18:13:34 by hunter           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
 static size_t chars_counter(size_t s_len, size_t start, size_t len)
@@ -29,7 +30,7 @@ char  *ft_substr(char const *s, unsigned int start, size_t len)
     return (NULL);
   s_len = ft_strlen(s);
   count = 0;
-  if (len < 0 || s_len == 0 || start >= s_len)
+  if (s_len == 0 || start >= s_len)
   {
     ptr = (char *)malloc(sizeof(char));
   }

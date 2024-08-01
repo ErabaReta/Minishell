@@ -1,16 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   catch_expand.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hunter <hunter@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/01 18:15:57 by hunter            #+#    #+#             */
+/*   Updated: 2024/08/01 18:15:57 by hunter           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 char	*catch_expnad(char *arg, char **env)
 {
-	int i;
-	int end;
-	char *res;
-	char *exp;
+	int		i;
+	int		end;
+	char	*res;
 
 	i = 0;
 	end = 0;
 	res = NULL;
-	exp = NULL;
 	while (arg[i])
 	{
 		if (arg[i] == '\'')

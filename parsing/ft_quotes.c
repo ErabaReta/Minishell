@@ -29,7 +29,7 @@ char	*quotes_remove(char *str)
 	{
 		if (str[start] == '\"' || str[start] == '\'')
 		{
-			end = start++;
+			end = ++start;
 			while (str[end] != str[start - 1] && str[end])
 				end++;
 			if (str[end] == '\0')

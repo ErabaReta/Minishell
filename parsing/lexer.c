@@ -68,11 +68,9 @@ t_data	*ft_split_args(char *str, int *i)
 t_data	*lexer(char *str, char **env)
 {
 	int		i;
-	int		j;
 	t_data	*data;
 	t_data	*new;
 
-	j = 0;
 	i = 0;
 	data = NULL;
 	str = ft_strnjoin(str, " ", 1);
