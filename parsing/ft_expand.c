@@ -41,15 +41,14 @@ void	var_to_val(char *arg, int *i, char **res, char **env)
 	char	*exp;
 
 	end = 0;
-	if (arg[*i] == '$' && isalnum(arg[*i + 1]))
+	if (arg[*i] == '$' && ft_isalnum(arg[*i + 1]))
 	{
-		end = *i + 1;
+		end = ++(*i);
 		while (arg[end] != '$' && arg[end] != '\0' && arg[end] != '\"'
-			&& arg[end] != '\'' && isalnum(arg[end]))
+			&& arg[end] != '\'' && ft_isalnum(arg[end]))
 			end++;
 		exp = ft_substr(arg, *i, end - *i);
 		exp = find_expand(env, exp);
-		printf("exp = %s\n", exp);
 		*res = ft_strnjoin(*res, exp, 0);
 		exp = NULL;
 		*i = end;
@@ -128,11 +127,8 @@ void	expand(t_data *data, char **env)
 		while (data->args && data->args[i])
 		{
 			res = catch_expnad(data->args[i], env);
-			if (res != NULL)
-			{
-				data->args[i] = ft_strdup(res);
-				res = NULL;
-			}
+			data->args[i] = ft_strdup(res);
+			res = NULL;
 			i++;
 		}
 		data = data->next;

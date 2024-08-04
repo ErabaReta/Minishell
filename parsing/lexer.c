@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
+/*   Updated: 2024/08/04 01:30:52 by ayechcha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 char	*str_maker(char *first, char *second)
@@ -85,7 +97,7 @@ t_data	*lexer(char *str, char **env)
 		}
 		ft_lstadd_back(&data, new);
 	}
-	if (syntax_error(data) == NULL)
+	if (syntax_error_pipe(data) == NULL || syntax_error_red(data) == NULL)
 		return (NULL);
 	redirection(data);
 	expand(data, env);
