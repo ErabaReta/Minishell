@@ -6,47 +6,28 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:40:21 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/09 20:48:45 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 19:30:11 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_unset(t_data *data, char ***env)
+void	ft_unset(t_data *data, t_env **env)
 {
 	int	i;
-	int	len;
-	int	j;
-	char	**new_env;
+	t_env	*tmp;
 
-	i = 0;
-	len = ft_strlen(data->args[1]);
-	while ((*env)[i] != NULL)
+	i = 1;
+	tmp = *env;
+	while (data->args[i] != NULL)
 	{
-		if (strncmp((*env)[i], data->args[1], len) == 0)
+		tmp = env_search(*env, data->args[i]);
+		if (tmp != NULL)
 		{
-			j = 0;
-			new_env = (char **)malloc(sizeof(char *) * (env_size(*env)));
-			while (j < i)
-			{
-				new_env[j] = ft_strdup((*env)[j]);
-				free((*env)[j]);
-				j++;
-			}
-			free((*env)[j]);
-			i++;
-			while ((*env)[i] != NULL)
-			{
-				new_env[j] = ft_strdup((*env)[i]);
-				free((*env)[i]);
-				i++;
-				j++;
-			}
-			new_env[j] = NULL;
-			free((*env));
-			*env = new_env;
-			break ;
+			tmp->var = "Deleted_var";
+			tmp->value = "DELETED_value";
 		}
 		i++;
 	}
+	
 }

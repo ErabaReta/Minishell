@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/04 17:26:48 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 19:03:03 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,30 +119,33 @@ t_data	*lexer(char *str, char **env)
 			i++;
 		last_arg(data->args[i]);
 	}
-	i = 0;
-	while (data)
-	{
-		i = 0;
-		while (data->args && data->args[i])
-		{
-			printf("cmd = %s\n", data->args[i]);
-			i++;
-		}
-		while (data->in_files)
-		{
-			printf("red = %s, file = %s\n", data->in_files->redirection,
-				data->in_files->file);
-			data->in_files = data->in_files->next;
-		}
-		while (data->out_files)
-		{
-			printf("red = %s, file = %s\n", data->out_files->redirection,
-				data->out_files->file);
-			data->out_files = data->out_files->next;
-		}
-		data = data->next;
-		if (data != NULL)
-			printf("|\n");
-	}
+
+	//=== for debug ==================================
+	// i = 0;
+	// while (data)
+	// {
+	// 	i = 0;
+	// 	while (data->args && data->args[i])
+	// 	{
+	// 		printf("cmd = %s\n", data->args[i]);
+	// 		i++;
+	// 	}
+	// 	while (data->in_files)
+	// 	{
+	// 		printf("red = %s, file = %s\n", data->in_files->redirection,
+	// 			data->in_files->file);
+	// 		data->in_files = data->in_files->next;
+	// 	}
+	// 	while (data->out_files)
+	// 	{
+	// 		printf("red = %s, file = %s\n", data->out_files->redirection,
+	// 			data->out_files->file);
+	// 		data->out_files = data->out_files->next;
+	// 	}
+	// 	data = data->next;
+	// 	if (data != NULL)
+	// 		printf("|\n");
+	// }
+	// ==================================================
 	return (data);
 }

@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 17:26:37 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 19:47:08 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	looper(t_env **env)
 	{
 		if (ft_strlen(str) != 2 && str[0] != '\n')
 			add_history(str);
-		// tmp = lexer(str, *env);
+		tmp = lexer(str, env_list_to_table(*env));
 		if(tmp != NULL)
 			execution(tmp, ft_lstsize(tmp), env);
 		str = readline("minishell $> ");
@@ -92,7 +92,7 @@ int	main(int ac, char **av, char **env)
 	// sigemptyset(&sigact.sa_mask);
 	// if (sigaction(SIGINT, &sigact, NULL) != 0)
 	// 	return (1);
-	t_env *new_env = env_table_to_list(env);
+	 t_env *new_env = env_table_to_list(env);
 	looper(&new_env);
 	return (0);
 }

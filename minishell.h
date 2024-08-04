@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 17:26:04 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 19:29:45 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,12 @@ char					*quotes_remove(char *str);
 void					var_to_val(char *arg, int *i, char **res, char **env);
 char					*catch_expnad(char *arg, char **env);
 	//==================testing $_ ===================================
+	
 char	*last_arg(char *last_arg);
+
 	//== Execution ===============================================
 
-	void execution(t_data *data, int length, char ***env);
+void					execution(t_data *data, int length, t_env **env);
 char					*check_relative_path(char *file);
 char					*check_paths(char **env, char *cmd);
 void					piping(t_data *data, int **pipes, int length, int i);
@@ -107,18 +109,19 @@ int						open_heredoc(char *limiter);
 void	exiter(t_data *data, int code); //-toke as builtin exit too-
 //-- Builtins ------------------------------------------------
 
-int		check_builtins(t_data *data, int is_parent, char ***env);
+int		check_builtins(t_data *data, int is_parent, t_env **env);
 void	ft_env(char **env);
 void	ft_pwd(void);
 void	ft_cd(t_data *data);
 void	ft_echo(t_data *data);
-void	ft_unset(t_data *data, char ***env);
-void	ft_export(t_data *data, char ***env);
+void	ft_unset(t_data *data, t_env **env);
+void	ft_export(t_data *data, t_env **env);
 char	**slice_var_value(char *str);
 //------------------------------------------------------------
 //== Utils ===================================================
 
 char	**ft_tabledup(char **tabe);
+char	**ft_tablejoin(char **table, char *new);
 char	**ft_split(char const *s, char c);
 size_t	count_words(char const *s, char c);
 void	*ft_memmove(void *dst, const void *src, size_t len);
@@ -131,6 +134,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_lstadd_back(t_data **lst, t_data *new);
 t_data  *ft_lstnew();
 int		ft_isalnum(int c);
+t_files_list	*add_last(t_files_list **head, t_files_list *new);
+t_files_list	*make_new(char *redirection, char *file);
 //== env ==========================================================
 
 t_env	*env_table_to_list(char **table);

@@ -6,12 +6,14 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:07:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 11:46:53 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 20:05:56 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
+
+// it splits str int 2d char pointer by '=' ir '+' , you find variable in indice 0 and value in indice 1 , if there is no value it puts NULL instead
 char **slice_var_value(char *str)
 {
 	int	i;
@@ -20,8 +22,9 @@ char **slice_var_value(char *str)
 	int	j;
 
 	i = 0;
+	count = 0;
 	var_and_value = (char **)malloc(sizeof(char *) * 2);
-	while (str[i] != '\0' && (str[i] != '=' || (str[i] != '+' && str[i] != '=')))
+	while (str[i] != '\0' && str[i] != '+' && str[i] != '=')
 	{
 		count++;
 		i++;
@@ -35,9 +38,9 @@ char **slice_var_value(char *str)
 	}
 	var_and_value[0][j] = '\0';
 	/////////////////////////////
-	if (str[i] != '=')
+	if (str[i] == '=')
 		i++;
-	else if (str[i] != '+' && str[i] != '=')
+	else if (str[i] == '+')
 		i+=2;
 	else if (str[i] == '\0')
 	{
@@ -54,22 +57,23 @@ char **slice_var_value(char *str)
 	j = 0;
 	while (j < count)
 	{
-		var_and_value[1][j] = str[j];
+		var_and_value[1][j] = str[i - count];
 		j++;
+		i++;
 	}
 	var_and_value[1][j] = '\0';
 	return (var_and_value);
 }
-
+// returns the last node of the list, NULL if empty or on error
 t_env	*env_lstlast(t_env *env)
 {
 	if (env == NULL)
 		return (NULL);
 	if (env->next == NULL)
 		return (env);
-	return (ft_lstlast(env->next));
+	return (env_lstlast(env->next));
 }
-
+// adds a variable to the end of the env
 void	env_lst_addback(t_env **env, t_env *new)
 {
 	t_env	*last_node;
@@ -84,7 +88,7 @@ void	env_lst_addback(t_env **env, t_env *new)
 	last_node = env_lstlast(*env);
 	last_node->next = new;
 }
-
+// creates new node of the var and its value, it dosnt create a copy of the string but directly assinging
 t_env	*env_new_node(char *var, char *value)
 {
 	t_env	*new;
@@ -96,6 +100,7 @@ t_env	*env_new_node(char *var, char *value)
 	return (new);
 }
 
+// turns a 2D chars into linked list
 t_env	*env_table_to_list(char **table)
 {
 	int	i;
@@ -107,15 +112,17 @@ t_env	*env_table_to_list(char **table)
 	head = NULL;
 	while (table[i] != NULL)
 	{
-		tmp = (t_env *)malloc(sizeof(t_env));
 		splitted_var = slice_var_value(table[i]); // if slice_var_value controled by gc, strdup it instead
-		tmp = env_new_node(splitted_var[0], splitted_var[1]);
-		env_add_back(&head, tmp);
+		tmp = env_new_node(ft_strdup(splitted_var[0]), ft_strdup(splitted_var[1]));
+		env_lst_addback(&head, tmp);
+		free(splitted_var[0]);
+		free(splitted_var[1]);
+		free(splitted_var);
 		i++;
 	}
 	return (head);
 }
-
+// turns a linked list into 2D chars
 char	**env_list_to_table(t_env *head)
 {
 	int	count;
@@ -124,6 +131,7 @@ char	**env_list_to_table(t_env *head)
 	int		i;
 
 	tmp = head;
+	count = 0;
 	while (tmp != NULL )
 	{
 		if (tmp->value != NULL)
@@ -138,14 +146,15 @@ char	**env_list_to_table(t_env *head)
 		if (tmp->value != NULL)
 		{
 			table[i] = ft_strnjoin(ft_strnjoin(tmp->var, "=", 0), tmp->value, 0);
+			// printf("'%s'\n", table[i]);
+			i++;
 		}
 		tmp = tmp->next;
-		i++;
 	}
-	table[i] == NULL;
+	table[i] = NULL;
 	return (table);
 }
-
+// returns the node that have the same variavle name, NULL if theres none
 t_env	*env_search(t_env *env, char *var)
 {
 	t_env	*tmp;
@@ -155,7 +164,7 @@ t_env	*env_search(t_env *env, char *var)
 	{
 		if (ft_strncmp(tmp->var, var, ft_strlen(var) + 1) == 0)
 			return (tmp);
-		tmp->next;
+		tmp = tmp->next;
 	}
 	return (NULL);
 }

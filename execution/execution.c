@@ -6,14 +6,14 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/24 15:46:38 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 19:21:26 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 //executes the cmd with its argiments after checking of its existence and its permissions
-void execute_cmd(t_data *data,  char **env)
+void execute_cmd(t_data *data,  t_env *env)
 {
 	char	*full_cmd;
 	// char	**args;
@@ -25,7 +25,7 @@ void execute_cmd(t_data *data,  char **env)
 	}
 	else 
 	{
-		full_cmd = check_paths(env, data->args[0]);
+		full_cmd = check_paths(env_list_to_table(env), data->args[0]);// TODO pass the linked list
 	}
 	if (full_cmd == NULL)
 	{
@@ -36,11 +36,11 @@ void execute_cmd(t_data *data,  char **env)
 
 	// printf("full cmd is -> %s\n", full_cmd);
 	
-	execve(full_cmd, data->args, env);
+	execve(full_cmd, data->args, env_list_to_table(env));// TODO protect malloc failing
 }
 
 // takes the cmd line and execute or turns an error if it counter one
-void execution(t_data *data, int length, char ***env)
+void execution(t_data *data, int length, t_env **env)
 {
 	int	i;
 	int	id;
