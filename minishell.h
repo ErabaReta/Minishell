@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 19:29:45 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 21:11:29 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*last_arg(char *last_arg);
 
 void					execution(t_data *data, int length, t_env **env);
 char					*check_relative_path(char *file);
-char					*check_paths(char **env, char *cmd);
+char					*check_paths(t_env *env, char *cmd);
 void					piping(t_data *data, int **pipes, int length, int i);
 void					open_infiles(t_data *data);
 void					open_outfiles(t_data *data);

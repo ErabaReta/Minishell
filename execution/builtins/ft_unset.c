@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:40:21 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 19:30:11 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 21:35:45 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,34 @@ void	ft_unset(t_data *data, t_env **env)
 {
 	int	i;
 	t_env	*tmp;
-
+	t_env	*to_delete;
 	i = 1;
-	tmp = *env;
 	while (data->args[i] != NULL)
 	{
-		tmp = env_search(*env, data->args[i]);
-		if (tmp != NULL)
+		tmp = *env;
+		if (tmp == NULL)
+			break ;
+		if (ft_strncmp(tmp->var, data->args[i], ft_strlen(data->args[i]) + 1) == 0)
 		{
-			tmp->var = "Deleted_var";
-			tmp->value = "DELETED_value";
+			*env = tmp->next;
+			free(tmp->var);
+			free(tmp->value);
+			free(tmp);
+			i++;
+			continue ;
+		}
+		while (tmp != NULL && tmp->next != NULL)
+		{
+			if (ft_strncmp(tmp->next->var, data->args[i], ft_strlen(data->args[i]) + 1) == 0)
+			{
+				to_delete = tmp->next;
+				tmp->next = tmp->next->next;
+				free(to_delete->var);
+				free(to_delete->value);
+				free(to_delete);
+				break ;
+			}
+			tmp = tmp->next;
 		}
 		i++;
 	}

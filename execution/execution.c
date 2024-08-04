@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 19:21:26 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 21:12:16 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void execute_cmd(t_data *data,  t_env *env)
 	}
 	else 
 	{
-		full_cmd = check_paths(env_list_to_table(env), data->args[0]);// TODO pass the linked list
+		full_cmd = check_paths(env, data->args[0]);
 	}
 	if (full_cmd == NULL)
 	{
