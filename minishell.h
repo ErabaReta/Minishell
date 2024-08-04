@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 21:11:29 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 21:57:09 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,13 @@ typedef struct s_all
 	t_malloc			*malloc_list;
 	t_list				*list;
 }						t_all;
+
+typedef struct s_heap
+{
+	void	*ptr;
+	struct s_heap	*next;
+}						t_heap;
+
 
 //== Garbage Collector ======================================
 
