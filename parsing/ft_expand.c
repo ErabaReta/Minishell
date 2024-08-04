@@ -71,7 +71,7 @@ void	var_to_val(char *arg, int *i, char **res, char **env)
 		*i = end;
 	}
 	else if (arg[*i] == '$' && is_DOU(arg[*i + 1]))
-		*res = expand_DOR(arg, i);
+		*res = ft_strnjoin(*res, expand_DOR(arg, i), 0);
 	else
 	{
 		*res = ft_strnjoin(*res, arg + *i, 1);
