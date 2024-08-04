@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Werror -Wextra -Wall -g3 #-fsanitize=address
+CFLAGS = -Werror -Wextra -Wall -g3 -fsanitize=address
 RM = rm -rf
 GARBAGE_MAKER=./garbage_collector/allocator.c ./garbage_collector/allocator_op.c
 UTILS_FILES = ./utils/ft_split.c ./utils/ft_memmove.c ./utils/ft_strncmp.c ./utils/ft_strjoin.c ./utils/ft_strlen.c ./utils/ft_strdup.c ./utils/char_in_cmd.c ./utils/ft_substr.c ./utils/ft_lst_op.c ./utils/ft_tabledup.c ./utils/ft_tablejoin.c ./utils/is_alnum.c

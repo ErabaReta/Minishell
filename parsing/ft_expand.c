@@ -46,7 +46,7 @@ char	*expand_DOR(char *arg, int *i)
 {
 	*i = *i + 2;
 	if (!(isalnum(arg[*i]) && arg[*i] != '$' && arg[*i] != '\0' && arg[*i] != '\"' && arg[*i] != '\''))
-		return(ft_strdup("00000"));
+		return(last_arg(NULL));
 	while (isalnum(arg[*i]) && arg[*i] != '$' && arg[*i] != '\0' && arg[*i] != '\"' && arg[*i] != '\'')
 		(*i)++;
 	return (NULL);

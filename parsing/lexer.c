@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/04 01:30:52 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/04 07:22:10 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,15 @@ t_data	*ft_split_args(char *str, int *i)
 	return (data);
 }
 
+char	*last_arg(char *last_arg)
+{
+	static char	*last;
+	
+	if (last_arg != NULL)
+		last = ft_strdup(last_arg);
+	return (last);
+}
+
 t_data	*lexer(char *str, char **env)
 {
 	int		i;
@@ -103,6 +112,13 @@ t_data	*lexer(char *str, char **env)
 	expand(data, env);
 	expand_in_file(data, env);
 	expand_out_file(data, env);
+	i = 0;
+	if (data->next == NULL)
+	{
+		while (data->args[i] && data->args[i + 1])
+			i++;
+		last_arg(data->args[i]);
+	}
 	i = 0;
 	while (data)
 	{

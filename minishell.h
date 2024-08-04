@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/02 00:51:24 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/04 07:15:43 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void					expand(t_data *data, char **env);
 char					*quotes_remove(char *str);
 void					var_to_val(char *arg, int *i, char **res, char **env);
 char					*catch_expnad(char *arg, char **env);
+	//==================testing $_ ===================================
+char	*last_arg(char *last_arg);
 	//== Execution ===============================================
 
 	void execution(t_data *data, int length, char ***env);
