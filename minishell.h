@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/24 15:49:54 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 11:47:11 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,14 @@ typedef struct s_all {
   t_list    *list;
 } t_all;
 
+typedef struct s_env
+{
+	char			*var;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
+
 
 //== Garbage Collector ======================================
 
@@ -96,21 +104,31 @@ void	ft_cd(t_data *data);
 void	ft_echo(t_data *data);
 void	ft_unset(t_data *data, char ***env);
 void	ft_export(t_data *data, char ***env);
+char	**slice_var_value(char *str);
 //------------------------------------------------------------
 //== Utils ===================================================
 
-char  **ft_tabledup(char **tabe);
+char	**ft_tabledup(char **tabe);
 char	**ft_split(char const *s, char c);
 size_t	count_words(char const *s, char c);
 void	*ft_memmove(void *dst, const void *src, size_t len);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strnjoin(char const *s1, char const *s2, size_t len);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
-int char_in_cmd(char *cmd, char	c);/////////
-char  *ft_substr(char const *s, unsigned int start, size_t len);
+int		char_in_cmd(char *cmd, char	c);/////////
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_lstadd_back(t_data **lst, t_data *new);
 t_data  *ft_lstnew();
-//============================================================
+int		ft_isalnum(int c);
+//== env ==========================================================
 
+t_env	*env_table_to_list(char **table);
+t_env	*env_new_node(char *var, char *value);
+char	**env_list_to_table(t_env *head);
+t_env	*env_lstlast(t_env *env);
+void	env_lst_addback(t_env **env, t_env *new);
+t_env	*env_search(t_env *env, char *var);
+// char	**slice_var_value(char *str);////
+//=================================================================
 #endif

@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/24 15:53:11 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/07/28 17:01:16 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ void	open_outfiles(t_data *data)
 			if (access(tmp->file, W_OK) == 0)// can be writen to it
 			{
 				if (ft_strncmp(tmp->redirection, ">", 2) == 0)
-					fd = open(tmp->file, O_WRONLY | O_TRUNC);// TODO open the last infile not the first one and protect failing
+					fd = open(tmp->file, O_WRONLY | O_TRUNC);// TODO protect failing
 				else
-					fd = open(tmp->file, O_WRONLY | O_APPEND);// TODO open the last infile not the first one and protect failing
+					fd = open(tmp->file, O_WRONLY | O_APPEND);// TODO protect failing
 				if (fd < 0)
 				{
 					printf("minishell: %s: failed to open file\n", tmp->file);//TODO custume ERR here
@@ -123,9 +123,9 @@ void	open_outfiles(t_data *data)
 		else
 		{
 			if (ft_strncmp(tmp->redirection, ">", 2) == 0)
-				fd = open(tmp->file, O_WRONLY | O_TRUNC | O_CREAT);// TODO open the last infile not the first one and protect failing
+				fd = open(tmp->file, O_WRONLY | O_TRUNC | O_CREAT, 644);// TODO  protect failing
 			else
-				fd = open(tmp->file, O_WRONLY | O_APPEND | O_CREAT);// TODO open the last infile not the first one and protect failing	
+				fd = open(tmp->file, O_WRONLY | O_APPEND | O_CREAT, 644);// TODO  protect failing	
 			if (fd < 0)
 			{
 				printf("minishell: %s: No such file or directory\n",tmp->file);//TODO custume ERR here
