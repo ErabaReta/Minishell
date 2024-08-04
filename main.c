@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 17:06:58 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:26:37 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
+	t_malloc	*malloc_list;
+
+	(void)malloc_list;
 	// struct sigaction	sigact;
 
 	// sigact.sa_sigaction = sigint_handler;

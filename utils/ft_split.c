@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 15:56:47 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/06/30 19:04:27 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 03:12:35 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ size_t	count_words(char const *s, char c)
 	return (count);
 }
 
-static void	*extracter(char *ptr, size_t *end_index,
-						size_t *start_index, const char *s)
+static void	*extracter(char *ptr, size_t *end_index, size_t *start_index,
+		const char *s)
 {
 	ptr = (char *)malloc(sizeof(char) * (*end_index - *start_index + 1));
 	if (ptr == NULL)
