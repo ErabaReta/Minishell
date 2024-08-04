@@ -6,12 +6,11 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 21:52:38 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 02:10:02 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/04 03:13:06 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 char	*ft_strdup(const char *s1)
 {

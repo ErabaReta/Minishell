@@ -14,8 +14,8 @@
 
 char	**ft_tablejoin(char **table, char *new)
 {
-	int i;
-	char **res;
+	int		i;
+	char	**res;
 
 	i = 0;
 	if (new == NULL)
@@ -43,7 +43,7 @@ char	**ft_tablejoin(char **table, char *new)
 
 void	free_table(char **args)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (args && args[i])
@@ -56,9 +56,9 @@ void	free_table(char **args)
 
 void	del_elem_char(t_data *data, int i)
 {
-	char **new;
-	int size;
-	int deff;
+	char	**new;
+	int		size;
+	int		deff;
 
 	deff = 0;
 	size = 0;
@@ -80,7 +80,7 @@ void	del_elem_char(t_data *data, int i)
 
 t_files_list	*add_last(t_files_list **head, t_files_list *new)
 {
-	t_files_list *curr;
+	t_files_list	*curr;
 
 	if (*head == NULL)
 		*head = new;
@@ -96,16 +96,14 @@ t_files_list	*add_last(t_files_list **head, t_files_list *new)
 
 t_files_list	*make_new(char *redirection, char *file)
 {
-	t_files_list *new;
+	t_files_list	*new;
 
 	new = (t_files_list *)malloc(sizeof(t_files_list));
 	new->redirection = ft_strdup(redirection);
-	//========================================================
 	if (ft_strncmp(redirection, "<<", 3) == 0)
 	{
-		new->heredoc_fd = open_heredoc(file); // TODO watch out for FD leak
+		new->heredoc_fd = open_heredoc(file);
 	}
-	//========================================================
 	new->file = ft_strdup(file);
 	new->next = NULL;
 	return (new);
