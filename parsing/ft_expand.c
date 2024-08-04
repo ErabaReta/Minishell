@@ -35,6 +35,23 @@ char	*find_expand(char **env, char *find)
 	return (NULL);
 }
 
+int	is_DOU(char c)
+{
+	if (c == '$' || c == '_')
+		return (1);
+	return (0);
+}
+
+char	*expand_DOR(char *arg, int *i)
+{
+	*i = *i + 2;
+	if (!(isalnum(arg[*i]) && arg[*i] != '$' && arg[*i] != '\0' && arg[*i] != '\"' && arg[*i] != '\''))
+		return(ft_strdup("00000"));
+	while (isalnum(arg[*i]) && arg[*i] != '$' && arg[*i] != '\0' && arg[*i] != '\"' && arg[*i] != '\'')
+		(*i)++;
+	return (NULL);
+}
+
 void	var_to_val(char *arg, int *i, char **res, char **env)
 {
 	int		end;
@@ -53,6 +70,8 @@ void	var_to_val(char *arg, int *i, char **res, char **env)
 		exp = NULL;
 		*i = end;
 	}
+	else if (arg[*i] == '$' && is_DOU(arg[*i + 1]))
+		*res = expand_DOR(arg, i);
 	else
 	{
 		*res = ft_strnjoin(*res, arg + *i, 1);
