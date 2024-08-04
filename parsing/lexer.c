@@ -547,29 +547,29 @@ t_data  *lexer(char *str, char **env)
   expand(data, env);
   expand_in_file(data, env);
   expand_out_file(data, env);
-  i = 0;
-  while (data)
-  {
-    i = 0;
-    while (data->args && data->args[i])
-    {
-      printf("cmd = %s\n", data->args[i]);
-      i++;
-    }
-    while (data->in_files) 
-    {
-      printf("red = %s, file = %s\n", data->in_files->redirection, data->in_files->file);
-      data->in_files = data->in_files->next;
-    }
-    while (data->out_files) 
-    {
-      printf("red = %s, file = %s\n", data->out_files->redirection, data->out_files->file);
-      data->out_files = data->out_files->next;
-    }
-    data = data->next;
-    if (data != NULL)
-      printf("|\n");
-  }
+  // i = 0;
+  // while (data)
+  // {
+  //   i = 0;
+  //   while (data->args && data->args[i])
+  //   {
+  //     printf("cmd = %s\n", data->args[i]);
+  //     i++;
+  //   }
+  //   while (data->in_files) 
+  //   {
+  //     printf("red = %s, file = %s\n", data->in_files->redirection, data->in_files->file);
+  //     data->in_files = data->in_files->next;
+  //   }
+  //   while (data->out_files) 
+  //   {
+  //     printf("red = %s, file = %s\n", data->out_files->redirection, data->out_files->file);
+  //     data->out_files = data->out_files->next;
+  //   }
+  //   data = data->next;
+  //   if (data != NULL)
+  //     printf("|\n");
+  // }
   return (data);
 }
 

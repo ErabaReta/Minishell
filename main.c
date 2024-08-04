@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/23 17:52:49 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:06:58 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 // 	write(1, "\n", 1);
 // }
 
+
 int	ft_lstsize(t_data *lst)
 {
 	if (lst == NULL)
@@ -32,24 +33,25 @@ int	ft_lstsize(t_data *lst)
 	return (1 + ft_lstsize(lst->next));
 }
 
-void	looper(char ***env)
+void	looper(t_env **env)
 {
 	char *str;
 	//int	size;
 	str = readline("minishell $> ");
 	t_data *tmp;
-	(void)env;
+	// (void)env;
 	while (str != NULL)
 	{
 		if (ft_strlen(str) != 2 && str[0] != '\n')
 			add_history(str);
-    tmp = lexer(str, *env);
-		//if(tmp != NULL)
-		//	execution(tmp, ft_lstsize(tmp), env);
+		// tmp = lexer(str, *env);
+		if(tmp != NULL)
+			execution(tmp, ft_lstsize(tmp), env);
 		str = readline("minishell $> ");
 	}
 }
 
+//returns the size of the NULL terminated 2D char pointer
 int	env_size(char **env)
 {
 	int	i;
@@ -87,7 +89,7 @@ int	main(int ac, char **av, char **env)
 	// sigemptyset(&sigact.sa_mask);
 	// if (sigaction(SIGINT, &sigact, NULL) != 0)
 	// 	return (1);
-	char **new_env = put_env_on_heap(env);
+	t_env *new_env = env_table_to_list(env);
 	looper(&new_env);
 	return (0);
 }

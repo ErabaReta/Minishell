@@ -1,3 +1,7 @@
 TODO remove leaks
 TODO also fd leaks must be checked (heredoc ones)
 TODO complete builtins execution
+TODO handle signals
+TODO make env likned list
+TODO protect if execve failed after all by freeying and exiting
+TODO add comments before every function
