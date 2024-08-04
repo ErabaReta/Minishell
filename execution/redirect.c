@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/28 17:01:16 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:26:57 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	open_heredoc(char *limiter)
 	int	i;
 		// printf("the vlimiter==>\"%s\" , ft_strlen(limiter)=>%zu\n", limiter, ft_strlen(limiter));
 	
+	(void)i;
 	i = 0;
 	if (pipe(tmp_file) == -1 )
 	{

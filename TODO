@@ -5,3 +5,6 @@ TODO handle signals
 TODO make env likned list
 TODO protect if execve failed after all by freeying and exiting
 TODO add comments before every function
+TODO expand $$ it gives pid of the parent
+TODO if number of heredoc bigger than 16 return error and exit
+TODO "" OR '' give empty command failed expand give NULL
