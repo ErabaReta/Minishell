@@ -12,6 +12,31 @@
 
 #include "../minishell.h"
 
+void	quote_checker(char *arg, char **res, char **env, int *i)
+{
+	int	end;
+
+	end = 0;
+	if (arg[*i] == '\'')
+	{
+		end = ++(*i);
+		while (arg[end] != '\'' && arg[end])
+			end++;
+		*res = ft_strnjoin(*res, ft_substr(arg, *i, end - *i), 0);
+		if (arg[end] == '\'')
+			*i = ++end;
+	}
+	else if (arg[*i] == '\"')
+	{
+		(*i)++;
+		while (arg[*i] != '\"' && arg[*i])
+			var_to_val(arg, i, res, env);
+		(*i)++;
+	}
+	else
+		var_to_val(arg, i, res, env);
+}
+
 char	*catch_expnad(char *arg, char **env)
 {
 	int		i;
@@ -25,24 +50,7 @@ char	*catch_expnad(char *arg, char **env)
 	exp = NULL;
 	while (arg[i])
 	{
-		if (arg[i] == '\'')
-		{
-			end = ++i;
-			while (arg[end] != '\'' && arg[end])
-				end++;
-			res = ft_strnjoin(res, ft_substr(arg, i, end - i), 0);
-			if (arg[end] == '\'')
-				i = ++end;
-		}
-		else if (arg[i] == '\"')
-		{
-			i++;
-			while (arg[i] != '\"' && arg[i])
-				var_to_val(arg, &i, &res, env);
-			i++;
-		}
-		else
-			var_to_val(arg, &i, &res, env);
+		quote_checker(arg, &res, env, &i);
 	}
 	return (res);
 }
