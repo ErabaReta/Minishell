@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:47:08 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 19:21:01 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/04 21:08:27 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,28 +33,23 @@ char	*check_relative_path( char *file)
 	}
 }
 //checks if the cmd exist in any path the are in the enveriment (env)
-char	*check_paths(char **env, char *cmd)
+char	*check_paths(t_env *env, char *cmd)
 {
 	int	i;
 	char **paths;
 	char *tmp_path;
 	i = 0;
-	while (env[i] != NULL)
-	{
-		if (ft_strncmp(env[i], "PATH=", 5) == 0)
-			break ;
-		i++;
-	}
-	if (env[i] == NULL)
+	t_env *tmp = env_search(env, "PATH");
+	if (tmp == NULL)
 	{
 		printf("Minishell: command not found: %s\n", cmd);
 		return (NULL);
 	}
-	paths = ft_split(&(env[i][5]), ':');
+	paths = ft_split(tmp->value, ':');
 	i = 0;
 	while (paths[i] != NULL)
 	{
-		tmp_path = ft_strnjoin(ft_strnjoin(paths[i], "/", 0), cmd, 0);//TODO remove leak here
+		tmp_path = ft_strnjoin(ft_strnjoin(paths[i], "/", 0), cmd, 0);//TODO remove leak here an protect failure
 		// printf("%s\n", tmp_path);
 		if (access(tmp_path, F_OK) == 0)
 		{
