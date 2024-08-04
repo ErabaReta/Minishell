@@ -3,3 +3,4 @@ TODO also fd leaks must be checked (heredoc ones)
 TODO complete builtins execution
 TODO expand $$ it gives pid of the parent
 TODO if number of heredoc bigger than 16 return error and exit
+TODO "" OR '' give empty command failed expand give NULL
