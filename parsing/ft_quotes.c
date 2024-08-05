@@ -34,8 +34,8 @@ char	*quotes_remove(char *str)
 				end++;
 			if (str[end] == '\0')
 				return (NULL);
-			cmd = ft_strnjoin(cmd, ft_substr(str, start - 1,
-						(end - start) + 2), 0);
+			cmd = ft_strnjoin(cmd, ft_substr(str, start,
+						(end - start)), 0);
 			start = end + 1;
 		}
 		else
