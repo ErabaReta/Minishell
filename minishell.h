@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 21:57:09 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/05 03:55:40 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_data					*lexer(char *str, char **env);
 int						env_size(char **env);
 t_data					*syntax_error_pipe(t_data *data);
 t_data					*syntax_error_red(t_data *data);
-void					redirection(t_data *data);
+void					redirection(t_data *data, char **env);
 char					*find_expand(char **env, char *find);
 void					expand_out_file(t_data *data, char **env);
 void					expand_in_file(t_data *data, char **env);
@@ -112,7 +112,7 @@ char					*check_paths(t_env *env, char *cmd);
 void					piping(t_data *data, int **pipes, int length, int i);
 void					open_infiles(t_data *data);
 void					open_outfiles(t_data *data);
-int						open_heredoc(char *limiter);
+int						open_heredoc(char *limiter, char **env);
 void	exiter(t_data *data, int code); //-toke as builtin exit too-
 //-- Builtins ------------------------------------------------
 
@@ -142,7 +142,7 @@ void	ft_lstadd_back(t_data **lst, t_data *new);
 t_data  *ft_lstnew();
 int		ft_isalnum(int c);
 t_files_list	*add_last(t_files_list **head, t_files_list *new);
-t_files_list	*make_new(char *redirection, char *file);
+t_files_list	*make_new(char *redirection, char *file, char **env);
 //== env ==========================================================
 
 t_env	*env_table_to_list(char **table);

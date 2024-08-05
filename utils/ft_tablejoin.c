@@ -94,7 +94,7 @@ t_files_list	*add_last(t_files_list **head, t_files_list *new)
 	return (*head);
 }
 
-t_files_list	*make_new(char *redirection, char *file)
+t_files_list	*make_new(char *redirection, char *file, char **env)
 {
 	t_files_list	*new;
 
@@ -102,9 +102,9 @@ t_files_list	*make_new(char *redirection, char *file)
 	new->redirection = ft_strdup(redirection);
 	if (ft_strncmp(redirection, "<<", 3) == 0)
 	{
-		new->heredoc_fd = open_heredoc(file);
+		new->heredoc_fd = open_heredoc(file, env);
 	}
-	new->file = ft_strdup(file);
+	new->file = quotes_remove(ft_strdup(file));
 	new->next = NULL;
 	return (new);
 }
