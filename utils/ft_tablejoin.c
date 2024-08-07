@@ -98,12 +98,9 @@ t_files_list	*make_new(char *redirection, char *file, char **env)
 {
 	t_files_list	*new;
 
+	(void)env;
 	new = (t_files_list *)malloc(sizeof(t_files_list));
 	new->redirection = ft_strdup(redirection);
-	if (ft_strncmp(redirection, "<<", 3) == 0)
-	{
-		new->heredoc_fd = open_heredoc(file, env);
-	}
 	new->file = quotes_remove(ft_strdup(file));
 	new->next = NULL;
 	return (new);

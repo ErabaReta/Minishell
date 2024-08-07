@@ -29,6 +29,7 @@ void	quote_checker(char *arg, char **res, char **env, int *i)
 	else if (arg[*i] == '\"')
 	{
 		(*i)++;
+		*res = ft_strnjoin(*res, ft_strdup(""), 0);
 		while (arg[*i] != '\"' && arg[*i])
 			var_to_val(arg, i, res, env);
 		(*i)++;
