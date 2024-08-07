@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 12:37:20 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:39:04 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	ft_cd(t_data *data, t_env *env);
 void	ft_echo(t_data *data);
 void	ft_unset(t_data *data, t_env **env);
 void	ft_export(t_data *data, t_env **env);
-char	**slice_var_value(char *str);
+t_env	*slice_var_value(char *str);
 //------------------------------------------------------------
 //== Utils ===================================================
 

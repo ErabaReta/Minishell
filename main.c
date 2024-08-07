@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 13:06:55 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:50:33 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ void	looper(t_env **env)
 		str = readline("minishell $> ");
 		if (str == NULL)
 			break;
-		if (ft_strlen(str) != 2 && str[0] != '\n')
-			add_history(str);
+		add_history(str);
 		tmp = lexer(str, env_list_to_table(*env));
 		if(tmp != NULL)
 			execution(tmp, ft_lstsize(tmp), env);
+		free_all_heap();
 	}
 }
 

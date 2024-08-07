@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:43:18 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 17:39:07 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:43:48 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_export(t_data *data, t_env **env)
 {
 	int	i;
 	int	validity;
-	char	**var_and_value;
+	t_env *var_and_value;
 	t_env	*tmp;
 
 	if (data->args[1] == NULL)
@@ -69,20 +69,20 @@ void	ft_export(t_data *data, t_env **env)
 		else  // doesn't contain '=' || //contains '=' || // contains +=
 		{
 			var_and_value = slice_var_value(data->args[i]);
-			tmp = env_search(*env, var_and_value[0]);
+			tmp = env_search(*env, var_and_value->var);
 			if (tmp == NULL)
 			{
-				tmp = env_new_node(var_and_value[0], var_and_value[1]);
-				env_lst_addback(env, tmp);
+				// tmp = env_new_node(var_and_value->, var_and_value[1]);
+				env_lst_addback(env, var_and_value);
 			}
 			else
 			{
-				if (var_and_value[1] != NULL )
+				if (var_and_value->value != NULL )
 				{
 					if (validity == 2 || validity == 0)// doesn't contain '=' || //contains '='
-						tmp->value = var_and_value[1];
+						tmp->value = var_and_value->value;
 					else if (validity == 1) // contains +=
-						tmp->value = ft_strnjoin(tmp->value, var_and_value[1], 0);
+						tmp->value = ft_strnjoin(tmp->value, var_and_value->value, 0);
 				}
 			}
 		}

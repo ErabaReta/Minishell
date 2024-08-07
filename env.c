@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:07:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 11:13:43 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:03:40 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,31 @@
 
 
 // it splits str int 2d char pointer by '=' ir '+' , you find variable in indice 0 and value in indice 1 , if there is no value it puts NULL instead
-char **slice_var_value(char *str)
+t_env *slice_var_value(char *str)
 {
 	int	i;
 	int	count;
-	char	**var_and_value;
+	// char	**var_and_value;
+	char *var;
+	char *value;
 	int	j;
 
 	i = 0;
 	count = 0;
-	var_and_value = (char **)malloc(sizeof(char *) * 2);
+	// var_and_value = (char **)malloc(sizeof(char *) * 2);
 	while (str[i] != '\0' && str[i] != '+' && str[i] != '=')
 	{
 		count++;
 		i++;
 	}
-	var_and_value[0] = (char *)malloc(sizeof(char) * (count + 1));
+	var = (char *)malloc(sizeof(char) * (count + 1));
 	j = 0;
 	while (j < count)
 	{
-		var_and_value[0][j] = str[j];
+		var[j] = str[j];
 		j++;
 	}
-	var_and_value[0][j] = '\0';
+	var[j] = '\0';
 	/////////////////////////////
 	if (str[i] == '=')
 		i++;
@@ -44,8 +46,8 @@ char **slice_var_value(char *str)
 		i+=2;
 	else if (str[i] == '\0')
 	{
-		var_and_value[1] = NULL;
-		return (var_and_value);
+		value = NULL;
+		return (env_new_node(var, value));
 	}
 	count = 0;
 	while (str[i] != '\0')
@@ -53,16 +55,16 @@ char **slice_var_value(char *str)
 		count++;
 		i++;
 	}
-	var_and_value[1] = (char *)malloc(sizeof(char) * (count + 1));
+	value = (char *)malloc(sizeof(char) * (count + 1));
 	j = 0;
 	while (j < count)
 	{
-		var_and_value[1][j] = str[i - count];
+		value[j] = str[i - count];
 		j++;
 		i++;
 	}
-	var_and_value[1][j] = '\0';
-	return (var_and_value);
+	value[j] = '\0';
+	return (env_new_node(var, value));
 }
 // returns the last node of the list, NULL if empty or on error
 t_env	*env_lstlast(t_env *env)
@@ -106,22 +108,48 @@ t_env	*env_table_to_list(char **table)
 	int	i;
 	t_env	*tmp;
 	t_env	*head;
-	char **splitted_var;
+	// char **splitted_var;
 
 	i = 0;
 	head = NULL;
 	while (table[i] != NULL)
 	{
-		splitted_var = slice_var_value(table[i]); // if slice_var_value controled by gc, strdup it instead
-		tmp = env_new_node(ft_strdup(splitted_var[0]), ft_strdup(splitted_var[1]));
+		tmp = slice_var_value(table[i]); // if slice_var_value controled by gc, strdup it instead
+		// tmp = env_new_node(ft_strdup(splitted_var[0]), ft_strdup(splitted_var[1]));
 		env_lst_addback(&head, tmp);
-		free(splitted_var[0]);
-		free(splitted_var[1]);
-		free(splitted_var);
+		// free(splitted_var[0]);
+		// free(splitted_var[1]);
+		// free(splitted_var);
 		i++;
 	}
 	return (head);
 }
+char *env_join_var_value(char *var, char *value)
+{
+	char *var_value;
+	int	i;
+	int	j;
+
+	var_value = (char *)mallocate(sizeof(char) * (ft_strlen(var) + ft_strlen(value) + 2));//////////
+	i = 0;
+	while (var[i] != '\0')
+	{
+		var_value[i] = var[i];
+		i++;
+	}
+	var_value[i] = '=';
+	i++;
+	j = 0;
+	while (value[j] != '\0')
+	{
+		var_value[i + j] = value[j];
+		j++;
+	}
+	var_value[i + j] = '\0';
+	return (var_value);
+	
+}
+
 // turns a linked list into 2D chars
 char	**env_list_to_table(t_env *head)
 { 
@@ -138,15 +166,14 @@ char	**env_list_to_table(t_env *head)
 			count++;
 		tmp = tmp->next;
 	}
-	table = (char **)malloc(sizeof(char *) * (count + 1));
+	table = (char **)mallocate(sizeof(char *) * (count + 1));///////////
 	tmp = head;
 	i = 0;
 	while (tmp != NULL)
 	{
 		if (tmp->value != NULL)
 		{
-			table[i] = ft_strnjoin(ft_strnjoin(tmp->var, "=", 0), tmp->value, 0);
-			// printf("'%s'\n", table[i]);
+			table[i] = env_join_var_value(tmp->var, tmp->value);
 			i++;
 		}
 		tmp = tmp->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/07 11:33:35 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:47:22 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_data	*ft_split_args(char *str, int *i)
 	start = *i;
 	end = 0;
 	data = ft_lstnew();
-	args = (char **)malloc(sizeof(char *));
+	args = (char **)mallocate(sizeof(char *));
 	args[0] = NULL;
 	while (str[start] && str[start] != '|')
 	{

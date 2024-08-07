@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 21:12:16 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:47:18 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ void execution(t_data *data, int length, t_env **env)
 		return ;
 	}
 	if (length >= 2) // if there is no '|' in the cmd there is no need to create pipe
-		pipes = (int **)malloc(sizeof(int *) * (length - 1));
+		pipes = (int **)mallocate(sizeof(int *) * (length - 1));
 	i = 0;
 	while (i < length - 1) // allocating needed pipes and open them all (we will close the ones we dont need later)
 	{
-		pipes[i] = (int *)malloc(sizeof(int) * 2);
+		pipes[i] = (int *)mallocate(sizeof(int) * 2);
 		if (pipe(pipes[i]) == -1)
 		{
 			printf("error : cant create pipe %d\n", i + 1);
@@ -93,8 +93,12 @@ void execution(t_data *data, int length, t_env **env)
 				if (tmp->out_files != NULL)
 					open_outfiles(tmp);
 			}
-			check_builtins(tmp, 0, env);
-			execute_cmd(tmp, *env);
+			if (tmp->args != NULL)
+			{
+				check_builtins(tmp, 0, env);
+				execute_cmd(tmp, *env);
+			}
+			exiter(tmp, 1);
 		}
 		tmp = tmp->next;
 		i++;

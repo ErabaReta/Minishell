@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 16:29:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 17:49:04 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:47:45 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strcut(char const *str, int len)
 	i = 0;
 	if (len == 0)
 		return (ft_strdup(str));
-	res = (char *)malloc(len + 1);
+	res = (char *)mallocate(len + 1);
 	while (str[i] && i < len)
 	{
 		res[i] = str[i];
@@ -51,7 +51,7 @@ char	*ft_strnjoin(char const *s1, char const *s2, size_t len)
 		return (null_arg(s1, s2, len));
 	if (len == 0)
 		len = ft_strlen(s2);
-	ptr = (char *)malloc((ft_strlen(s1) + (len + 1)) * sizeof(char));
+	ptr = (char *)mallocate((ft_strlen(s1) + (len + 1)) * sizeof(char));
 	if (ptr == NULL)
 		return (NULL);
 	i = 0;
