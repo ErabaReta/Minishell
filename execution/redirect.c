@@ -3,34 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 17:26:57 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/05 05:05:42 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	open_heredoc(char *limiter)
+int	open_heredoc(char *limiter, char **env)
 {
+	char	*res;
 	int	tmp_file[2];
 	int	i;
-		// printf("the vlimiter==>\"%s\" , ft_strlen(limiter)=>%zu\n", limiter, ft_strlen(limiter));
-	
-	(void)i;
-	i = 0;
+	int	exp;
+
+	exp = 1;
 	if (pipe(tmp_file) == -1 )
-	{
 			printf("error : cant create pipe in here docement\n");
+	if (limiter[0] == '\"' || limiter[0] == '\'')
+	{
+		exp = 0;
+		limiter = quotes_remove(limiter);
 	}
 	char *str = readline("HereDoc > ");
-
 	while (str != NULL && ft_strncmp(limiter, str, ft_strlen(limiter)) != 0)
 	{
-		// printf("==>\"%s\", ft_strlen(str)=>%zu\n", str, ft_strlen(str));
-		write(tmp_file[PIPE_INPUT], str, ft_strlen(str));
-		write(tmp_file[PIPE_INPUT], "\n", 1);
+		i = 0;
+		res = NULL;
+		if (exp == 1)
+		{
+			while (str[i])
+				var_to_val(str, &i, &res, env);
+			write(tmp_file[PIPE_INPUT], res, ft_strlen(res));
+			write(tmp_file[PIPE_INPUT], "\n", 1);
+		}
+		else
+		{
+			write(tmp_file[PIPE_INPUT], str, ft_strlen(str));
+			write(tmp_file[PIPE_INPUT], "\n", 1);
+		}
 		str = readline("HereDoc > ");
 	}
 	close(tmp_file[PIPE_INPUT]); // ?

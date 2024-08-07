@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	red_checker(char **reds, int *i, t_data *data, int *passed)
+void	red_checker(char **reds, int *i, t_data *data, int *passed, char **env)
 {
 	int	j;
 
@@ -23,14 +23,14 @@ void	red_checker(char **reds, int *i, t_data *data, int *passed)
 		{
 			*passed = 1;
 			data->in_files = add_last(&data->in_files,
-					make_new(data->args[*i], data->args[*i + 1]));
+					make_new(data->args[*i], data->args[*i + 1], env));
 			*i = *i + 1;
 		}
 		j++;
 	}
 }
 
-void	redirection(t_data *data)
+void	redirection(t_data *data, char **env)
 {
 	int		i;
 	int		passed;
@@ -47,8 +47,8 @@ void	redirection(t_data *data)
 		cmds = NULL;
 		while (data->args && data->args[i])
 		{
-			red_checker(reds_in, &i, data, &passed);
-			red_checker(reds_out, &i, data, &passed);
+			red_checker(reds_in, &i, data, &passed, env);
+			red_checker(reds_out, &i, data, &passed, env);
 			if (passed == -1)
 				cmds = ft_tablejoin(cmds, data->args[i]);
 			passed = -1;

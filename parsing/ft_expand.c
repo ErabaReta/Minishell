@@ -127,6 +127,8 @@ void	expand_in_file(t_data *data, char **env)
 					data->in_files->file = ft_strdup(res);
 				res = NULL;
 			}
+			else
+				data->in_files->heredoc_fd = open_heredoc(data->in_files->file, env);
 			data->in_files = data->in_files->next;
 		}
 		data->in_files = tmp;
@@ -147,6 +149,11 @@ void	expand(t_data *data, char **env)
 		{
 			res = catch_expnad(data->args[i], env);
 			data->args[i] = ft_strdup(res);
+			if (i > 0 && data->args[i - 1] == NULL)
+			{
+				data->args[i - 1] = data->args[i];
+				data->args[i] = NULL;
+			}
 			res = NULL;
 			i++;
 		}

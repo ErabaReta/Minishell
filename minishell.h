@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 12:17:17 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:37:20 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,7 @@ void	ft_close(int fd);
 void					redirector(t_data *data, char *cmd);
 t_data					*lexer(char *str, char **env);
 int						env_size(char **env);
-t_data					*syntax_error_pipe(t_data *data);
-t_data					*syntax_error_red(t_data *data);
-void					redirection(t_data *data);
+void					redirection(t_data *data, char **env);
 char					*find_expand(char **env, char *find);
 void					expand_out_file(t_data *data, char **env);
 void					expand_in_file(t_data *data, char **env);
@@ -113,6 +111,10 @@ void					expand(t_data *data, char **env);
 char					*quotes_remove(char *str);
 void					var_to_val(char *arg, int *i, char **res, char **env);
 char					*catch_expnad(char *arg, char **env);
+//===Syntax_error============================================
+t_data					*syntax_error_pipe(t_data *data);
+t_data					*syntax_error_red(t_data *data);
+t_data					*syntax_error_her(t_data *data);
 	//==================testing $_ ===================================
 	
 char	*last_arg(char *last_arg);
@@ -125,7 +127,7 @@ char					*check_paths(t_env *env, char *cmd);
 void					piping(t_data *data, int **pipes, int length, int i);
 void					open_infiles(t_data *data);
 void					open_outfiles(t_data *data);
-int						open_heredoc(char *limiter);
+int						open_heredoc(char *limiter, char **env);
 void	exiter(t_data *data, int code); //-toke as builtin exit too-
 //-- Builtins ------------------------------------------------
 
@@ -155,7 +157,7 @@ void	ft_lstadd_back(t_data **lst, t_data *new);
 t_data  *ft_lstnew();
 int		ft_isalnum(int c);
 t_files_list	*add_last(t_files_list **head, t_files_list *new);
-t_files_list	*make_new(char *redirection, char *file);
+t_files_list	*make_new(char *redirection, char *file, char **env);
 //== env ==========================================================
 
 t_env	*env_table_to_list(char **table);
