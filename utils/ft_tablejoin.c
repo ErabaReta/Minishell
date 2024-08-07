@@ -101,7 +101,10 @@ t_files_list	*make_new(char *redirection, char *file, char **env)
 	(void)env;
 	new = (t_files_list *)malloc(sizeof(t_files_list));
 	new->redirection = ft_strdup(redirection);
-	new->file = quotes_remove(ft_strdup(file));
+	if (ft_strncmp(redirection, "<<", 2) != 0)
+		new->file = quotes_remove(ft_strdup(file));
+	else
+		new->file = ft_strdup(file);
 	new->next = NULL;
 	return (new);
 }
