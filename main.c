@@ -6,22 +6,21 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 11:32:50 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/07 13:06:55 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// # include <signal.h>
 
+int	signal_num(int signal)
+{
+	static	int	num;
 
-// void	sigint_handler(int sig, siginfo_t *info, void *context)
-// {
-// 	(void)info;
-// 	(void)sig;
-// 	(void)context;
-	
-// 	write(1, "\n", 1);
-// }
+	num = 1;
+	if (signal != -1)
+		num = signal;
+	return (num);
+}
 
 
 int	ft_lstsize(t_data *lst)
@@ -36,18 +35,20 @@ int	ft_lstsize(t_data *lst)
 void	looper(t_env **env)
 {
 	char *str;
-	//int	size;
-	str = readline("minishell $> ");
 	t_data *tmp;
-	// (void)env;
-	while (str != NULL)
+
+	signal_num(1);
+	str = NULL;
+	while (1)
 	{
+		str = readline("minishell $> ");
+		if (str == NULL)
+			break;
 		if (ft_strlen(str) != 2 && str[0] != '\n')
 			add_history(str);
 		tmp = lexer(str, env_list_to_table(*env));
 		if(tmp != NULL)
 			execution(tmp, ft_lstsize(tmp), env);
-		str = readline("minishell $> ");
 	}
 }
 
@@ -78,20 +79,30 @@ char **put_env_on_heap(char **env)
 	return (new_env);
 }
 
+void signal_handler(int sig, siginfo_t *info, void *context)
+{
+	(void)info;
+	(void)context;
+	(void)sig;
+	if (sig == SIGINT)
+	{
+		rl_on_new_line();
+		write(1, "\n", 1);
+		rl_redisplay();
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	t_malloc	*malloc_list;
+	struct sigaction	sigact;
 
-	(void)malloc_list;
-	// struct sigaction	sigact;
-
-	// sigact.sa_sigaction = sigint_handler;
-	// sigact.sa_flags = SA_SIGINFO;
-	// sigemptyset(&sigact.sa_mask);
-	// if (sigaction(SIGINT, &sigact, NULL) != 0)
-	// 	return (1);
+	sigact.sa_sigaction = signal_handler;
+	sigact.sa_flags = SA_SIGINFO;
+	sigemptyset(&sigact.sa_mask);
+	if (sigaction(SIGINT, &sigact, NULL) != 0)
+		return (1);
 	 t_env *new_env = env_table_to_list(env);
 	looper(&new_env);
 	return (0);
