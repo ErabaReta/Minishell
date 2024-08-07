@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/05 05:07:57 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:32:50 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	looper(t_env **env)
 		if (ft_strlen(str) != 2 && str[0] != '\n')
 			add_history(str);
 		tmp = lexer(str, env_list_to_table(*env));
-		// if(tmp != NULL)
-		// 	execution(tmp, ft_lstsize(tmp), env);
+		if(tmp != NULL)
+			execution(tmp, ft_lstsize(tmp), env);
 		str = readline("minishell $> ");
 	}
 }
