@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 13:06:55 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:12:26 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ void	looper(t_env **env)
 		str = readline("minishell $> ");
 		if (str == NULL)
 			break;
-		if (ft_strlen(str) != 2 && str[0] != '\n')
-			add_history(str);
+		add_history(str);
 		tmp = lexer(str, env_list_to_table(*env));
 		if(tmp != NULL)
 			execution(tmp, ft_lstsize(tmp), env);
@@ -86,8 +85,9 @@ void signal_handler(int sig, siginfo_t *info, void *context)
 	(void)sig;
 	if (sig == SIGINT)
 	{
-		rl_on_new_line();
 		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line ("", 0);
 		rl_redisplay();
 	}
 }
