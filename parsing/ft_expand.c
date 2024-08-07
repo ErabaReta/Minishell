@@ -127,6 +127,8 @@ void	expand_in_file(t_data *data, char **env)
 					data->in_files->file = ft_strdup(res);
 				res = NULL;
 			}
+			else
+				data->in_files->heredoc_fd = open_heredoc(data->in_files->file, env);
 			data->in_files = data->in_files->next;
 		}
 		data->in_files = tmp;

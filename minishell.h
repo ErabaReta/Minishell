@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/05 03:55:40 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/07 10:38:10 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ void					free_allocator(t_malloc **list);
 void					redirector(t_data *data, char *cmd);
 t_data					*lexer(char *str, char **env);
 int						env_size(char **env);
-t_data					*syntax_error_pipe(t_data *data);
-t_data					*syntax_error_red(t_data *data);
 void					redirection(t_data *data, char **env);
 char					*find_expand(char **env, char *find);
 void					expand_out_file(t_data *data, char **env);
@@ -100,6 +98,10 @@ void					expand(t_data *data, char **env);
 char					*quotes_remove(char *str);
 void					var_to_val(char *arg, int *i, char **res, char **env);
 char					*catch_expnad(char *arg, char **env);
+//===Syntax_error============================================
+t_data					*syntax_error_pipe(t_data *data);
+t_data					*syntax_error_red(t_data *data);
+t_data					*syntax_error_her(t_data *data);
 	//==================testing $_ ===================================
 	
 char	*last_arg(char *last_arg);

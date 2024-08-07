@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/05 05:23:06 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:09:28 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,16 @@ t_data	*ft_split_args(char *str, int *i)
 					end++;
 					while (str[end] != quote && str[end])
 						end++;
+					if (str[end] == '\0')
+						return (NULL);
 				}
-				if (str[end])
-					end++;
+				end++;
 			}
 			cmd = ft_substr(str, start, end - start);
 			if (cmd == NULL)
 				return (NULL);
 			start = end;
 			args = ft_tablejoin(args, cmd);
-			free(cmd);
 		}
 	}
 	if (str[start] == '|')
@@ -106,9 +106,11 @@ t_data	*lexer(char *str, char **env)
 		}
 		ft_lstadd_back(&data, new);
 	}
-	if (syntax_error_pipe(data) == NULL || syntax_error_red(data) == NULL)
+	if (!syntax_error_pipe(data) || !syntax_error_red(data))
 		return (NULL);
 	redirection(data, env);
+	if (!syntax_error_her(data))
+		return (NULL);
 	expand(data, env);
 	expand_in_file(data, env);
 	expand_out_file(data, env);
