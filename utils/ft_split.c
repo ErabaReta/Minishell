@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 15:56:47 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 03:12:35 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:47:38 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ size_t	count_words(char const *s, char c)
 static void	*extracter(char *ptr, size_t *end_index, size_t *start_index,
 		const char *s)
 {
-	ptr = (char *)malloc(sizeof(char) * (*end_index - *start_index + 1));
+	ptr = (char *)mallocate(sizeof(char) * (*end_index - *start_index + 1));
 	if (ptr == NULL)
 		return (NULL);
 	ft_memmove(ptr, s + *start_index, *end_index - *start_index);
@@ -71,7 +71,7 @@ char	**ft_split(char const *s, char c)
 	size_t	end_index;
 
 	i = count_words(s, c);
-	ptr = (char **)malloc((i + 1) * sizeof(char *));
+	ptr = (char **)mallocate((i + 1) * sizeof(char *));
 	if (ptr == NULL)
 		return (NULL);
 	i = 0;
