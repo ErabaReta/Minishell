@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 19:22:49 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:10:11 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	check_builtins(t_data *data, int is_parent, t_env **env)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
 			open_outfiles(data);
-		ft_cd(data);
+		ft_cd(data, *env);
 		// exiter(data, 0);
 	}
 	else if (ft_strncmp(data->args[0], "echo", 5) == 0)
