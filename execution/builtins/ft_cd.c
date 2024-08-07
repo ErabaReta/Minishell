@@ -6,14 +6,34 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:19:43 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/09 20:48:59 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/06 21:30:06 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_cd(t_data *data)
+
+void	ft_cd(t_data *data, t_env *env)
 {
-	if (data->args[1] != NULL)
+	t_env	*tmp;
+
+	if (data->args[1] == NULL)
+	{
+		// go home by $HOME
+		tmp = env_search(env, "HOME");
+		if (tmp == NULL)
+			return ;
+		chdir(tmp->value);
+	}
+	else if (data->args[2] != NULL)
+	{
+		// err cd takes only one arg
+		printf("minishell: cd: too many arguments\n");
+		return ;
+	}
+	else
+	{
+		// go to path
 		chdir(data->args[1]);
+	}
 }
