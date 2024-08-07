@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 21:57:09 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:17:17 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,26 @@ typedef struct s_heap
 	struct s_heap	*next;
 }						t_heap;
 
+typedef	struct s_fd
+{
+	int	fd;
+	struct s_fd	*next;
+}	t_fd;
+
+
 
 //== Garbage Collector ======================================
 
-void					add_front(t_malloc **list, t_malloc *node);
-t_malloc				*new_node(void *ptr);
-void					*allocator(int size, int time, t_malloc *malloc_list);
-void					free_allocator(t_malloc **list);
+void	*mallocate(size_t	size);
+void	free_all_heap();
+void	ft_free(void *ptr);
+void	store_fd(int fd);
+void	clean_pool();
+void	ft_close(int fd);
+// void					add_front(t_malloc **list, t_malloc *node);
+// t_malloc				*new_node(void *ptr);
+// void					*allocator(int size, int time, t_malloc *malloc_list);
+// void					free_allocator(t_malloc **list);
 
 //== Parsing =================================================
 
@@ -119,7 +132,7 @@ void	exiter(t_data *data, int code); //-toke as builtin exit too-
 int		check_builtins(t_data *data, int is_parent, t_env **env);
 void	ft_env(char **env);
 void	ft_pwd(void);
-void	ft_cd(t_data *data);
+void	ft_cd(t_data *data, t_env *env);
 void	ft_echo(t_data *data);
 void	ft_unset(t_data *data, t_env **env);
 void	ft_export(t_data *data, t_env **env);

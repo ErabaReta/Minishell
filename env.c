@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:07:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 20:05:56 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:13:43 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ t_env	*env_table_to_list(char **table)
 }
 // turns a linked list into 2D chars
 char	**env_list_to_table(t_env *head)
-{
+{ 
 	int	count;
 	t_env	*tmp;
 	char	**table;
