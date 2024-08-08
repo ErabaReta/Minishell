@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:07:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 16:03:40 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/07 20:00:50 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,6 @@ char *env_join_var_value(char *var, char *value)
 	}
 	var_value[i + j] = '\0';
 	return (var_value);
-	
 }
 
 // turns a linked list into 2D chars

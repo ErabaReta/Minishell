@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 15:50:33 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:44:31 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	signal_num(int signal)
 		num = signal;
 	return (num);
 }
-
 
 int	ft_lstsize(t_data *lst)
 {
@@ -46,38 +45,39 @@ void	looper(t_env **env)
 			break;
 		add_history(str);
 		tmp = lexer(str, env_list_to_table(*env));
-		if(tmp != NULL)
+		if (tmp != NULL)
 			execution(tmp, ft_lstsize(tmp), env);
 		free_all_heap();
 	}
+	free_all_heap();
 }
 
-//returns the size of the NULL terminated 2D char pointer
-int	env_size(char **env)
-{
-	int	i;
+// //returns the size of the NULL terminated 2D char pointer
+// int	env_size(char **env)
+// {
+// 	int	i;
 
-	i = 0;
-	while (env[i] != NULL)
-		i++;
-	return (i);
-}
+// 	i = 0;
+// 	while (env[i] != NULL)
+// 		i++;
+// 	return (i);
+// }
 
-char **put_env_on_heap(char **env)
-{
-	char	**new_env;
-	int		i;
-	
-	new_env = (char **)malloc(sizeof(char *) * (env_size(env) + 1));// TODO check if malloc failed
-	i = 0;
-	while (i < env_size(env))
-	{
-		new_env[i] = ft_strdup(env[i]);
-		i++;
-	}
-	new_env[i] = NULL;
-	return (new_env);
-}
+// char **put_env_on_heap(char **env)
+// {
+// 	char	**new_env;
+// 	int		i;
+
+// 	new_env = (char **)malloc(sizeof(char *) * (env_size(env) + 1));// TODO check if malloc failed
+// 	i = 0;
+// 	while (i < env_size(env))
+// 	{
+// 		new_env[i] = ft_strdup(env[i]);
+// 		i++;
+// 	}
+// 	new_env[i] = NULL;
+// 	return (new_env);
+// }
 
 void signal_handler(int sig, siginfo_t *info, void *context)
 {

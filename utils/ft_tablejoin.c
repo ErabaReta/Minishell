@@ -48,10 +48,10 @@ void	free_table(char **args)
 	i = 0;
 	while (args && args[i])
 	{
-		free(args[i]);
+		ft_free(args[i]);
 		i++;
 	}
-	free(args);
+	ft_free(args);
 }
 
 void	del_elem_char(t_data *data, int i)
