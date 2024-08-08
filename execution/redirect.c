@@ -6,51 +6,11 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 15:34:25 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/07 18:45:28 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	open_heredoc(char *limiter, char **env)
-{
-	char	*res;
-	int	tmp_file[2];
-	int	i;
-	int	exp;
-	char *str;
-
-	exp = 1;
-	if (pipe(tmp_file) == -1 )
-			printf("error : cant create pipe in here docement\n");
-	if (limiter[0] == '\"' || limiter[0] == '\'')
-	{
-		exp = 0;
-		limiter = quotes_remove(limiter);
-	}
-	while (1)
-	{
-		str = readline("HereDoc > ");
-		i = 0;
-		res = ft_strdup("");
-		if (str == NULL || !ft_strncmp(limiter, str, ft_strlen(limiter)))
-			break ;
-		if (exp == 1)
-		{
-			while (str[i])
-				var_to_val(str, &i, &res, env);
-			write(tmp_file[PIPE_INPUT], res, ft_strlen(res));
-			write(tmp_file[PIPE_INPUT], "\n", 1);
-		}
-		else
-		{
-			write(tmp_file[PIPE_INPUT], str, ft_strlen(str));
-			write(tmp_file[PIPE_INPUT], "\n", 1);
-		}
-	}
-	close(tmp_file[PIPE_INPUT]); // ?
-	return (tmp_file[PIPE_OUTPUT]);
-}
 
 //opens the file after checking it existence and its permission then redirect the standard intput to it
 void	open_infiles(t_data *data)

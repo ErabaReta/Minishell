@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 12:37:20 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/08 16:25:06 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ typedef	struct s_fd
 }	t_fd;
 
 
-
+//======main==============================
+void	looper(t_env **env);
 //== Garbage Collector ======================================
 
 void	*mallocate(size_t	size);
@@ -111,6 +112,8 @@ void					expand(t_data *data, char **env);
 char					*quotes_remove(char *str);
 void					var_to_val(char *arg, int *i, char **res, char **env);
 char					*catch_expnad(char *arg, char **env);
+int						is_herdoc(int status);
+int						open_heredoc(char *limiter, char **env);
 //===Syntax_error============================================
 t_data					*syntax_error_pipe(t_data *data);
 t_data					*syntax_error_red(t_data *data);
@@ -127,7 +130,6 @@ char					*check_paths(t_env *env, char *cmd);
 void					piping(t_data *data, int **pipes, int length, int i);
 void					open_infiles(t_data *data);
 void					open_outfiles(t_data *data);
-int						open_heredoc(char *limiter, char **env);
 void	exiter(t_data *data, int code); //-toke as builtin exit too-
 //-- Builtins ------------------------------------------------
 
