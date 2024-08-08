@@ -22,14 +22,14 @@ char	**ft_tablejoin(char **table, char *new)
 		return (table);
 	if (table == NULL)
 	{
-		res = (char **)malloc(sizeof(char *) * 2);
+		res = (char **)mallocate(sizeof(char *) * 2);
 		res[0] = ft_strdup(new);
 		res[1] = NULL;
 		return (res);
 	}
 	while (table[i])
 		i++;
-	res = (char **)malloc(sizeof(char *) * (i + 2));
+	res = (char **)mallocate(sizeof(char *) * (i + 2));
 	i = 0;
 	while (table[i])
 	{
@@ -48,10 +48,10 @@ void	free_table(char **args)
 	i = 0;
 	while (args && args[i])
 	{
-		free(args[i]);
+		ft_free(args[i]);
 		i++;
 	}
-	free(args);
+	ft_free(args);
 }
 
 void	del_elem_char(t_data *data, int i)
@@ -64,7 +64,7 @@ void	del_elem_char(t_data *data, int i)
 	size = 0;
 	while (data->args[size])
 		size++;
-	new = (char **)malloc((sizeof(char *) * size) - 1);
+	new = (char **)mallocate((sizeof(char *) * size) - 1);
 	size = 0;
 	while (data->args[size])
 	{
@@ -99,7 +99,7 @@ t_files_list	*make_new(char *redirection, char *file, char **env)
 	t_files_list	*new;
 
 	(void)env;
-	new = (t_files_list *)malloc(sizeof(t_files_list));
+	new = (t_files_list *)mallocate(sizeof(t_files_list));
 	new->redirection = ft_strdup(redirection);
 	if (ft_strncmp(redirection, "<<", 2) != 0)
 		new->file = quotes_remove(ft_strdup(file));

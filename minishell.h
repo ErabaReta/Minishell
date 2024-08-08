@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 16:25:06 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/08 16:34:43 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void	ft_cd(t_data *data, t_env *env);
 void	ft_echo(t_data *data);
 void	ft_unset(t_data *data, t_env **env);
 void	ft_export(t_data *data, t_env **env);
-char	**slice_var_value(char *str);
+t_env	*slice_var_value(char *str);
 //------------------------------------------------------------
 //== Utils ===================================================
 

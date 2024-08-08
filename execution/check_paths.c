@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:47:08 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/04 21:08:27 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/08 13:12:32 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ char	*check_paths(t_env *env, char *cmd)
 	t_env *tmp = env_search(env, "PATH");
 	if (tmp == NULL)
 	{
-		printf("Minishell: command not found: %s\n", cmd);
-		return (NULL);
+		// check if it is in the dir
+		return (check_relative_path(ft_strnjoin("./", cmd, 0)));
 	}
 	paths = ft_split(tmp->value, ':');
 	i = 0;
@@ -59,12 +59,12 @@ char	*check_paths(t_env *env, char *cmd)
 			{
 				printf("minishell: permission denied: %s\n", cmd);
 				//TODO freee <----------------------
-				free(tmp_path);
+				ft_free(tmp_path);
 				return (NULL);
 			}
 		}
 		i++;
-		free(tmp_path);
+		ft_free(tmp_path);
 	}
 	printf("Minishell: command not found: %s\n", cmd);
 	return (NULL);
