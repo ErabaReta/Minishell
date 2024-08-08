@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 11:26:23 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:34:25 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	open_heredoc(char *limiter, char **env)
 	int	tmp_file[2];
 	int	i;
 	int	exp;
+	char *str;
 
 	exp = 1;
 	if (pipe(tmp_file) == -1 )
@@ -27,11 +28,13 @@ int	open_heredoc(char *limiter, char **env)
 		exp = 0;
 		limiter = quotes_remove(limiter);
 	}
-	char *str = readline("HereDoc > ");
-	while (str != NULL && ft_strncmp(limiter, str, ft_strlen(limiter)) != 0)
+	while (1)
 	{
+		str = readline("HereDoc > ");
 		i = 0;
-		res = NULL;
+		res = ft_strdup("");
+		if (str == NULL || !ft_strncmp(limiter, str, ft_strlen(limiter)))
+			break ;
 		if (exp == 1)
 		{
 			while (str[i])
@@ -44,7 +47,6 @@ int	open_heredoc(char *limiter, char **env)
 			write(tmp_file[PIPE_INPUT], str, ft_strlen(str));
 			write(tmp_file[PIPE_INPUT], "\n", 1);
 		}
-		str = readline("HereDoc > ");
 	}
 	close(tmp_file[PIPE_INPUT]); // ?
 	return (tmp_file[PIPE_OUTPUT]);
