@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 15:44:31 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/08 16:26:12 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ void signal_handler(int sig, siginfo_t *info, void *context)
 	(void)sig;
 	if (sig == SIGINT)
 	{
-		rl_on_new_line();
 		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line ("", 0);
 		rl_redisplay();
 	}
 }
