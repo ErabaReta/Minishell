@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 15:13:22 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:27:01 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 // checks is the cmd is builtin than execute it
-int	check_builtins(t_data *data, int is_parent, t_env **env)
+int	check_builtins(t_data *data, int is_parent)
 {
 	int	fd[2];
 
@@ -45,7 +45,7 @@ int	check_builtins(t_data *data, int is_parent, t_env **env)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
 			open_outfiles(data);
-		ft_env(env_list_to_table(*env));
+		ft_env(env_list_to_table());
 		// exiter(data, 0);
 	}
 	else if (ft_strncmp(data->args[0], "exit", 5) == 0)
@@ -60,7 +60,7 @@ int	check_builtins(t_data *data, int is_parent, t_env **env)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
 			open_outfiles(data);
-		ft_cd(data, *env);
+		ft_cd(data);
 		// exiter(data, 0);
 	}
 	else if (ft_strncmp(data->args[0], "echo", 5) == 0)
@@ -78,7 +78,7 @@ int	check_builtins(t_data *data, int is_parent, t_env **env)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
 			open_outfiles(data);
-		ft_unset(data, env);
+		ft_unset(data);
 		// exiter(data, 0);
 	}
 	else if (ft_strncmp(data->args[0], "export", 7) == 0)
@@ -87,7 +87,7 @@ int	check_builtins(t_data *data, int is_parent, t_env **env)
 			open_infiles(data);
 		if (is_parent && data->out_files != NULL)
 			open_outfiles(data);
-		ft_export(data, env);
+		ft_export(data);
 		// exiter(data, 0);
 	}
 	else

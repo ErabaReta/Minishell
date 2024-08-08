@@ -6,21 +6,21 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:19:43 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/06 21:30:06 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:54:41 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 
-void	ft_cd(t_data *data, t_env *env)
+void	ft_cd(t_data *data)
 {
 	t_env	*tmp;
 
 	if (data->args[1] == NULL)
 	{
 		// go home by $HOME
-		tmp = env_search(env, "HOME");
+		tmp = env_search("HOME");
 		if (tmp == NULL)
 			return ;
 		chdir(tmp->value);

@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 16:34:33 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:22:21 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_spec	*get_specials()
+{
+	static t_spec	special_vars;
+
+	return (&special_vars);
+}
 
 int	signal_num(int signal)
 {
@@ -31,7 +38,7 @@ int	ft_lstsize(t_data *lst)
 	return (1 + ft_lstsize(lst->next));
 }
 
-void	looper(t_env **env)
+void	looper()
 {
 	char *str;
 	t_data *tmp;
@@ -44,9 +51,9 @@ void	looper(t_env **env)
 		if (str == NULL)
 			exit(0);
 		add_history(str);
-		tmp = lexer(str, env_list_to_table(*env));
+		tmp = lexer(str, env_list_to_table());
 		if (tmp != NULL)
-			execution(tmp, ft_lstsize(tmp), env);
+			execution(tmp, ft_lstsize(tmp));
 		free_all_heap();
 	}
 	free_all_heap();
@@ -68,7 +75,7 @@ void	looper(t_env **env)
 // 	char	**new_env;
 // 	int		i;
 
-// 	new_env = (char **)malloc(sizeof(char *) * (env_size(env) + 1));// TODO check if malloc failed
+// 	new_env = (char **)malloc(sizeof(char *) * (env_size(env) + 1));
 // 	i = 0;
 // 	while (i < env_size(env))
 // 	{
@@ -98,13 +105,16 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	struct sigaction	sigact;
-
+	t_spec *special_vars;
+	
 	sigact.sa_sigaction = signal_handler;
 	sigact.sa_flags = SA_SIGINFO;
 	sigemptyset(&sigact.sa_mask);
 	if (sigaction(SIGINT, &sigact, NULL) != 0)
 		return (1);
-	 t_env *new_env = env_table_to_list(env);
-	looper(&new_env);
+	
+	special_vars = get_specials();
+	env_table_to_list(env);
+	looper();
 	return (0);
 }

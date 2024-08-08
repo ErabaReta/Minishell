@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:48:12 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 12:33:34 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:22:10 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,19 @@ void	*mallocate(size_t	size)
 {
 	t_heap	*new;
 
-	new = (t_heap *)malloc(sizeof(t_heap)); // TODO protect fail
-	new->ptr = malloc(size);// TODO protect fail
+	new = (t_heap *)malloc(sizeof(t_heap));
+	if (new == NULL)
+	{
+		printf("minishell: allocation failed, exiting ..\n");
+		exiter(NULL, 1);
+	}
+	new->ptr = malloc(size);
+	if (new->ptr == NULL)
+	{
+		free(new);
+		printf("minishell: allocation failed, exiting ..\n");
+		exiter(NULL, 1);
+	}
 	add_to_heap(new);
 	return (new->ptr);
 }

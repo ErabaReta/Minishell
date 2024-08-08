@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:47:08 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 13:12:32 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:22:48 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ char	*check_relative_path( char *file)
 	}
 }
 //checks if the cmd exist in any path the are in the enveriment (env)
-char	*check_paths(t_env *env, char *cmd)
+char	*check_paths(char *cmd)
 {
 	int	i;
 	char **paths;
 	char *tmp_path;
 	i = 0;
-	t_env *tmp = env_search(env, "PATH");
+	t_env *tmp = env_search("PATH");
 	if (tmp == NULL)
 	{
 		// check if it is in the dir
@@ -49,7 +49,7 @@ char	*check_paths(t_env *env, char *cmd)
 	i = 0;
 	while (paths[i] != NULL)
 	{
-		tmp_path = ft_strnjoin(ft_strnjoin(paths[i], "/", 0), cmd, 0);//TODO remove leak here an protect failure
+		tmp_path = ft_strnjoin(ft_strnjoin(paths[i], "/", 0), cmd, 0);
 		// printf("%s\n", tmp_path);
 		if (access(tmp_path, F_OK) == 0)
 		{
@@ -58,7 +58,6 @@ char	*check_paths(t_env *env, char *cmd)
 			else
 			{
 				printf("minishell: permission denied: %s\n", cmd);
-				//TODO freee <----------------------
 				ft_free(tmp_path);
 				return (NULL);
 			}

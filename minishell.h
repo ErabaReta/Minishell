@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 16:34:43 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:54:08 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,16 @@ typedef	struct s_fd
 	struct s_fd	*next;
 }	t_fd;
 
+typedef struct s_spec
+{
+	t_env	*env;
+	int		exit_status;
+} t_spec;
 
 //======main==============================
-void	looper(t_env **env);
+
+t_spec	*get_specials();
+void	looper();
 //== Garbage Collector ======================================
 
 void	*mallocate(size_t	size);
@@ -124,22 +131,22 @@ char	*last_arg(char *last_arg);
 
 	//== Execution ===============================================
 
-void					execution(t_data *data, int length, t_env **env);
+void					execution(t_data *data, int length);
 char					*check_relative_path(char *file);
-char					*check_paths(t_env *env, char *cmd);
+char					*check_paths(char *cmd);
 void					piping(t_data *data, int **pipes, int length, int i);
 void					open_infiles(t_data *data);
 void					open_outfiles(t_data *data);
 void	exiter(t_data *data, int code); //-toke as builtin exit too-
 //-- Builtins ------------------------------------------------
 
-int		check_builtins(t_data *data, int is_parent, t_env **env);
+int		check_builtins(t_data *data, int is_parent);
 void	ft_env(char **env);
 void	ft_pwd(void);
-void	ft_cd(t_data *data, t_env *env);
+void	ft_cd(t_data *data);
 void	ft_echo(t_data *data);
-void	ft_unset(t_data *data, t_env **env);
-void	ft_export(t_data *data, t_env **env);
+void	ft_unset(t_data *data);
+void	ft_export(t_data *data);
 t_env	*slice_var_value(char *str);
 //------------------------------------------------------------
 //== Utils ===================================================
@@ -162,12 +169,12 @@ t_files_list	*add_last(t_files_list **head, t_files_list *new);
 t_files_list	*make_new(char *redirection, char *file, char **env);
 //== env ==========================================================
 
-t_env	*env_table_to_list(char **table);
+void	env_table_to_list(char **table);
 t_env	*env_new_node(char *var, char *value);
-char	**env_list_to_table(t_env *head);
+char	**env_list_to_table();
 t_env	*env_lstlast(t_env *env);
-void	env_lst_addback(t_env **env, t_env *new);
-t_env	*env_search(t_env *env, char *var);
+void	env_lst_addback(t_env *new);
+t_env	*env_search(char *var);
 // char	**slice_var_value(char *str);////
 //=================================================================
 #endif

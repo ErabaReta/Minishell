@@ -6,14 +6,14 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 15:47:18 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:23:01 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 //executes the cmd with its argiments after checking of its existence and its permissions
-void execute_cmd(t_data *data,  t_env *env)
+void execute_cmd(t_data *data)
 {
 	char	*full_cmd;
 	// char	**args;
@@ -25,29 +25,28 @@ void execute_cmd(t_data *data,  t_env *env)
 	}
 	else 
 	{
-		full_cmd = check_paths(env, data->args[0]);
+		full_cmd = check_paths(data->args[0]);
 	}
 	if (full_cmd == NULL)
 	{
-		//TODO free if there is somtihn to free (probably not)
-		exit(1);
+		exiter(data, 1);
 	}
 
 
 	// printf("full cmd is -> %s\n", full_cmd);
 	
-	execve(full_cmd, data->args, env_list_to_table(env));// TODO protect malloc failing
+	execve(full_cmd, data->args, env_list_to_table());
 }
 
 // takes the cmd line and execute or turns an error if it counter one
-void execution(t_data *data, int length, t_env **env)
+void execution(t_data *data, int length)
 {
 	int	i;
-	int	id;
+	// int	id;
 	int	**pipes;
 	t_data	*tmp;
 
-	if (length == 1 && check_builtins(data, 1, env) == 0) // check if there is no pipes and the cmd is a builtin so it executes it on the parent process
+	if (length == 1 && check_builtins(data, 1) == 0) // check if there is no pipes and the cmd is a builtin so it executes it on the parent process
 	{
 		return ;
 	}
@@ -71,14 +70,16 @@ void execution(t_data *data, int length, t_env **env)
 	 *	creating child prossesse for each cmd then executing the cmd within it,
 	 *	also if there pipes '|' changing the output for the cmd to be the input for the next cmd.
 	 */
+	
+	int *child_pids = (int *)mallocate(sizeof(int) * (length));
 	while (i < length && tmp != NULL)
 	{
-		id = fork();// creating process
-		if (id == -1) // check if prossess created
+		child_pids[i] = fork();// creating process
+		if (child_pids[i] == -1) // check if prossess created
 		{
 			printf("error : cant create process %d\n", i);
 		}
-		if (id == 0) // if we are in the child proccess do this :
+		if (child_pids[i] == 0) // if we are in the child proccess do this :
 		{
 			// printf("cmd => \"%s\"\n", tmp->args[0]);
 			if (length >= 2)
@@ -95,8 +96,8 @@ void execution(t_data *data, int length, t_env **env)
 			}
 			if (tmp->args != NULL)
 			{
-				check_builtins(tmp, 0, env);
-				execute_cmd(tmp, *env);
+				check_builtins(tmp, 0);
+				execute_cmd(tmp);
 			}
 			exiter(tmp, 1);
 		}
@@ -112,9 +113,11 @@ void execution(t_data *data, int length, t_env **env)
 		j++;
 	}
 	i = 0;
+	int status;
 	while (i < length) // wait for all the CMDs to be done the continue to give the prompt later
 	{
-		wait(NULL);
+		// wait(NULL);
+		waitpid(child_pids[i], &status, 0);
 		i++;
 	}
 }

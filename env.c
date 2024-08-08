@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:07:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 20:00:50 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:01:09 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,17 @@ t_env	*env_lstlast(t_env *env)
 	return (env_lstlast(env->next));
 }
 // adds a variable to the end of the env
-void	env_lst_addback(t_env **env, t_env *new)
+void	env_lst_addback( t_env *new)
 {
 	t_env	*last_node;
+	t_spec	*svars = get_specials();
 
-	if (env == NULL)
-		return ;
-	if (*env == NULL)
+	if (svars->env == NULL)
 	{
-		*env = new;
+		svars->env = new;
 		return ;
 	}
-	last_node = env_lstlast(*env);
+	last_node = env_lstlast(svars->env);
 	last_node->next = new;
 }
 // creates new node of the var and its value, it dosnt create a copy of the string but directly assinging
@@ -103,26 +102,27 @@ t_env	*env_new_node(char *var, char *value)
 }
 
 // turns a 2D chars into linked list
-t_env	*env_table_to_list(char **table)
+void	env_table_to_list(char **table)
 {
 	int	i;
 	t_env	*tmp;
-	t_env	*head;
+	// t_spec	*svars = get_specials();
+	// t_env	*head;
 	// char **splitted_var;
 
 	i = 0;
-	head = NULL;
+	// head = svars->env;
 	while (table[i] != NULL)
 	{
 		tmp = slice_var_value(table[i]); // if slice_var_value controled by gc, strdup it instead
 		// tmp = env_new_node(ft_strdup(splitted_var[0]), ft_strdup(splitted_var[1]));
-		env_lst_addback(&head, tmp);
+		env_lst_addback(tmp);
 		// free(splitted_var[0]);
 		// free(splitted_var[1]);
 		// free(splitted_var);
 		i++;
 	}
-	return (head);
+	// return (head);
 }
 char *env_join_var_value(char *var, char *value)
 {
@@ -150,14 +150,15 @@ char *env_join_var_value(char *var, char *value)
 }
 
 // turns a linked list into 2D chars
-char	**env_list_to_table(t_env *head)
+char	**env_list_to_table()
 { 
 	int	count;
 	t_env	*tmp;
 	char	**table;
 	int		i;
 
-	tmp = head;
+	t_spec *svar = get_specials();
+	tmp = svar->env;
 	count = 0;
 	while (tmp != NULL )
 	{
@@ -166,7 +167,7 @@ char	**env_list_to_table(t_env *head)
 		tmp = tmp->next;
 	}
 	table = (char **)mallocate(sizeof(char *) * (count + 1));///////////
-	tmp = head;
+	tmp = svar->env;
 	i = 0;
 	while (tmp != NULL)
 	{
@@ -181,11 +182,12 @@ char	**env_list_to_table(t_env *head)
 	return (table);
 }
 // returns the node that have the same variavle name, NULL if theres none
-t_env	*env_search(t_env *env, char *var)
+t_env	*env_search(char *var)
 {
+	t_spec *svar = get_specials();
 	t_env	*tmp;
 
-	tmp = env;
+	tmp = svar->env;
 	while (tmp != NULL)
 	{
 		if (ft_strncmp(tmp->var, var, ft_strlen(var) + 1) == 0)
