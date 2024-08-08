@@ -6,26 +6,33 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:40:21 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 14:08:08 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:26:37 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_unset(t_data *data, t_env **env)
+void	ft_unset(t_data *data)
 {
 	int	i;
 	t_env	*tmp;
 	t_env	*to_delete;
+	t_spec *svars = get_specials();
+	
 	i = 1;
 	while (data->args[i] != NULL)
 	{
-		tmp = *env;
+		tmp = svars->env;
 		if (tmp == NULL)
 			break ;
+		if (ft_strncmp("_", data->args[i], 2) == 0)
+		{
+			i++;
+			continue ;
+		}
 		if (ft_strncmp(tmp->var, data->args[i], ft_strlen(data->args[i]) + 1) == 0)
 		{
-			*env = tmp->next;
+			svars->env = tmp->next;
 			free(tmp->var);
 			free(tmp->value);
 			free(tmp);

@@ -86,9 +86,9 @@ int	open_heredoc(char *limiter, char **env)
 	int	child_pid;
 	int	status;
 	struct sigaction	sa;
-	t_env	*env_list;
+	// t_env	*env_list;
 
-	env_list = env_table_to_list(env);
+	// env_list = env_table_to_list(env);
 	exp = 1;
 	if (pipe(tmp_file) == -1 )
 			printf("error : cant create pipe in here docement\n");
@@ -135,8 +135,8 @@ int	open_heredoc(char *limiter, char **env)
     printf("Exit status of the child was %d\n", exit_status);
 	printf("exit status = %d\n", status);
 	is_herdoc(0);
-	if (exit_status == 130)
-		looper(&env_list);
+	// if (exit_status == 130)
+		// looper(&env_list);
 	close(tmp_file[PIPE_INPUT]); // ?
 	return (tmp_file[PIPE_OUTPUT]);
 }
