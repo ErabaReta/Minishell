@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/06 15:10:11 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:13:22 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@ int	check_builtins(t_data *data, int is_parent, t_env **env)
 	fd[0] = dup(STDIN_FILENO);// keeps the standerd inputs in case of redirecting it
 	fd[1] = dup(STDOUT_FILENO);// keeps the standerd outputs in case of redirecting it
 	
+	if (data->args == NULL)
+	{
+		dup2(fd[0], STDIN_FILENO);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[0]);
+		close(fd[1]);
+		return (-1);
+	}
 	if (ft_strncmp(data->args[0], "pwd", 4) == 0)
 	{
 		// fprintf(stderr, "it is the cmd pwd\n");///////////

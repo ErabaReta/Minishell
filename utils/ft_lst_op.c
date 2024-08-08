@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lst_op.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 03:13:32 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/04 03:13:33 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:47:30 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_data	*ft_lstnew(void)
 {
 	t_data	*new;
 
-	new = (t_data *)malloc(sizeof(t_data));
+	new = (t_data *)mallocate(sizeof(t_data));
 	new->prev = NULL;
 	new->next = NULL;
 	new->in_files = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tabledup.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 03:10:45 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/04 03:10:47 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:47:49 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**ft_tabledup(char **table)
 		return (NULL);
 	while (table[i])
 		i++;
-	res = (char **)malloc(sizeof(char *) * (i + 1));
+	res = (char **)mallocate(sizeof(char *) * (i + 1));
 	i = 0;
 	while (table[i])
 	{
