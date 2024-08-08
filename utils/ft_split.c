@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 15:56:47 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 15:47:38 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/07 20:11:44 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ static void	*free_all(char **ptr, int i)
 {
 	while (i >= 0)
 	{
-		free(ptr[i]);
+		ft_free(ptr[i]);
 		i--;
 	}
-	free(ptr);
+	ft_free(ptr);
 	return (NULL);
 }
 
