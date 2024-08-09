@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 18:45:28 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/08 21:51:35 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	open_outfiles(t_data *data)
 
 	// i = 0;
 	tmp = data->out_files;
+	
 	while (tmp != NULL)
 	{
 		if (access(tmp->file, F_OK) == 0) // it exist

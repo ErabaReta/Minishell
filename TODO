@@ -4,3 +4,8 @@ TODO complete builtins execution
 TODO handle signals
 TODO protect if execve failed after all by freeying and exiting
 TODO exit status
+TODO dont forget to remove readline.supp before evaluating the project
+TODO expand $?
+
+You can run with : (to suppress readline leaks and track unclosed fds)
+valgrind --suppressions=readline.supp --leak-check=full --track-fds=yes ./minishell

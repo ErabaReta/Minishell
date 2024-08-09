@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 20:23:01 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/08 22:33:30 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,14 @@ void execution(t_data *data, int length)
 			}
 			else
 			{
+					// printf("it is here tmp->in_files=>%p || tmp->out_files=>%p\n",tmp->in_files, tmp->out_files);
+
 				if (tmp->in_files != NULL)
 					open_infiles(tmp);
 				if (tmp->out_files != NULL)
+				{
 					open_outfiles(tmp);
+				}
 			}
 			if (tmp->args != NULL)
 			{
@@ -120,4 +124,6 @@ void execution(t_data *data, int length)
 		waitpid(child_pids[i], &status, 0);
 		i++;
 	}
+	t_spec *svars = get_specials();
+	svars->exit_status = status;
 }

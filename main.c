@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 20:22:21 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:17:49 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,18 @@ void	looper()
 	{
 		str = readline("minishell $> ");
 		if (str == NULL)
-			exit(0);
+		{
+			printf("exit\n");
+			exiter(NULL, 0);
+		}
 		add_history(str);
 		tmp = lexer(str, env_list_to_table());
+		free(str);
 		if (tmp != NULL)
 			execution(tmp, ft_lstsize(tmp));
 		free_all_heap();
 	}
-	free_all_heap();
+
 }
 
 // //returns the size of the NULL terminated 2D char pointer
@@ -86,11 +90,15 @@ void	looper()
 // 	return (new_env);
 // }
 
-void signal_handler(int sig, siginfo_t *info, void *context)
+void signal_handler(int sig)
 {
-	(void)info;
-	(void)context;
+	t_spec *svars = get_specials();
+	// (void)info;
+	// (void)context;
 	(void)sig;
+
+	svars->exit_status = 128 + sig;
+	
 	if (sig == SIGINT && is_herdoc(-1) == 0)
 	{
 		write(1, "\n", 1);
@@ -107,8 +115,8 @@ int	main(int ac, char **av, char **env)
 	struct sigaction	sigact;
 	t_spec *special_vars;
 	
-	sigact.sa_sigaction = signal_handler;
-	sigact.sa_flags = SA_SIGINFO;
+	sigact.sa_handler = signal_handler;
+	sigact.sa_flags = 0;
 	sigemptyset(&sigact.sa_mask);
 	if (sigaction(SIGINT, &sigact, NULL) != 0)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/07 15:47:22 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:53:10 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,17 +127,21 @@ t_data	*lexer(char *str, char **env)
 	// while (data)
 	// {
 	// 	i = 0;
+	// 	printf("args ====================== \n");
 	// 	while (data->args && data->args[i])
 	// 	{
 	// 		printf("cmd = %s\n", data->args[i]);
 	// 		i++;
 	// 	}
+	// 	printf("in_files ====================== \n");
+
 	// 	while (data->in_files)
 	// 	{
 	// 		printf("red = %s, file = %s\n", data->in_files->redirection,
 	// 			data->in_files->file);
 	// 		data->in_files = data->in_files->next;
 	// 	}
+	// 	printf("out_files ====================== \n");
 	// 	while (data->out_files)
 	// 	{
 	// 		printf("red = %s, file = %s\n", data->out_files->redirection,

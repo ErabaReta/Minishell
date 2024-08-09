@@ -22,8 +22,12 @@ void	red_checker(char **reds, int *i, t_data *data, int *passed, char **env)
 		if (ft_strncmp(data->args[*i], reds[j], 2) == 0)
 		{
 			*passed = 1;
-			data->in_files = add_last(&data->in_files,
-					make_new(data->args[*i], data->args[*i + 1], env));
+			if (reds[0][0] == '<')
+				data->in_files = add_last(&data->in_files,
+						make_new(data->args[*i], data->args[*i + 1], env));
+			if (reds[0][0] == '>')
+				data->out_files = add_last(&data->out_files,
+						make_new(data->args[*i], data->args[*i + 1], env));
 			*i = *i + 1;
 		}
 		j++;
