@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:19:43 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 19:54:41 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:03:47 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	ft_cd(t_data *data)
 		// go home by $HOME
 		tmp = env_search("HOME");
 		if (tmp == NULL)
+		{
+			printf("minishell: cd: HOME not set\n");
 			return ;
+		}
 		chdir(tmp->value);
 	}
 	else if (data->args[2] != NULL)

@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:06 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 20:10:43 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/08 22:28:23 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ void	ft_pwd(void)
 
 	buff = getcwd(NULL, 0);
 	printf("%s\n", buff);
-	ft_free(buff);
+	free(buff);
 }
