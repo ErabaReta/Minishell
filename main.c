@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/10 16:44:45 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/10 21:00:55 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,12 @@ int	main(int ac, char **av, char **env)
 	struct sigaction	sigact;
 	t_spec *special_vars;
 	
+	(void)special_vars;
 	sigact.sa_handler = signal_handler;
 	sigact.sa_flags = 0;
 	sigemptyset(&sigact.sa_mask);
 	if (sigaction(SIGINT, &sigact, NULL) != 0)
 		return (1);
-	
 	special_vars = get_specials();
 	env_table_to_list(env);
 	looper();
