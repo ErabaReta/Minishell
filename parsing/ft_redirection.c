@@ -75,7 +75,6 @@ int	is_herdoc(int pid)
 void	sighandler()
 {
 	write(1, "\n", 1);
-	printf("H9\n");
 	rl_redisplay();
 	exit(0);
 }
@@ -133,14 +132,19 @@ int	open_heredoc(char *limiter, char **env)
 		exit(0);
 	}
 	else
+	{
+		sa.sa_handler = SIG_IGN;
+		sigaction(SIGCHLD, &sa, NULL);
 		wait(&status);
-    int exit_status = (status & 0xff00) >> 8;
-	exit_status += 34;
-    printf("Exit status of the child was %d\n", exit_status);
-	printf("exit status = %d\n", status);
+	}
 	is_herdoc(0);
-	// if (exit_status == 130)
-		// looper(&env_list);
+		printf("%d\n", (((signed char) (((status) & 0x7f) + 1) >> 1) > 0));
+		printf("%d\n", (((status) & 0xff) == 0x7f));
+	if (((signed char) (((status) & 0x7f) + 1) >> 1) > 0)
+	{
+		printf("%d\n", (((status) & 0xff00) >> 8));
+		return (-1);
+	}
 	close(tmp_file[PIPE_INPUT]); // ?
 	return (tmp_file[PIPE_OUTPUT]);
 }
