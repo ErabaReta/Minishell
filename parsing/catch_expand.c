@@ -41,14 +41,10 @@ void	quote_checker(char *arg, char **res, char **env, int *i)
 char	*catch_expnad(char *arg, char **env)
 {
 	int		i;
-	int		end;
 	char	*res;
-	char	*exp;
 
 	i = 0;
-	end = 0;
 	res = NULL;
-	exp = NULL;
 	while (arg[i])
 	{
 		quote_checker(arg, &res, env, &i);
