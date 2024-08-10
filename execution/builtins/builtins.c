@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 22:05:18 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:30:23 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,11 @@ int	check_builtins(t_data *data, int is_parent)
 		return (-1);
 	}
 	if (!is_parent)
+	{
+		close(fd[0]);
+		close(fd[1]);
 		exiter(data, 0);
+	}
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);

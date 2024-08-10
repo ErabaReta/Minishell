@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 21:51:35 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:23:11 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	piping(t_data *data, int **pipes, int length, int i)
 
 	while (j < length - 1) // closing all the not needed pipes
 	{
-		if (j != i ) 
+		if (j != i)
 		{
 			close(pipes[j][PIPE_INPUT]);
 			// printf("closing the input of pipe %d in child %d\n", j, i);
@@ -162,6 +162,5 @@ void	piping(t_data *data, int **pipes, int length, int i)
 	if (data->out_files != NULL)
 	{
 		open_outfiles(data);
-		
 	}
 }
