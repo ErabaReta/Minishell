@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hunter <hunter@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:35:11 by hunter            #+#    #+#             */
-/*   Updated: 2024/08/07 11:00:27 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/09 15:12:01 by hunter           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,8 @@ t_data	*syntax_error_her(t_data *data)
 {
 	t_data			*first;
 	t_files_list	*curr;
-	char	*red_her;
 	int		her_num;
 
-	red_her = ft_strdup("<<");
 	her_num = 0;
 	first = data;
 	while (data)
