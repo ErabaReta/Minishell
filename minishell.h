@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/10 21:32:07 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/11 15:01:52 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int						env_size(char **env);
 void					redirection(t_data *data, char **env);
 char					*find_expand(char **env, char *find);
 void					expand_out_file(t_data *data, char **env);
-void					expand_in_file(t_data *data, char **env);
+int						expand_in_file(t_data *data, char **env);
 void					expand(t_data *data, char **env);
 char					*quotes_remove(char *str);
 void					var_to_val(char *arg, int *i, char **res, char **env);
@@ -154,6 +154,7 @@ t_env	*slice_var_value(char *str);
 char	**ft_tabledup(char **tabe);
 char	**ft_tablejoin(char **table, char *new);
 char	**ft_split(char const *s, char c);
+char	*ft_itoa(int n);
 size_t	count_words(char const *s, char c);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
