@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/09 14:53:10 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/10 22:21:05 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ t_data	*lexer(char *str, char **env)
 	if (!syntax_error_her(data))
 		return (NULL);
 	expand(data, env);
-	expand_in_file(data, env);
+	if (!expand_in_file(data, env))
+		return (NULL);
 	expand_out_file(data, env);
 	i = 0;
 	if (data->args && data->next == NULL)

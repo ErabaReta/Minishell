@@ -72,11 +72,27 @@ int	is_herdoc(int pid)
 	return (is);
 }
 
-void	sighandler()
+void	sighandler(int sig)
 {
-	write(1, "\n", 1);
-	rl_redisplay();
-	exit(0);
+	t_spec	*svars;
+
+	svars = get_specials();
+	if (sig == SIGINT)
+	{
+		svars->exit_status = 130;
+		rl_replace_line ("", 0);
+		rl_redisplay();
+		write(1, "\n", 1);
+		exit(0);
+	}
+	else if (sig == SIGQUIT)
+	{
+		svars->exit_status = 131;
+		write(1, "\n", 1);
+		rl_redisplay();
+		printf("quit (core dumped)");
+		exit(0);
+	}
 }
 
 int	open_heredoc(char *limiter, char **env)
@@ -89,10 +105,12 @@ int	open_heredoc(char *limiter, char **env)
 	int	child_pid;
 	int	status;
 	struct sigaction	sa;
+	t_spec	*svars;
 	// t_env	*env_list;
 
 	// env_list = env_table_to_list(env);
 	exp = 1;
+	svars = get_specials();
 	if (pipe(tmp_file) == -1 )
 			printf("error : cant create pipe in here docement\n");
 	if (limiter[0] == '\"' || limiter[0] == '\'')
@@ -132,19 +150,13 @@ int	open_heredoc(char *limiter, char **env)
 		exit(0);
 	}
 	else
-	{
-		sa.sa_handler = SIG_IGN;
-		sigaction(SIGCHLD, &sa, NULL);
 		wait(&status);
-	}
 	is_herdoc(0);
-		printf("%d\n", (((signed char) (((status) & 0x7f) + 1) >> 1) > 0));
-		printf("%d\n", (((status) & 0xff) == 0x7f));
-	if (((signed char) (((status) & 0x7f) + 1) >> 1) > 0)
+	close(tmp_file[PIPE_INPUT]); // ?
+	if (svars->exit_status == 130 || svars->exit_status == 131)
 	{
-		printf("%d\n", (((status) & 0xff00) >> 8));
+		close(tmp_file[PIPE_OUTPUT]); // ?
 		return (-1);
 	}
-	close(tmp_file[PIPE_INPUT]); // ?
 	return (tmp_file[PIPE_OUTPUT]);
 }

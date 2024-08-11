@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/10 21:00:55 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/11 14:03:16 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,15 @@ void signal_handler(int sig)
 	// (void)info;
 	// (void)context;
 	(void)sig;
+	struct sigaction	sigact;
 
 	svars->exit_status = 128 + sig;
 	
 	if (sig == SIGINT && is_herdoc(-1) == 0)
 	{
+		sigact.sa_handler = SIG_IGN;
+		if (sigaction(SIGCHLD, &sigact, NULL) != 0)
+			return ;
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line ("", 0);
@@ -121,7 +125,11 @@ int	main(int ac, char **av, char **env)
 	sigemptyset(&sigact.sa_mask);
 	if (sigaction(SIGINT, &sigact, NULL) != 0)
 		return (1);
+	sigact.sa_handler = SIG_IGN;
+	if (sigaction(SIGCHLD, &sigact, NULL) != 0)
+		return (1);
 	special_vars = get_specials();
+	special_vars->exit_status = 0;
 	env_table_to_list(env);
 	looper();
 	return (0);
