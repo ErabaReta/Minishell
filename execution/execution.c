@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 22:33:30 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/11 14:02:07 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,17 @@ void execute_cmd(t_data *data)
 {
 	char	*full_cmd;
 	// char	**args;
-	
+
+	if (ft_strncmp(data->args[0] , ".", 2) == 0)
+	{
+		print_err("minishell: .: filename argument required\n");
+		exiter(NULL, 2);
+	}
+	if (ft_strncmp(data->args[0] , "..", 3) == 0)
+	{
+		print_err("..: command not found\n");
+		exiter(NULL, 127);
+	}
 	// args = ft_split(data->cmd, ' '); // split the cmd to have it with its args
 	if (char_in_cmd(data->args[0], '/') != -1)// if the cmd include '/'  in it then execute it
 	{
@@ -58,7 +68,9 @@ void execution(t_data *data, int length)
 		pipes[i] = (int *)mallocate(sizeof(int) * 2);
 		if (pipe(pipes[i]) == -1)
 		{
-			printf("error : cant create pipe %d\n", i + 1);
+			// printf("error : cant create pipe %d\n", i + 1);
+			print_err("minishell: cannot open a pipe\n");
+			exiter(NULL, 1);
 		}
 		i++;
 	}
@@ -77,7 +89,9 @@ void execution(t_data *data, int length)
 		child_pids[i] = fork();// creating process
 		if (child_pids[i] == -1) // check if prossess created
 		{
-			printf("error : cant create process %d\n", i);
+			// printf("error : cant create process %d\n", i);
+			print_err("minishell: cant create process\n");
+			exiter(NULL, 1);
 		}
 		if (child_pids[i] == 0) // if we are in the child proccess do this :
 		{

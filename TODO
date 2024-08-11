@@ -6,19 +6,17 @@ TODO protect if execve failed after all by freeying and exiting
 TODO exit status
 TODO dont forget to remove readline.supp before evaluating the project
 TODO expand $?
-TODO fix permessions giving to a file after it is reat\ded by open()
+TODO fix permessions giving to a file after it is readed by open()
 TODO cd
 TODO bash: dfs: No such file or directory whwen unset path
 TODO exit if exeed max herdoc
 TODO split exported when used
-TODO ./ls
 TODO default vars
 TODO sort export && env
 TODO SHLVL
 TODO handle many $$$$$$$ on expand
 TODO $djs SEGV
 TODO white spaces
-TODO .
 
 You can run with : (to suppress readline leaks and track unclosed fds)
 valgrind --suppressions=readline.supp --leak-check=full --track-fds=yes ./minishell

@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:43:18 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 20:14:52 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/10 21:41:59 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ void	ft_export(t_data *data)
 		validity = check_env_validity(data->args[i]);
 		if (validity == -1)// wrong var format
 		{
-			printf("minishell: export: `%s': not a valid identifier\n", data->args[i]);
+			// printf("minishell: export: `%s': not a valid identifier\n", data->args[i]);
+			print_err("minishell: export: `");
+			print_err(data->args[i]);
+			print_err("': not a valid identifier\n");
 			i++;
 			continue ;
 		}

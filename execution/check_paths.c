@@ -6,29 +6,36 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:47:08 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 20:22:48 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/11 14:14:02 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 //checks relative path of cmd (existence and permissions)
 char	*check_relative_path( char *file)
-{	
-	if (access(file, F_OK) == 0)
+{
+	char	*relative_path = ft_strnjoin("./", file, 0);
+	if (access(relative_path, F_OK) == 0)
 	{
-		if (access(file, X_OK) == 0)
+		if (access(relative_path, X_OK) == 0)
 		{
-			return (file);
+			return (relative_path);
 		}
 		else
 		{
-			printf("Minishell: permission denied: %s\n", file);
+			// printf("Minishell: permission denied: %s\n", file);
+			print_err("Minishell: permission denied: ");
+			print_err(file);
+			print_err("\n");
 			return (NULL);
 		}
 	}
 	else
 	{
-		printf("Minishell: command not found: %s\n", file);
+		// printf("Minishell: command not found: %s\n", file);
+		print_err("minishell: command not found: ");
+		print_err(file);
+		print_err("\n");
 		return (NULL);
 	}
 }
@@ -43,7 +50,7 @@ char	*check_paths(char *cmd)
 	if (tmp == NULL)
 	{
 		// check if it is in the dir
-		return (check_relative_path(ft_strnjoin("./", cmd, 0)));
+		return (check_relative_path(cmd));
 	}
 	paths = ft_split(tmp->value, ':');
 	i = 0;
@@ -57,7 +64,10 @@ char	*check_paths(char *cmd)
 				return tmp_path;
 			else
 			{
-				printf("minishell: permission denied: %s\n", cmd);
+				// printf("minishell: permission denied: %s\n", cmd);
+				print_err("Minishell: permission denied: ");
+				print_err(cmd);
+				print_err("\n");
 				ft_free(tmp_path);
 				return (NULL);
 			}
@@ -65,6 +75,9 @@ char	*check_paths(char *cmd)
 		i++;
 		ft_free(tmp_path);
 	}
-	printf("Minishell: command not found: %s\n", cmd);
+	// printf("Minishell: command not found: %s\n", cmd);
+	print_err("Minishell: command not found: ");
+	print_err(cmd);
+	print_err("\n");
 	return (NULL);
 }

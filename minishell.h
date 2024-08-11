@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 19:54:08 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/10 21:32:07 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ t_data  *ft_lstnew();
 int		ft_isalnum(int c);
 t_files_list	*add_last(t_files_list **head, t_files_list *new);
 t_files_list	*make_new(char *redirection, char *file, char **env);
+void	print_err(char *str);
 //== env ==========================================================
 
 void	env_table_to_list(char **table);
