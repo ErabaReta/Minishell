@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/11 14:03:16 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/11 21:55:08 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,23 @@ int	ft_lstsize(t_data *lst)
 	return (1 + ft_lstsize(lst->next));
 }
 
+void signal_handler(int sig)
+{
+	t_spec *svars = get_specials();
+	// (void)info;
+	// (void)context;
+
+	svars->exit_status = 128 + sig;
+	
+	if (sig == SIGINT && is_herdoc(-1) == 0)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line ("", 0);
+		rl_redisplay();
+	}
+}
+
 void	looper()
 {
 	char *str;
@@ -47,6 +64,8 @@ void	looper()
 	str = NULL;
 	while (1)
 	{
+		is_herdoc(0);
+		setup_signal_handler(0, signal_handler, SIG_IGN);
 		str = readline("minishell $> ");
 		if (str == NULL)
 		{
@@ -56,8 +75,8 @@ void	looper()
 		add_history(str);
 		tmp = lexer(str, env_list_to_table());
 		free(str);
-		if (tmp != NULL)
-			execution(tmp, ft_lstsize(tmp));
+		// if (tmp != NULL)
+		// 	execution(tmp, ft_lstsize(tmp));
 		free_all_heap();
 	}
 
@@ -90,46 +109,15 @@ void	looper()
 // 	return (new_env);
 // }
 
-void signal_handler(int sig)
-{
-	t_spec *svars = get_specials();
-	// (void)info;
-	// (void)context;
-	(void)sig;
-	struct sigaction	sigact;
-
-	svars->exit_status = 128 + sig;
-	
-	if (sig == SIGINT && is_herdoc(-1) == 0)
-	{
-		sigact.sa_handler = SIG_IGN;
-		if (sigaction(SIGCHLD, &sigact, NULL) != 0)
-			return ;
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line ("", 0);
-		rl_redisplay();
-	}
-}
-
 int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	struct sigaction	sigact;
 	t_spec *special_vars;
 	
 	(void)special_vars;
-	sigact.sa_handler = signal_handler;
-	sigact.sa_flags = 0;
-	sigemptyset(&sigact.sa_mask);
-	if (sigaction(SIGINT, &sigact, NULL) != 0)
-		return (1);
-	sigact.sa_handler = SIG_IGN;
-	if (sigaction(SIGCHLD, &sigact, NULL) != 0)
-		return (1);
 	special_vars = get_specials();
-	special_vars->exit_status = 0;
+	special_vars->exit_status = -1;
 	env_table_to_list(env);
 	looper();
 	return (0);
