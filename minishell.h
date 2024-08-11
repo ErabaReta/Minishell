@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/11 15:01:52 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/11 22:15:04 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_spec
 {
 	t_env	*env;
 	int		exit_status;
+	pid_t	child_p;
 } t_spec;
 
 //======main==============================
@@ -125,6 +126,7 @@ int						open_heredoc(char *limiter, char **env);
 t_data					*syntax_error_pipe(t_data *data);
 t_data					*syntax_error_red(t_data *data);
 t_data					*syntax_error_her(t_data *data);
+void					setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(int));
 	//==================testing $_ ===================================
 	
 char	*last_arg(char *last_arg);
@@ -137,7 +139,7 @@ char					*check_paths(char *cmd);
 void					piping(t_data *data, int **pipes, int length, int i);
 void					open_infiles(t_data *data);
 void					open_outfiles(t_data *data);
-void	exiter(t_data *data, int code); //-toke as builtin exit too-
+void					exiter(t_data *data, int code); //-toke as builtin exit too-
 //-- Builtins ------------------------------------------------
 
 int		check_builtins(t_data *data, int is_parent);

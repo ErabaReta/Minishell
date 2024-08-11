@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/11 14:02:07 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/11 19:55:09 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,34 @@ void execute_cmd(t_data *data)
 	// printf("full cmd is -> %s\n", full_cmd);
 	
 	execve(full_cmd, data->args, env_list_to_table());
+}
+
+void	sighandler_exev(int sig)
+{
+	t_spec	*svars;
+
+	svars = get_specials();
+	svars->exit_status = 128 + sig;
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_redisplay();
+	}
+	else if (sig == SIGQUIT)
+	{
+		write(1, "\n", 1);
+		rl_redisplay();
+		printf("quit (core dumped)\n");
+	}
+	exit (0);
+}
+
+void	sig_exit_exev(int sig)
+{
+	t_spec	*svars;
+
+	svars = get_specials();
+	svars->exit_status = 128 + sig;
 }
 
 // takes the cmd line and execute or turns an error if it counter one
@@ -95,6 +123,7 @@ void execution(t_data *data, int length)
 		}
 		if (child_pids[i] == 0) // if we are in the child proccess do this :
 		{
+			setup_signal_handler(0, sighandler_exev, sighandler_exev);
 			// printf("cmd => \"%s\"\n", tmp->args[0]);
 			if (length >= 2)
 			{
@@ -135,9 +164,10 @@ void execution(t_data *data, int length)
 	while (i < length) // wait for all the CMDs to be done the continue to give the prompt later
 	{
 		// wait(NULL);
+		setup_signal_handler(1, NULL, NULL);
 		waitpid(child_pids[i], &status, 0);
 		i++;
 	}
-	t_spec *svars = get_specials();
-	svars->exit_status = status;
+	// t_spec *svars = get_specials();
+	// svars->exit_status = 5;//((status >> 8) & 255);
 }

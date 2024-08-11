@@ -74,24 +74,47 @@ int	is_herdoc(int pid)
 
 void	sighandler(int sig)
 {
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_redisplay();
+		rl_on_new_line();
+	}
+	exit(0);
+}
+
+void	sig_exit(int sig)
+{
 	t_spec	*svars;
 
 	svars = get_specials();
-	if (sig == SIGINT)
+	svars->exit_status = 128 + sig;
+}
+
+void setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(int))
+{
+    struct sigaction sa;
+
+	if (parent == 0)
 	{
-		svars->exit_status = 130;
-		rl_replace_line ("", 0);
-		rl_redisplay();
-		write(1, "\n", 1);
-		exit(0);
+		sa.sa_handler = sig_handle;
+		sa.sa_flags = 0;
+		sigemptyset(&sa.sa_mask);
+		if (sigaction(SIGINT, &sa, NULL) != 0)
+			exit(0);
+		sa.sa_handler = sig_ign;
+		if (sigaction(SIGQUIT, &sa, NULL) != 0)
+			exit(0);
 	}
-	else if (sig == SIGQUIT)
+	else if (parent == 1)
 	{
-		svars->exit_status = 131;
-		write(1, "\n", 1);
-		rl_redisplay();
-		printf("quit (core dumped)");
-		exit(0);
+		sa.sa_flags = 0;
+		sigemptyset(&sa.sa_mask);
+		sa.sa_handler = SIG_IGN;
+		if (sigaction(SIGCHLD, &sa, NULL) != 0)
+			exit(0);
+		if (sigaction(SIGINT, &sa, NULL) != 0)
+			exit(0);
 	}
 }
 
@@ -104,11 +127,8 @@ int	open_heredoc(char *limiter, char **env)
 	char *str;
 	int	child_pid;
 	int	status;
-	struct sigaction	sa;
 	t_spec	*svars;
-	// t_env	*env_list;
 
-	// env_list = env_table_to_list(env);
 	exp = 1;
 	svars = get_specials();
 	if (pipe(tmp_file) == -1 )
@@ -119,21 +139,20 @@ int	open_heredoc(char *limiter, char **env)
 		limiter = quotes_remove(limiter);
 	}
 	child_pid = fork();
-	if (child_pid != 0)
-		is_herdoc(child_pid);
 	if (child_pid == 0)
 	{
-		sa.sa_handler = sighandler;
-		sigemptyset(&sa.sa_mask);
-		sa.sa_flags = 0;
-		sigaction(SIGINT, &sa, NULL);
+		setup_signal_handler(0, sighandler, SIG_IGN);
 		while (1)
 		{
 			str = readline("HereDoc > ");
 			i = 0;
 			res = ft_strdup("");
 			if (str == NULL || !ft_strncmp(limiter, str, ft_strlen(limiter)))
+			{
+				if (str == NULL)
+					printf("warning: here-document delimited by end-of-file\n");
 				break ;
+			}
 			if (exp == 1)
 			{
 				while (str[i])
@@ -150,7 +169,11 @@ int	open_heredoc(char *limiter, char **env)
 		exit(0);
 	}
 	else
+	{
+		svars->child_p = child_pid;
+		setup_signal_handler(1, NULL, NULL);
 		wait(&status);
+	}
 	is_herdoc(0);
 	close(tmp_file[PIPE_INPUT]); // ?
 	if (svars->exit_status == 130 || svars->exit_status == 131)
