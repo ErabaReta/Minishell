@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:19:43 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/09 14:03:47 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/10 21:40:45 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	ft_cd(t_data *data)
 		tmp = env_search("HOME");
 		if (tmp == NULL)
 		{
-			printf("minishell: cd: HOME not set\n");
+			// printf("minishell: cd: HOME not set\n");
+			print_err("minishell: cd: HOME not set\n");
 			return ;
 		}
 		chdir(tmp->value);
@@ -31,7 +32,8 @@ void	ft_cd(t_data *data)
 	else if (data->args[2] != NULL)
 	{
 		// err cd takes only one arg
-		printf("minishell: cd: too many arguments\n");
+		// printf("minishell: cd: too many arguments\n");
+		print_err("minishell: cd: too many arguments\n");
 		return ;
 	}
 	else

@@ -138,13 +138,13 @@ int	open_heredoc(char *limiter, char **env)
 		wait(&status);
 	}
 	is_herdoc(0);
-		printf("%d\n", (((signed char) (((status) & 0x7f) + 1) >> 1) > 0));
-		printf("%d\n", (((status) & 0xff) == 0x7f));
-	if (((signed char) (((status) & 0x7f) + 1) >> 1) > 0)
-	{
-		printf("%d\n", (((status) & 0xff00) >> 8));
-		return (-1);
-	}
+	// 	printf("%d\n", (((signed char) (((status) & 0x7f) + 1) >> 1) > 0));
+	// 	printf("%d\n", (((status) & 0xff) == 0x7f));
+	// if (((signed char) (((status) & 0x7f) + 1) >> 1) > 0)
+	// {
+	// 	printf("%d\n", (((status) & 0xff00) >> 8));
+	// 	return (-1);
+	// }
 	close(tmp_file[PIPE_INPUT]); // ?
 	return (tmp_file[PIPE_OUTPUT]);
 }
