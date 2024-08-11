@@ -37,16 +37,24 @@ char	*find_expand(char **env, char *find)
 
 int	is_DOU(char c)
 {
-	if (c == '$' || c == '_')
+	if (c == '?' || c == '_')
 		return (1);
 	return (0);
 }
 
 char	*expand_DOR(char *arg, int *i)
 {
-	*i = *i + 2;
+	t_spec	*svars;
+
+	svars = get_specials();
+	*i += 2;
 	if (!(isalnum(arg[*i]) && arg[*i] != '$' && arg[*i] != '\0' && arg[*i] != '\"' && arg[*i] != '\''))
-		return(last_arg(NULL));
+	{
+		if (arg[*i - 1] == '?')
+			return (ft_itoa(svars->exit_status));
+		if (arg[*i - 1] == '_')
+			return (last_arg(NULL));
+	}
 	while (isalnum(arg[*i]) && arg[*i] != '$' && arg[*i] != '\0' && arg[*i] != '\"' && arg[*i] != '\'')
 		(*i)++;
 	return (NULL);
@@ -106,7 +114,7 @@ void	expand_out_file(t_data *data, char **env)
 	}
 }
 
-void	expand_in_file(t_data *data, char **env)
+int	expand_in_file(t_data *data, char **env)
 {
 	t_files_list	*tmp;
 	int				i;
@@ -129,11 +137,14 @@ void	expand_in_file(t_data *data, char **env)
 			}
 			else
 				data->in_files->heredoc_fd = open_heredoc(data->in_files->file, env);
+			if (data->in_files->heredoc_fd == -1)
+				return (0);
 			data->in_files = data->in_files->next;
 		}
 		data->in_files = tmp;
 		data = data->next;
 	}
+	return (1);
 }
 
 void	expand(t_data *data, char **env)
