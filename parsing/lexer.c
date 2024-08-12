@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/11 18:42:24 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:53:45 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ t_data	*ft_split_args(char *str, int *i)
 	args[0] = NULL;
 	while (str[start] && str[start] != '|')
 	{
-		while (str[start] && str[start] == ' ')
+		while (str[start] && ft_iswhitespace(str[start]) == 1)
+		{
 			start++;
-		while (str[start] && str[start] != '|' && str[start] != ' ')
+		}
+		while (str[start] && str[start] != '|' && ft_iswhitespace(str[start]) == 0)
 		{
 			end = start;
 			if (str[start] == '<' || str[start] == '>')
@@ -48,8 +50,8 @@ t_data	*ft_split_args(char *str, int *i)
 				while (str[end] == quote && str[end])
 					end++;
 			}
-			while (str[end] && str[end] != ' ' && str[end] != '|'
-				&& str[start] != '<' && str[start] != '>' && str[end] != '<'
+			while (str[end] && ft_iswhitespace(str[end]) == 0 && str[end] != '|'
+				&& str[end] != '<' && str[end] != '>' && str[end] != '<'
 				&& str[end] != '>')
 			{
 				if (str[end] == '\"' || str[end] == '\'')

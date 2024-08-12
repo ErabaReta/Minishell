@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 22:46:25 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/02 15:50:43 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:34:31 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@ int	ft_isalnum(int c)
 	if ((c >= '0' && c <= '9')
 		|| (c >= 'a' && c <= 'z')
 		|| (c >= 'A' && c <= 'Z'))
+		return (1);
+	return (0);
+}
+
+int	ft_iswhitespace(int c)
+{
+	if ((c >= 9 && c <= 13) || c == 32)
 		return (1);
 	return (0);
 }

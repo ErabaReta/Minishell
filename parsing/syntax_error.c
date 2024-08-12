@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunter <hunter@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:35:11 by hunter            #+#    #+#             */
-/*   Updated: 2024/08/09 15:12:01 by hunter           ###   ########.fr       */
+/*   Updated: 2024/08/12 17:26:55 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,10 @@ t_data	*syntax_error_her(t_data *data)
 {
 	t_data			*first;
 	t_files_list	*curr;
+	t_spec			*svars;
 	int		her_num;
 
+	svars = get_specials();
 	her_num = 0;
 	first = data;
 	while (data)
@@ -87,6 +89,10 @@ t_data	*syntax_error_her(t_data *data)
 		data = data->next;
 	}
 	if (her_num > 16)
-		return (printf("maximum here-document count exceeded\n"), NULL);
+	{
+		svars->exit_status = 2;
+		printf("maximum here-document count exceeded\n");
+		exiter(data, 2);
+	}
 	return (first);
 }
