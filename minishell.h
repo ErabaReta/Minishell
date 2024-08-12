@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/11 22:15:04 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:35:15 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_lstadd_back(t_data **lst, t_data *new);
 t_data  *ft_lstnew();
 int		ft_isalnum(int c);
+int	ft_iswhitespace(int c);
 t_files_list	*add_last(t_files_list **head, t_files_list *new);
 t_files_list	*make_new(char *redirection, char *file, char **env);
 void	print_err(char *str);
