@@ -12,6 +12,28 @@
 
 #include "../minishell.h"
 
+char	*ft_substr_withoutspace(char const *s, unsigned int start)
+{
+	char	*res;
+
+	res = NULL;
+	while (ft_iswhitespace(s[start]) && s[start])
+		start++;
+	while (s[start])
+	{
+		while (s[start] && !ft_iswhitespace(s[start]))
+		{
+			res = ft_strnjoin(res, s + start, 1);
+			start++;
+		}
+		while (ft_iswhitespace(s[start]) && s[start])
+			start++;
+		if (s[start])
+			res = ft_strnjoin(res, " ", 1);
+	}
+	return (res);
+}
+
 char	*find_expand(char **env, char *find)
 {
 	int		i;
@@ -27,7 +49,7 @@ char	*find_expand(char **env, char *find)
 			j++;
 		if (env[i][j] == '=' && find[j] == '\0')
 		{
-			res = ft_substr(env[i], j + 1, ft_strlen(env[i]) - j);
+			res = ft_substr_withoutspace(env[i], j + 1);
 			return (res);
 		}
 		i++;
