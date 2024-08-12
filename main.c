@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/11 21:55:08 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:16:05 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ void	looper()
 		add_history(str);
 		tmp = lexer(str, env_list_to_table());
 		free(str);
-		// if (tmp != NULL)
-		// 	execution(tmp, ft_lstsize(tmp));
+		if (tmp != NULL)
+			execution(tmp, ft_lstsize(tmp));
 		free_all_heap();
 	}
 
