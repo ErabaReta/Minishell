@@ -80,7 +80,7 @@ void	sighandler(int sig)
 		rl_redisplay();
 		rl_on_new_line();
 	}
-	exit(0);
+	exit(128 + sig);
 }
 
 void	sig_exit(int sig)
@@ -110,9 +110,10 @@ void setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(i
 	{
 		sa.sa_flags = 0;
 		sigemptyset(&sa.sa_mask);
-		sa.sa_handler = SIG_IGN;
+		sa.sa_handler = sig_handle;
 		if (sigaction(SIGCHLD, &sa, NULL) != 0)
 			exit(0);
+		sa.sa_handler = sig_ign;
 		if (sigaction(SIGINT, &sa, NULL) != 0)
 			exit(0);
 	}
@@ -170,10 +171,10 @@ int	open_heredoc(char *limiter, char **env)
 	}
 	else
 	{
-		svars->child_p = child_pid;
-		setup_signal_handler(1, NULL, NULL);
-		wait(&status);
+		setup_signal_handler(1, SIG_DFL, SIG_IGN);
+		waitpid(child_pid, &status, 0);
 	}
+	svars->exit_status = status >> 8;
 	is_herdoc(0);
 	close(tmp_file[PIPE_INPUT]); // ?
 	if (svars->exit_status == 130 || svars->exit_status == 131)
