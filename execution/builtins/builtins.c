@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/12 22:31:21 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:29:14 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_builtins(t_data *data, int is_parent)
 	fd[0] = dup(STDIN_FILENO);// keeps the standerd inputs in case of redirecting it
 	fd[1] = dup(STDOUT_FILENO);// keeps the standerd outputs in case of redirecting it
 	
-	if (data->args == NULL)
+	if (data->args == NULL || *(data->args) == NULL)
 	{
 		close(fd[0]);
 		close(fd[1]);

@@ -18,6 +18,7 @@ TODO SHLVL
 TODO @DONE white spaces
 TODO @DONE handle many $$$$$$$ on expand
 TODO @DONE exit if exeed max herdoc
+TODO @DONE handle expand without multiple spaces and should run correctly if it expand
 
 You can run with : (to suppress readline leaks and track unclosed fds)
 valgrind --suppressions=readline.supp --leak-check=full --track-fds=yes ./minishell

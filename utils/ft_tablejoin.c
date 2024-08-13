@@ -94,11 +94,10 @@ t_files_list	*add_last(t_files_list **head, t_files_list *new)
 	return (*head);
 }
 
-t_files_list	*make_new(char *redirection, char *file, char **env)
+t_files_list	*make_new(char *redirection, char *file)
 {
 	t_files_list	*new;
 
-	(void)env;
 	new = (t_files_list *)mallocate(sizeof(t_files_list));
 	new->redirection = ft_strdup(redirection);
 	if (ft_strncmp(redirection, "<<", 2) != 0)

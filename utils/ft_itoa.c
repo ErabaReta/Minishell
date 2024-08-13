@@ -52,7 +52,7 @@ char	*ft_itoa(int n)
 	digits = count_digits(n);
 	if (n == -2147483648)
 		return (ismin());
-	num = (char *)malloc(digits + 1);
+	num = (char *)mallocate(digits + 1);
 	if (!num)
 		return (NULL);
 	if (n < 0)
