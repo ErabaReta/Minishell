@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/09 15:30:23 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:31:21 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	check_builtins(t_data *data, int is_parent)
 			printf("exit");
 		close(fd[0]);
 		close(fd[1]);
-		exiter(data, 0);
+		exiter(0);
 	}
 	else if (ft_strncmp(data->args[0], "cd", 3) == 0)
 	{
@@ -102,7 +102,7 @@ int	check_builtins(t_data *data, int is_parent)
 	{
 		close(fd[0]);
 		close(fd[1]);
-		exiter(data, 0);
+		exiter(0);
 	}
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);

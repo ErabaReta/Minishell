@@ -6,11 +6,12 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:47:08 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/11 14:14:02 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:47:45 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 //checks relative path of cmd (existence and permissions)
 char	*check_relative_path( char *file)
 {
@@ -24,10 +25,10 @@ char	*check_relative_path( char *file)
 		else
 		{
 			// printf("Minishell: permission denied: %s\n", file);
-			print_err("Minishell: permission denied: ");
+			print_err("Minishell: ");
 			print_err(file);
-			print_err("\n");
-			return (NULL);
+			print_err(": permission denied: \n");
+			exiter(126);
 		}
 	}
 	else

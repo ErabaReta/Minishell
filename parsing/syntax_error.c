@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:35:11 by hunter            #+#    #+#             */
-/*   Updated: 2024/08/12 17:26:55 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:30:37 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_data	*syntax_error_her(t_data *data)
 	{
 		svars->exit_status = 2;
 		printf("maximum here-document count exceeded\n");
-		exiter(data, 2);
+		exiter(2);
 	}
 	return (first);
 }
