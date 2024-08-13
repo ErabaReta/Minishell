@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/13 05:34:26 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/13 08:03:23 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,6 @@ t_data					*syntax_error_her(t_data *data);
 void					setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(int));
 	//==================testing $_ ===================================
 	
-char	*last_arg(char *last_arg);
-
 	//== Execution ===============================================
 
 void					execution(t_data *data, int length);
@@ -180,6 +178,7 @@ char	**env_list_to_table();
 t_env	*env_lstlast(t_env *env);
 void	env_lst_addback(t_env *new);
 t_env	*env_search(char *var);
+char	*env_join_var_value(char *var, char *value);
 // char	**slice_var_value(char *str);////
 //=================================================================
 #endif

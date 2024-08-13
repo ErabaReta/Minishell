@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/13 06:22:36 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/13 08:57:56 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,9 +167,16 @@ void execution(t_data *data, int length)
 		setup_signal_handler(1, SIG_DFL, SIG_IGN);
 		waitpid(child_pids[i], &status, 0);
 		//execve return 0 if successed or -1 if failed we must hundle manualy -1 it must be 127
-		printf("status = %d\n", WEXITSTATUS(status));
+		/*
+		 =================GPT answer===============================
+			Handle Signals in the Child Process Before execve():
+				If you fork a child process and then call execve(),
+				you can set up signal handlers in the child process before the execve() call.
+				However, these handlers will be removed once execve() is called
+		*/
+		// printf("status = %d\n", (((status) & 0xff00) >> 8));
 		i++;
 	}
-	// t_spec *svars = get_specials();
-	// svars->exit_status = 5;//((status >> 8) & 255);
+	t_spec *svars = get_specials();
+	svars->exit_status = ((status >> 8) & 255);
 }

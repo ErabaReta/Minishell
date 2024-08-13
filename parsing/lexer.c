@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/13 05:33:59 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/13 08:56:13 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,26 @@ t_data	*ft_split_args(char *str, int *i)
 	return (data);
 }
 
-char	*last_arg(char *last_arg)
+char	*last_arg(char	*s1)
 {
-	static char	*last;
-	
-	if (last_arg != NULL)
-		last = ft_strdup(last_arg);
-	return (last);
+	char	*ptr;
+	size_t	len;
+	size_t	i;
+
+	if (s1 == NULL)
+		return (NULL);
+	len = ft_strlen(s1);
+	ptr = (char *)malloc((len + 1) * sizeof(char));
+	if (ptr == NULL)
+		return (NULL);
+	i = 0;
+	while (s1[i] != '\0')
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
 }
 
 t_data	*lexer(char *str)
@@ -93,9 +106,11 @@ t_data	*lexer(char *str)
 	int		i;
 	t_data	*data;
 	t_data	*new;
+	t_spec	*svars;
 
 	i = 0;
 	data = NULL;
+	svars = get_specials();
 	str = ft_strnjoin(str, " ", 1);
 	while (str[i])
 	{
@@ -121,7 +136,8 @@ t_data	*lexer(char *str)
 	{
 		while (data->args[i] && data->args[i + 1])
 			i++;
-		last_arg(data->args[i]);
+		free(env_search("_")->value);
+		env_search("_")->value = last_arg(data->args[i]);
 	}
 
 	//=== for debug ==================================

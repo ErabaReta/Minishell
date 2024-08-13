@@ -65,12 +65,12 @@ char	*expand_DOR(char *arg, int *i)
 
 	svars = get_specials();
 	*i += 2;
-	if (!(isalnum(arg[*i]) && arg[*i] != '$' && arg[*i] != '\0' && arg[*i] != '\"' && arg[*i] != '\''))
+	if (arg[*i - 1] == '?')
+		return (ft_itoa(svars->exit_status));
+	if (ft_isalnum(arg[*i]) == 0)
 	{
-		if (arg[*i - 1] == '?')
-			return (ft_itoa(svars->exit_status));
 		if (arg[*i - 1] == '_')
-			return (last_arg(NULL));
+			return (env_search("_")->value);
 	}
 	while (isalnum(arg[*i]) && arg[*i] != '$' && arg[*i] != '\0' && arg[*i] != '\"' && arg[*i] != '\'')
 		(*i)++;
