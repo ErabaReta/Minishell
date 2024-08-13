@@ -12,11 +12,13 @@
 
 #include "../minishell.h"
 
-char	*ft_substr_withoutspace(char const *s, unsigned int start)
+char	*ft_substr_withoutspace(char const *s)
 {
+	int		start;
 	char	*res;
 
 	res = NULL;
+	start = 0;
 	while (ft_iswhitespace(s[start]) && s[start])
 		start++;
 	while (s[start])
@@ -34,25 +36,18 @@ char	*ft_substr_withoutspace(char const *s, unsigned int start)
 	return (res);
 }
 
-char	*find_expand(char **env, char *find)
+char	*find_expand(char *find)
 {
-	int		i;
-	int		j;
-	char	*res;
+	t_spec	*svars;
+	t_env	*env;
 
-	i = 0;
-	res = NULL;
-	while (env[i])
+	svars = get_specials();
+	env = svars->env;
+	while (env)
 	{
-		j = 0;
-		while (env[i][j] == find[j] && env[i][j] != '=')
-			j++;
-		if (env[i][j] == '=' && find[j] == '\0')
-		{
-			res = ft_substr_withoutspace(env[i], j + 1);
-			return (res);
-		}
-		i++;
+		if (!ft_strncmp(env->var, find, ft_strlen(env->var) + 1))
+			return (ft_substr_withoutspace(ft_strdup(env->value)));
+		env = env->next;
 	}
 	return (NULL);
 }
@@ -82,7 +77,7 @@ char	*expand_DOR(char *arg, int *i)
 	return (NULL);
 }
 
-void	var_to_val(char *arg, int *i, char **res, char **env)
+void	var_to_val(char *arg, int *i, char **res)
 {
 	int		end;
 	char	*exp;
@@ -95,7 +90,7 @@ void	var_to_val(char *arg, int *i, char **res, char **env)
 			&& arg[end] != '\'' && ft_isalnum(arg[end]))
 			end++;
 		exp = ft_substr(arg, *i, end - *i);
-		exp = find_expand(env, exp);
+		exp = find_expand(exp);
 		*res = ft_strnjoin(*res, exp, 0);
 		exp = NULL;
 		*i = end;
@@ -109,7 +104,7 @@ void	var_to_val(char *arg, int *i, char **res, char **env)
 	}
 }
 
-void	expand_out_file(t_data *data, char **env)
+void	expand_out_file(t_data *data)
 {
 	t_files_list	*tmp;
 	int				i;
@@ -123,7 +118,7 @@ void	expand_out_file(t_data *data, char **env)
 		{
 			i = 0;
 			while (data->out_files->file[i])
-				var_to_val(data->out_files->file, &i, &res, env);
+				var_to_val(data->out_files->file, &i, &res);
 			if (res != NULL)
 			{
 				data->out_files->file = ft_strdup(res);
@@ -136,7 +131,7 @@ void	expand_out_file(t_data *data, char **env)
 	}
 }
 
-int	expand_in_file(t_data *data, char **env)
+int	expand_in_file(t_data *data)
 {
 	t_files_list	*tmp;
 	int				i;
@@ -152,13 +147,13 @@ int	expand_in_file(t_data *data, char **env)
 			if (ft_strncmp(data->in_files->redirection, "<<", 2) != 0)
 			{
 				while (data->in_files->file[i])
-					var_to_val(data->in_files->file, &i, &res, env);
+					var_to_val(data->in_files->file, &i, &res);
 				if (res != NULL)
 					data->in_files->file = ft_strdup(res);
 				res = NULL;
 			}
 			else
-				data->in_files->heredoc_fd = open_heredoc(data->in_files->file, env);
+				data->in_files->heredoc_fd = open_heredoc(data->in_files->file);
 			if (data->in_files->heredoc_fd == -1)
 				return (0);
 			data->in_files = data->in_files->next;
@@ -169,27 +164,31 @@ int	expand_in_file(t_data *data, char **env)
 	return (1);
 }
 
-void	expand(t_data *data, char **env)
+void	expand(t_data *data)
 {
 	int		i;
 	char	*res;
+	char	**args_res;
 
 	res = NULL;
+	args_res = NULL;
 	while (data)
 	{
 		i = 0;
 		while (data->args && data->args[i])
 		{
-			res = catch_expnad(data->args[i], env);
-			data->args[i] = ft_strdup(res);
-			if (i > 0 && data->args[i - 1] == NULL)
+			res = catch_expnad(data->args[i]);
+			if (i == 0)
 			{
-				data->args[i - 1] = data->args[i];
-				data->args[i] = NULL;
+				args_res = ft_split(res, ' ');
 			}
+			else
+				if (res)
+					args_res = ft_tablejoin(args_res, res);
 			res = NULL;
 			i++;
 		}
+		data->args = args_res;
 		data = data->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/12 17:53:45 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/13 05:33:59 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*last_arg(char *last_arg)
 	return (last);
 }
 
-t_data	*lexer(char *str, char **env)
+t_data	*lexer(char *str)
 {
 	int		i;
 	t_data	*data;
@@ -97,7 +97,6 @@ t_data	*lexer(char *str, char **env)
 	i = 0;
 	data = NULL;
 	str = ft_strnjoin(str, " ", 1);
-	(void)env;
 	while (str[i])
 	{
 		new = ft_split_args(str, &i);
@@ -110,13 +109,13 @@ t_data	*lexer(char *str, char **env)
 	}
 	if (!syntax_error_pipe(data) || !syntax_error_red(data))
 		return (NULL);
-	redirection(data, env);
+	redirection(data);
 	if (!syntax_error_her(data))
 		return (NULL);
-	expand(data, env);
-	if (!expand_in_file(data, env))
+	expand(data);
+	if (!expand_in_file(data))
 		return (NULL);
-	expand_out_file(data, env);
+	expand_out_file(data);
 	i = 0;
 	if (data->args && data->next == NULL)
 	{

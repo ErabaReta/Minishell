@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/12 17:35:15 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/13 05:34:26 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,18 +110,18 @@ void	ft_close(int fd);
 //== Parsing =================================================
 
 void					redirector(t_data *data, char *cmd);
-t_data					*lexer(char *str, char **env);
+t_data					*lexer(char *str);
 int						env_size(char **env);
-void					redirection(t_data *data, char **env);
-char					*find_expand(char **env, char *find);
-void					expand_out_file(t_data *data, char **env);
-int						expand_in_file(t_data *data, char **env);
-void					expand(t_data *data, char **env);
+void					redirection(t_data *data);
+char					*find_expand(char *find);
+void					expand_out_file(t_data *data);
+int						expand_in_file(t_data *data);
+void					expand(t_data *data);
 char					*quotes_remove(char *str);
-void					var_to_val(char *arg, int *i, char **res, char **env);
-char					*catch_expnad(char *arg, char **env);
+void					var_to_val(char *arg, int *i, char **res);
+char					*catch_expnad(char *arg);
 int						is_herdoc(int status);
-int						open_heredoc(char *limiter, char **env);
+int						open_heredoc(char *limiter);
 //===Syntax_error============================================
 t_data					*syntax_error_pipe(t_data *data);
 t_data					*syntax_error_red(t_data *data);
@@ -170,7 +170,7 @@ t_data  *ft_lstnew();
 int		ft_isalnum(int c);
 int	ft_iswhitespace(int c);
 t_files_list	*add_last(t_files_list **head, t_files_list *new);
-t_files_list	*make_new(char *redirection, char *file, char **env);
+t_files_list	*make_new(char *redirection, char *file);
 void	print_err(char *str);
 //== env ==========================================================
 
