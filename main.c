@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/13 05:34:12 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/13 08:44:00 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,6 @@ t_spec	*get_specials()
 	static t_spec	special_vars;
 
 	return (&special_vars);
-}
-
-int	signal_num(int signal)
-{
-	static	int	num;
-
-	num = 1;
-	if (signal != -1)
-		num = signal;
-	return (num);
 }
 
 int	ft_lstsize(t_data *lst)
@@ -60,7 +50,6 @@ void	looper()
 	char *str;
 	t_data *tmp;
 
-	signal_num(1);
 	str = NULL;
 	while (1)
 	{
@@ -81,33 +70,6 @@ void	looper()
 	}
 
 }
-
-// //returns the size of the NULL terminated 2D char pointer
-// int	env_size(char **env)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (env[i] != NULL)
-// 		i++;
-// 	return (i);
-// }
-
-// char **put_env_on_heap(char **env)
-// {
-// 	char	**new_env;
-// 	int		i;
-
-// 	new_env = (char **)malloc(sizeof(char *) * (env_size(env) + 1));
-// 	i = 0;
-// 	while (i < env_size(env))
-// 	{
-// 		new_env[i] = ft_strdup(env[i]);
-// 		i++;
-// 	}
-// 	new_env[i] = NULL;
-// 	return (new_env);
-// }
 
 int	main(int ac, char **av, char **env)
 {
