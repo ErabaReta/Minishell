@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/12 22:39:03 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:29:28 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void execution(t_data *data, int length)
 		}
 		if (child_pids[i] == 0) // if we are in the child proccess do this :
 		{
-			setup_signal_handler(0, sighandler_exev, sighandler_exev);
+			// setup_signal_handler(0, sighandler_exev, sighandler_exev);
 			// printf("cmd => \"%s\"\n", tmp->args[0]);
 			if (length >= 2)
 			{
@@ -141,7 +141,7 @@ void execution(t_data *data, int length)
 					open_outfiles(tmp);
 				}
 			}
-			if (tmp->args != NULL)
+			if (tmp->args != NULL && *(tmp->args) != NULL)
 			{
 				check_builtins(tmp, 0);
 				execute_cmd(tmp);
@@ -164,8 +164,17 @@ void execution(t_data *data, int length)
 	while (i < length) // wait for all the CMDs to be done the continue to give the prompt later
 	{
 		// wait(NULL);
-		setup_signal_handler(1, NULL, NULL);
+		setup_signal_handler(1, SIG_DFL, SIG_IGN);
 		waitpid(child_pids[i], &status, 0);
+		//execve return 0 if successed or -1 if failed we must hundle manualy -1 it must be 127
+		/*
+		 =================GPT answer===============================
+			Handle Signals in the Child Process Before execve():
+				If you fork a child process and then call execve(),
+				you can set up signal handlers in the child process before the execve() call.
+				However, these handlers will be removed once execve() is called
+		*/
+		// printf("status = %d\n", (((status) & 0xff00) >> 8));
 		i++;
 	}
 	t_spec *svars = get_specials();
