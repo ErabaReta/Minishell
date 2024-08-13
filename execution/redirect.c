@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/10 21:39:45 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:30:15 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	open_infiles(t_data *data)
 					print_err("minishell: ");
 					print_err(tmp->file);
 					print_err(": failed to open file\n");
-					exiter(data, 1);
+					exiter(1);
 				}
 			}
 			else
@@ -49,7 +49,7 @@ void	open_infiles(t_data *data)
 				print_err("minishell: permission denied: ");
 				print_err(tmp->file);
 				print_err("\n");
-				exiter(data, 1);
+				exiter(1);
 			}
 			tmp = tmp->next;
 		}
@@ -62,7 +62,7 @@ void	open_infiles(t_data *data)
 				print_err("minishell: ");
 				print_err(tmp->file);
 				print_err(" No such file or directory\n");
-				exiter(data, 1);
+				exiter(1);
 			}
 			tmp = tmp->next;
 		}
@@ -99,7 +99,7 @@ void	open_outfiles(t_data *data)
 					print_err("minishell: ");
 					print_err(tmp->file);
 					print_err(": failed to open file\n");
-					exiter(data, 1);
+					exiter(1);
 				}
 			}
 			else
@@ -108,7 +108,7 @@ void	open_outfiles(t_data *data)
 				print_err("minishell: permission denied: ");
 				print_err(tmp->file);
 				print_err("\n");
-				exiter(data, 1);
+				exiter(1);
 			}
 			tmp = tmp->next;
 		}
@@ -124,7 +124,7 @@ void	open_outfiles(t_data *data)
 				print_err("minishell: ");
 				print_err(tmp->file);
 				print_err(" No such file or directory\n");
-				exiter(data, 1);
+				exiter(1);
 			}
 			tmp = tmp->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:07:52 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 20:34:25 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:31:00 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ void	free_env()
 	}
 }
 
-void	exiter(t_data *data, int code)
+void	exiter(int code)
 {
-	(void)data;
 	clean_pool();
 	free_all_heap();
 	free_env();

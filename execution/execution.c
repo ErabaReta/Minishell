@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/11 19:55:09 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:39:03 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void execute_cmd(t_data *data)
 	if (ft_strncmp(data->args[0] , ".", 2) == 0)
 	{
 		print_err("minishell: .: filename argument required\n");
-		exiter(NULL, 2);
+		exiter(2);
 	}
 	if (ft_strncmp(data->args[0] , "..", 3) == 0)
 	{
 		print_err("..: command not found\n");
-		exiter(NULL, 127);
+		exiter(127);
 	}
 	// args = ft_split(data->cmd, ' '); // split the cmd to have it with its args
 	if (char_in_cmd(data->args[0], '/') != -1)// if the cmd include '/'  in it then execute it
@@ -39,7 +39,7 @@ void execute_cmd(t_data *data)
 	}
 	if (full_cmd == NULL)
 	{
-		exiter(data, 1);
+		exiter(1);
 	}
 
 
@@ -98,7 +98,7 @@ void execution(t_data *data, int length)
 		{
 			// printf("error : cant create pipe %d\n", i + 1);
 			print_err("minishell: cannot open a pipe\n");
-			exiter(NULL, 1);
+			exiter(1);
 		}
 		i++;
 	}
@@ -119,7 +119,7 @@ void execution(t_data *data, int length)
 		{
 			// printf("error : cant create process %d\n", i);
 			print_err("minishell: cant create process\n");
-			exiter(NULL, 1);
+			exiter(1);
 		}
 		if (child_pids[i] == 0) // if we are in the child proccess do this :
 		{
@@ -146,7 +146,7 @@ void execution(t_data *data, int length)
 				check_builtins(tmp, 0);
 				execute_cmd(tmp);
 			}
-			exiter(tmp, 1);
+			exiter(1);
 		}
 		tmp = tmp->next;
 		i++;
@@ -168,6 +168,6 @@ void execution(t_data *data, int length)
 		waitpid(child_pids[i], &status, 0);
 		i++;
 	}
-	// t_spec *svars = get_specials();
-	// svars->exit_status = 5;//((status >> 8) & 255);
+	t_spec *svars = get_specials();
+	svars->exit_status = ((status >> 8) & 255);
 }

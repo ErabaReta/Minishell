@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/12 17:54:25 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:29:18 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	looper()
 		if (str == NULL)
 		{
 			printf("exit\n");
-			exiter(NULL, 0);
+			exiter(0);
 		}
 		add_history(str);
 		tmp = lexer(str, env_list_to_table());
