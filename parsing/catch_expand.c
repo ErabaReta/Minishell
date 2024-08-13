@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	quote_checker(char *arg, char **res, char **env, int *i)
+void	quote_checker(char *arg, char **res, int *i)
 {
 	int	end;
 
@@ -31,14 +31,14 @@ void	quote_checker(char *arg, char **res, char **env, int *i)
 		(*i)++;
 		*res = ft_strnjoin(*res, ft_strdup(""), 0);
 		while (arg[*i] != '\"' && arg[*i])
-			var_to_val(arg, i, res, env);
+			var_to_val(arg, i, res);
 		(*i)++;
 	}
 	else
-		var_to_val(arg, i, res, env);
+		var_to_val(arg, i, res);
 }
 
-char	*catch_expnad(char *arg, char **env)
+char	*catch_expnad(char *arg)
 {
 	int		i;
 	char	*res;
@@ -47,7 +47,7 @@ char	*catch_expnad(char *arg, char **env)
 	res = NULL;
 	while (arg[i])
 	{
-		quote_checker(arg, &res, env, &i);
+		quote_checker(arg, &res, &i);
 	}
 	return (res);
 }

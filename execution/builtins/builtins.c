@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/09 15:30:23 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/13 04:31:45 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_builtins(t_data *data, int is_parent)
 	fd[0] = dup(STDIN_FILENO);// keeps the standerd inputs in case of redirecting it
 	fd[1] = dup(STDOUT_FILENO);// keeps the standerd outputs in case of redirecting it
 	
-	if (data->args == NULL)
+	if (data->args == NULL || *(data->args) == NULL)
 	{
 		close(fd[0]);
 		close(fd[1]);

@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	red_checker(char **reds, int *i, t_data *data, int *passed, char **env)
+void	red_checker(char **reds, int *i, t_data *data, int *passed)
 {
 	int	j;
 
@@ -24,17 +24,17 @@ void	red_checker(char **reds, int *i, t_data *data, int *passed, char **env)
 			*passed = 1;
 			if (reds[0][0] == '<')
 				data->in_files = add_last(&data->in_files,
-						make_new(data->args[*i], data->args[*i + 1], env));
+						make_new(data->args[*i], data->args[*i + 1]));
 			if (reds[0][0] == '>')
 				data->out_files = add_last(&data->out_files,
-						make_new(data->args[*i], data->args[*i + 1], env));
+						make_new(data->args[*i], data->args[*i + 1]));
 			*i = *i + 1;
 		}
 		j++;
 	}
 }
 
-void	redirection(t_data *data, char **env)
+void	redirection(t_data *data)
 {
 	int		i;
 	int		passed;
@@ -51,8 +51,8 @@ void	redirection(t_data *data, char **env)
 		cmds = NULL;
 		while (data->args && data->args[i])
 		{
-			red_checker(reds_in, &i, data, &passed, env);
-			red_checker(reds_out, &i, data, &passed, env);
+			red_checker(reds_in, &i, data, &passed);
+			red_checker(reds_out, &i, data, &passed);
 			if (passed == -1)
 				cmds = ft_tablejoin(cmds, data->args[i]);
 			passed = -1;
@@ -119,7 +119,7 @@ void setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(i
 	}
 }
 
-int	open_heredoc(char *limiter, char **env)
+int	open_heredoc(char *limiter)
 {
 	char	*res;
 	int	tmp_file[2];
@@ -157,7 +157,7 @@ int	open_heredoc(char *limiter, char **env)
 			if (exp == 1)
 			{
 				while (str[i])
-					var_to_val(str, &i, &res, env);
+					var_to_val(str, &i, &res);
 				write(tmp_file[PIPE_INPUT], res, ft_strlen(res));
 				write(tmp_file[PIPE_INPUT], "\n", 1);
 			}
