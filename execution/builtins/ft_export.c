@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:43:18 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/14 11:30:22 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:27:48 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	check_env_validity(char *str)
 
 	i = 0;
 	// returned = 2;
+	if (str[0] == '=' || str[0] == '+')
+		return (-1);
 	while (str[i] != '\0')
 	{
 		if (ft_strncmp(&str[i], "+=", 2) == 0)
@@ -72,14 +74,14 @@ void	append_value(t_env	*env, char *value)
 	env->value = new_value;
 }
 
-void	ft_export(t_data *data)
+void	ft_export(t_data *data, int	*status)
 {
 	int	i;
 	int	validity;
 	t_env *var_and_value;
 	t_env	*tmp;
-	// t_spec	*svars = get_specials();
 
+	*status = 0;
 	if (data->args[1] == NULL)
 	{
 		print_vars();
@@ -96,6 +98,7 @@ void	ft_export(t_data *data)
 			print_err(data->args[i]);
 			print_err("': not a valid identifier\n");
 			i++;
+			*status = 1;
 			continue ;
 		}
 		else  // doesn't contain '=' || //contains '=' || // contains +=
@@ -104,17 +107,32 @@ void	ft_export(t_data *data)
 			tmp = env_search(var_and_value->var);
 			if (tmp == NULL)
 			{
-				// tmp = env_new_node(var_and_value->, var_and_value[1]);
 				env_lst_addback(var_and_value);
 			}
 			else
 			{
 				if (var_and_value->value != NULL)
 				{
-					if (validity == 2 || validity == 0)// doesn't contain '=' || //contains '='
+					if (validity == 2 || validity == 0 || (validity == 1 && tmp->value == NULL))// doesn't contain '=' || //contains '='
+					{
+						free(tmp->value);
 						tmp->value = var_and_value->value;
+						free(var_and_value->var);
+						free(var_and_value);
+						
+					}
 					else if (validity == 1) // contains +=
+					{
 						append_value(tmp, var_and_value->value);
+						free(var_and_value->var);
+						free(var_and_value);
+					}
+				}
+				else
+				{
+					free(var_and_value->value);
+					free(var_and_value->var);
+					free(var_and_value);
 				}
 			}
 		}

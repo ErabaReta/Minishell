@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/13 11:29:50 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:18:41 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	looper()
 {
 	char *str;
 	t_data *tmp;
+	t_spec *svars = get_specials();
 
 	str = NULL;
 	while (1)
@@ -59,7 +60,7 @@ void	looper()
 		if (str == NULL)
 		{
 			printf("exit\n");
-			exiter(0);
+			exiter(svars->exit_status);
 		}
 		add_history(str);
 		tmp = lexer(str);

@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/13 11:29:28 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:09:14 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,11 @@ void execute_cmd(t_data *data)
 	{
 		full_cmd = check_paths(data->args[0]);
 	}
-	if (full_cmd == NULL)
+	if (full_cmd == NULL)// I geuss i dont need this anymore
 	{
-		exiter(1);
+		exiter(127);
 	}
 
-
-	// printf("full cmd is -> %s\n", full_cmd);
-	
 	execve(full_cmd, data->args, env_list_to_table());
 }
 

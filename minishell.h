@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/13 20:12:39 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:51:14 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,15 +139,16 @@ void					piping(t_data *data, int **pipes, int length, int i);
 void					open_infiles(t_data *data);
 void					open_outfiles(t_data *data);
 void					exiter(int code); //-toke as builtin exit too-
+int	is_dir(char *path);
 //-- Builtins ------------------------------------------------
 
 int		check_builtins(t_data *data, int is_parent);
 void	ft_env(char **env);
 void	ft_pwd(void);
-void	ft_cd(t_data *data);
+int		ft_cd(t_data *data);
 void	ft_echo(t_data *data);
 void	ft_unset(t_data *data);
-void	ft_export(t_data *data);
+void	ft_export(t_data *data, int	*status);
 t_env	*slice_var_value(char *str);
 //------------------------------------------------------------
 //== Utils ===================================================
