@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:48:12 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/12 22:30:33 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:38:49 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	free_all_heap()
 		free(tmp);
 	}	
 }
-// free specefic ptr allocated by heap controller(still on test phase)
+// free specefic ptr allocated by heap controller
 void	ft_free(void *ptr)
 {
 	t_heap	**heap;

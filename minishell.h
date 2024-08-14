@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/13 11:29:58 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/13 20:12:39 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+#include <sys/stat.h>
 
 # define PIPE_INPUT 1
 # define PIPE_OUTPUT 0

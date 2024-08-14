@@ -6,13 +6,13 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:43:18 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/10 21:41:59 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:30:22 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	print_vars()
+void	print_vars()// TODO sort vars before print
 {
 	t_spec	*svars = get_specials();
 	t_env	*tmp = svars->env;
@@ -45,6 +45,31 @@ int	check_env_validity(char *str)
 		i++;
 	}
 	return (2);
+}
+
+void	append_value(t_env	*env, char *value)
+{
+	char	*new_value;
+	int	i;
+	int	j;
+
+	new_value = (char *)malloc(sizeof(char) * (ft_strlen(env->value) + ft_strlen(value) + 1));
+	i = 0;
+	while (env->value[i] != '\0')
+	{
+		new_value[i] = env->value[i];
+		i++;
+	}
+	j = 0;
+	while (value[j] != '\0')
+	{
+		new_value[i + j] = value[j];
+		j++;
+	}
+	new_value[i + j] = '\0';
+	free(env->value);
+	free(value);
+	env->value = new_value;
 }
 
 void	ft_export(t_data *data)
@@ -89,7 +114,7 @@ void	ft_export(t_data *data)
 					if (validity == 2 || validity == 0)// doesn't contain '=' || //contains '='
 						tmp->value = var_and_value->value;
 					else if (validity == 1) // contains +=
-						tmp->value = ft_strnjoin(tmp->value, var_and_value->value, 0);//TODO remove this line from HEAP CONTROLLER
+						append_value(tmp, var_and_value->value);
 				}
 			}
 		}
