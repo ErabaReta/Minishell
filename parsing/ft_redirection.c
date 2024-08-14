@@ -80,7 +80,7 @@ void	sighandler(int sig)
 		rl_redisplay();
 		rl_on_new_line();
 	}
-	exit(128 + sig);
+	exiter(128 + sig);
 }
 
 void	sig_exit(int sig)
@@ -101,10 +101,10 @@ void setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(i
 		sa.sa_flags = 0;
 		sigemptyset(&sa.sa_mask);
 		if (sigaction(SIGINT, &sa, NULL) != 0)
-			exit(0);
+			exiter(1);
 		sa.sa_handler = sig_ign;
 		if (sigaction(SIGQUIT, &sa, NULL) != 0)
-			exit(0);
+			exiter(1);
 	}
 	else if (parent == 1)
 	{
@@ -112,10 +112,10 @@ void setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(i
 		sigemptyset(&sa.sa_mask);
 		sa.sa_handler = sig_handle;
 		if (sigaction(SIGCHLD, &sa, NULL) != 0)
-			exit(0);
+			exiter(1);
 		sa.sa_handler = sig_ign;
 		if (sigaction(SIGINT, &sa, NULL) != 0)
-			exit(0);
+			exiter(1);
 	}
 }
 
@@ -131,6 +131,7 @@ int	open_heredoc(char *limiter)
 	t_spec	*svars;
 
 	exp = 1;
+	status = 0;
 	svars = get_specials();
 	if (pipe(tmp_file) == -1 )
 			printf("error : cant create pipe in here docement\n");
@@ -167,7 +168,7 @@ int	open_heredoc(char *limiter)
 				write(tmp_file[PIPE_INPUT], "\n", 1);
 			}
 		}
-		exit(0);
+		exiter(0);
 	}
 	else
 	{

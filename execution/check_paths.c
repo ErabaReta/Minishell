@@ -6,11 +6,21 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:47:08 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/12 22:47:45 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/13 22:48:33 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	is_dir(char *path)
+{
+	struct stat buff;
+	
+	stat(path, &buff);
+	if (buff.st_mode > 20000)// TODO check the right number
+		return (0);
+	return (1);
+}
 
 //checks relative path of cmd (existence and permissions)
 char	*check_relative_path( char *file)
@@ -29,6 +39,7 @@ char	*check_relative_path( char *file)
 			print_err(file);
 			print_err(": permission denied: \n");
 			exiter(126);
+			return (NULL);
 		}
 	}
 	else

@@ -1,24 +1,17 @@
-TODO remove leaks
-TODO also fd leaks must be checked (heredoc ones)
 TODO complete builtins execution
 TODO protect if execve failed after all by freeying and exiting
 TODO exit status
-TODO fix permessions giving to a file after it is readed by open()
 TODO cd
 TODO bash: dfs: No such file or directory whwen unset path
 TODO sort export && env
 TODO $djs SEGV
 TODO pay attension for exit status of builtins (you dont fork for them , so assign manually)
-===========BoGaTo=======
-TODO handle signals
+TODO fix permessions giving to a file after it is readed by open()
+TODO also fd leaks must be checked (heredoc ones)
+TODO remove leaks
 TODO dont forget to remove readline.supp before evaluating the project
-TODO default vars
-TODO split exported when used
 TODO SHLVL
-TODO @DONE white spaces
-TODO @DONE handle many $$$$$$$ on expand
-TODO @DONE exit if exeed max herdoc
-TODO @DONE handle expand without multiple spaces and should run correctly if it expand
+TODO default env vars
 
 You can run with : (to suppress readline leaks and track unclosed fds)
 valgrind --suppressions=readline.supp --leak-check=full --track-fds=yes ./minishell
