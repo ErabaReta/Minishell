@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/14 12:18:41 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/14 20:22:28 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	looper()
 		str = readline("minishell $> ");
 		if (str == NULL)
 		{
-			printf("exit\n");
+			print_err("exit\n");
 			exiter(svars->exit_status);
 		}
 		add_history(str);
