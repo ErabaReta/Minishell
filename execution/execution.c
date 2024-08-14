@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/14 12:09:14 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/14 20:05:47 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ void execute_cmd(t_data *data)
 		exiter(127);
 	}
 
-	execve(full_cmd, data->args, env_list_to_table());
+	if (execve(full_cmd, data->args, env_list_to_table()) == -1)
+	{
+		perror("minishell: ");
+		exiter(127);	
+	}
 }
 
 void	sighandler_exev(int sig)
@@ -130,20 +134,20 @@ void execution(t_data *data, int length)
 			else
 			{
 					// printf("it is here tmp->in_files=>%p || tmp->out_files=>%p\n",tmp->in_files, tmp->out_files);
-
+				int	status = 0;
 				if (tmp->in_files != NULL)
-					open_infiles(tmp);
-				if (tmp->out_files != NULL)
-				{
-					open_outfiles(tmp);
-				}
+					status = open_infiles(tmp);
+				if (tmp->out_files != NULL && status == 0)
+					status = open_outfiles(tmp);
+				if (status != 0)
+					exiter(1);
 			}
 			if (tmp->args != NULL && *(tmp->args) != NULL)
 			{
 				check_builtins(tmp, 0);
 				execute_cmd(tmp);
 			}
-			exiter(1);
+			exiter(0);
 		}
 		tmp = tmp->next;
 		i++;

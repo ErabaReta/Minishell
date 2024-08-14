@@ -6,14 +6,14 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/12 22:30:15 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/14 20:58:42 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 //opens the file after checking it existence and its permission then redirect the standard intput to it
-void	open_infiles(t_data *data)
+int	open_infiles(t_data *data)
 {
 	int	fd;
 	// int	i;
@@ -31,6 +31,13 @@ void	open_infiles(t_data *data)
 		}
 		else if (access(tmp->file, F_OK) == 0) // it exist
 		{
+			if (is_dir(tmp->file))
+			{
+				print_err("minishell: ");
+				print_err(tmp->file);
+				print_err(": Is a directory\n");
+				return (1);
+			}
 			if (access(tmp->file, W_OK) == 0)// can be writen to it
 			{
 				fd = open(tmp->file, O_RDONLY);//TODO protect failing
@@ -40,7 +47,7 @@ void	open_infiles(t_data *data)
 					print_err("minishell: ");
 					print_err(tmp->file);
 					print_err(": failed to open file\n");
-					exiter(1);
+					return (1);
 				}
 			}
 			else
@@ -49,7 +56,7 @@ void	open_infiles(t_data *data)
 				print_err("minishell: permission denied: ");
 				print_err(tmp->file);
 				print_err("\n");
-				exiter(1);
+				return (1);
 			}
 			tmp = tmp->next;
 		}
@@ -61,8 +68,8 @@ void	open_infiles(t_data *data)
 				// printf("minishell: %s: No such file or directory\n",tmp->file);//TODO custume ERR here
 				print_err("minishell: ");
 				print_err(tmp->file);
-				print_err(" No such file or directory\n");
-				exiter(1);
+				print_err(": No such file or directory\n");
+				return (1);
 			}
 			tmp = tmp->next;
 		}
@@ -71,10 +78,11 @@ void	open_infiles(t_data *data)
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
+	return (0);
 }
 
 //opens the file after checking it existence and its permission then redirect the standard output to it
-void	open_outfiles(t_data *data)
+int	open_outfiles(t_data *data)
 {
 	int	fd;
 	// int	i;
@@ -87,6 +95,13 @@ void	open_outfiles(t_data *data)
 	{
 		if (access(tmp->file, F_OK) == 0) // it exist
 		{
+			if (is_dir(tmp->file))
+			{
+				print_err("minishell: ");
+				print_err(tmp->file);
+				print_err(": Is a directory\n");
+				return (1);
+			}
 			if (access(tmp->file, W_OK) == 0)// can be writen to it
 			{
 				if (ft_strncmp(tmp->redirection, ">", 2) == 0)
@@ -99,7 +114,7 @@ void	open_outfiles(t_data *data)
 					print_err("minishell: ");
 					print_err(tmp->file);
 					print_err(": failed to open file\n");
-					exiter(1);
+					return (1);
 				}
 			}
 			else
@@ -108,22 +123,22 @@ void	open_outfiles(t_data *data)
 				print_err("minishell: permission denied: ");
 				print_err(tmp->file);
 				print_err("\n");
-				exiter(1);
+				return (1);
 			}
 			tmp = tmp->next;
 		}
 		else
 		{
 			if (ft_strncmp(tmp->redirection, ">", 2) == 0)
-				fd = open(tmp->file, O_WRONLY | O_TRUNC | O_CREAT, 644);// TODO  protect failing
+				fd = open(tmp->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);// TODO  protect failing
 			else
-				fd = open(tmp->file, O_WRONLY | O_APPEND | O_CREAT, 644);// TODO  protect failing	
+				fd = open(tmp->file, O_WRONLY | O_APPEND | O_CREAT, 0644);// TODO  protect failing	
 			if (fd < 0)
 			{
 				// printf("minishell: %s: No such file or directory\n",tmp->file);//TODO custume ERR here
 				print_err("minishell: ");
 				print_err(tmp->file);
-				print_err(" No such file or directory\n");
+				print_err(": No such file or directory\n");
 				exiter(1);
 			}
 			tmp = tmp->next;
@@ -133,6 +148,7 @@ void	open_outfiles(t_data *data)
 	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
+	return (0);
 }
 
 // closing all the not needed pipes and redirect the needed ones

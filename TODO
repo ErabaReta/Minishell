@@ -1,17 +1,14 @@
-TODO complete builtins execution
-TODO protect if execve failed after all by freeying and exiting
 TODO exit status
-TODO cd
-TODO bash: dfs: No such file or directory whwen unset path
 TODO sort export && env
-TODO $djs SEGV
-TODO pay attension for exit status of builtins (you dont fork for them , so assign manually)
-TODO fix permessions giving to a file after it is readed by open()
 TODO also fd leaks must be checked (heredoc ones)
 TODO remove leaks
 TODO dont forget to remove readline.supp before evaluating the project
 TODO SHLVL
 TODO default env vars
+TODO split redirect from file
+TODO this test case : "$a" (a="ls -al") don't split
+TODO for example : echo $"HOME" should output ==> HOME not $HOME
+TODO ambigus
 
 You can run with : (to suppress readline leaks and track unclosed fds)
 valgrind --suppressions=readline.supp --leak-check=full --track-fds=yes ./minishell
