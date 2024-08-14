@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:43:18 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/14 15:27:48 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/14 19:23:11 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ void	ft_export(t_data *data, int	*status)
 						tmp->value = var_and_value->value;
 						free(var_and_value->var);
 						free(var_and_value);
-						
 					}
 					else if (validity == 1) // contains +=
 					{
