@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/14 12:51:14 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/14 19:56:16 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,18 +128,16 @@ t_data					*syntax_error_pipe(t_data *data);
 t_data					*syntax_error_red(t_data *data);
 t_data					*syntax_error_her(t_data *data);
 void					setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(int));
-	//==================testing $_ ===================================
-	
 	//== Execution ===============================================
 
 void					execution(t_data *data, int length);
 char					*check_relative_path(char *file);
 char					*check_paths(char *cmd);
 void					piping(t_data *data, int **pipes, int length, int i);
-void					open_infiles(t_data *data);
-void					open_outfiles(t_data *data);
+int						open_infiles(t_data *data);
+int						open_outfiles(t_data *data);
 void					exiter(int code); //-toke as builtin exit too-
-int	is_dir(char *path);
+int						is_dir(char *path);
 //-- Builtins ------------------------------------------------
 
 int		check_builtins(t_data *data, int is_parent);
