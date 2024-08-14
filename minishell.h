@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/14 12:51:14 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/14 21:48:14 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,6 @@
 # define PIPE_INPUT 1
 # define PIPE_OUTPUT 0
 //============================================================
-
-typedef struct s_malloc
-{
-	void				*ptr;
-	struct s_malloc		*next;
-}						t_malloc;
 
 typedef struct s_list
 {
@@ -64,13 +58,6 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }	t_env;
-
-
-typedef struct s_all
-{
-	t_malloc			*malloc_list;
-	t_list				*list;
-}						t_all;
 
 typedef struct s_heap
 {
