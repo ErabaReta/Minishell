@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/14 20:05:47 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/14 22:50:48 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,12 @@ void	sighandler_exev(int sig)
 	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
-		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
 	{
 		write(1, "\n", 1);
-		rl_redisplay();
 		printf("quit (core dumped)\n");
 	}
-	exit (0);
 }
 
 void	sig_exit_exev(int sig)
@@ -84,7 +81,9 @@ void execution(t_data *data, int length)
 	// int	id;
 	int	**pipes;
 	t_data	*tmp;
+	t_spec	*svars;
 
+	svars = get_specials();
 	if (length == 1 && check_builtins(data, 1) == 0) // check if there is no pipes and the cmd is a builtin so it executes it on the parent process
 	{
 		return ;
@@ -124,7 +123,7 @@ void execution(t_data *data, int length)
 		}
 		if (child_pids[i] == 0) // if we are in the child proccess do this :
 		{
-			// setup_signal_handler(0, sighandler_exev, sighandler_exev);
+			setup_signal_handler(0, SIG_DFL, SIG_DFL);
 			// printf("cmd => \"%s\"\n", tmp->args[0]);
 			if (length >= 2)
 			{
@@ -165,8 +164,8 @@ void execution(t_data *data, int length)
 	while (i < length) // wait for all the CMDs to be done the continue to give the prompt later
 	{
 		// wait(NULL);
-		setup_signal_handler(1, SIG_DFL, SIG_IGN);
-		waitpid(child_pids[i], &status, 0);
+		// setup_signal_handler(1, SIG_IGN, sighandler_exev);
+		svars->child_p = waitpid(child_pids[i], &status, 0);
 		//execve return 0 if successed or -1 if failed we must hundle manualy -1 it must be 127
 		/*
 		 =================GPT answer===============================
@@ -178,6 +177,5 @@ void execution(t_data *data, int length)
 		// printf("status = %d\n", (((status) & 0xff00) >> 8));
 		i++;
 	}
-	t_spec *svars = get_specials();
 	svars->exit_status = ((status >> 8) & 255);
 }
