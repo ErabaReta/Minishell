@@ -98,6 +98,8 @@ void	var_to_val(char *arg, int *i, char **res)
 	}
 	else if (arg[*i] == '$' && isdou(arg[*i + 1]))
 		*res = ft_strnjoin(*res, expanddor(arg, i), 0);
+	else if (arg[*i] == '$' && (arg[*i + 1] == '\"' || arg[*i + 1] == '\''))
+		(*i)++;
 	else
 	{
 		*res = ft_strnjoin(*res, arg + *i, 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/13 11:53:38 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/15 23:38:32 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_data	*ft_split_args(char *str, int *i)
 		}
 		while (str[start] && str[start] != '|' && ft_iswhitespace(str[start]) == 0)
 		{
+			quote = '\0';
 			end = start;
 			if (str[start] == '<' || str[start] == '>')
 			{
@@ -52,7 +53,7 @@ t_data	*ft_split_args(char *str, int *i)
 			}
 			while (str[end] && ft_iswhitespace(str[end]) == 0 && str[end] != '|'
 				&& str[end] != '<' && str[end] != '>' && str[end] != '<'
-				&& str[end] != '>')
+				&& str[end] != '>' && quote == '\0')
 			{
 				if (str[end] == '\"' || str[end] == '\'')
 				{
@@ -121,7 +122,10 @@ t_data	*lexer(char *str)
 		ft_lstadd_back(&data, new);
 	}
 	if (!syntax_error_pipe(data) || !syntax_error_red(data))
+	{
+		svars->exit_status = 2;
 		return (NULL);
+	}
 	redirection(data);
 	if (!syntax_error_her(data))
 		return (NULL);
@@ -137,7 +141,6 @@ t_data	*lexer(char *str)
 		free(env_search("_")->value);
 		env_search("_")->value = last_arg(data->args[i]);
 	}
-
 	//=== for debug ==================================
 	// i = 0;
 	// while (data)

@@ -98,7 +98,6 @@ void setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(i
 	if (parent == 0)
 	{
 		sa.sa_handler = sig_handle;
-		sa.sa_flags = 0;
 		sigemptyset(&sa.sa_mask);
 		if (sigaction(SIGINT, &sa, NULL) != 0)
 			exiter(1);
@@ -108,13 +107,14 @@ void setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(i
 	}
 	else if (parent == 1)
 	{
-		sa.sa_flags = 0;
-		sigemptyset(&sa.sa_mask);
 		sa.sa_handler = sig_handle;
+		sigemptyset(&sa.sa_mask);
 		if (sigaction(SIGCHLD, &sa, NULL) != 0)
 			exiter(1);
 		sa.sa_handler = sig_ign;
 		if (sigaction(SIGINT, &sa, NULL) != 0)
+			exiter(1);
+		if (sigaction(SIGQUIT, &sa, NULL) != 0)
 			exiter(1);
 	}
 }
