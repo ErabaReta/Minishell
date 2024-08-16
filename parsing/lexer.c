@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/15 23:38:32 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/16 05:16:31 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_data	*ft_split_args(char *str, int *i)
 					if (str[end] == '\0')
 						return (NULL);
 				}
+				quote = '\0';
 				end++;
 			}
 			cmd = ft_substr(str, start, end - start);

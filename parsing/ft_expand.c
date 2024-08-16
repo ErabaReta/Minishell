@@ -39,6 +39,23 @@ void	expand_out_file(t_data *data)
 	}
 }
 
+int	herdoc(t_data *data, int *i, char **res)
+{
+	if (ft_strncmp(data->in_files->redirection, "<<", 2) != 0)
+	{
+		while (data->in_files->file[*i])
+			var_to_val(data->in_files->file, i, res);
+		if (*res != NULL)
+			data->in_files->file = ft_strdup(*res);
+		*res = NULL;
+	}
+	else
+		data->in_files->heredoc_fd = open_heredoc(data->in_files->file);
+	if (data->in_files->heredoc_fd == -1)
+		return (0);
+	return (1);
+}
+
 int	expand_in_file(t_data *data)
 {
 	t_files_list	*tmp;
@@ -52,17 +69,7 @@ int	expand_in_file(t_data *data)
 		while (data->in_files)
 		{
 			i = 0;
-			if (ft_strncmp(data->in_files->redirection, "<<", 2) != 0)
-			{
-				while (data->in_files->file[i])
-					var_to_val(data->in_files->file, &i, &res);
-				if (res != NULL)
-					data->in_files->file = ft_strdup(res);
-				res = NULL;
-			}
-			else
-				data->in_files->heredoc_fd = open_heredoc(data->in_files->file);
-			if (data->in_files->heredoc_fd == -1)
+			if (herdoc(data, &i, &res) == 0)
 				return (0);
 			data->in_files = data->in_files->next;
 		}
@@ -86,7 +93,7 @@ void	expand(t_data *data)
 		while (data->args && data->args[i])
 		{
 			res = catch_expnad(data->args[i]);
-			if (i == 0)
+			if (i == 0 && data->args[i][0] != '\"')
 			{
 				args_res = ft_split(res, ' ');
 			}

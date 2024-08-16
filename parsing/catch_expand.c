@@ -36,7 +36,7 @@ char	*ft_substr_withoutspace(char const *s)
 	return (res);
 }
 
-char	*find_expand(char *find)
+char	*find_expand(char *arg, char *find)
 {
 	t_spec	*svars;
 	t_env	*env;
@@ -45,6 +45,8 @@ char	*find_expand(char *find)
 	env = svars->env;
 	while (env)
 	{
+		if (!ft_strncmp(env->var, find, ft_strlen(env->var) + 1) && arg[0] == '\"')
+			return (ft_strdup(env->value));
 		if (!ft_strncmp(env->var, find, ft_strlen(env->var) + 1))
 			return (ft_substr_withoutspace(ft_strdup(env->value)));
 		env = env->next;
@@ -91,7 +93,7 @@ void	var_to_val(char *arg, int *i, char **res)
 			&& arg[end] != '\'' && ft_isalnum(arg[end]))
 			end++;
 		exp = ft_substr(arg, *i, end - *i);
-		exp = find_expand(exp);
+		exp = find_expand(arg, exp);
 		*res = ft_strnjoin(*res, exp, 0);
 		exp = NULL;
 		*i = end;

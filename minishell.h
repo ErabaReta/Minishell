@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/14 21:54:13 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/16 05:17:23 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_spec
 {
 	t_env	*env;
 	int		exit_status;
+	int		
 	pid_t	child_p;
 } t_spec;
 
@@ -101,14 +102,13 @@ void					redirector(t_data *data, char *cmd);
 t_data					*lexer(char *str);
 int						env_size(char **env);
 void					redirection(t_data *data);
-char					*find_expand(char *find);
+char					*find_expand(char *arg, char *find);
 void					expand_out_file(t_data *data);
 int						expand_in_file(t_data *data);
 void					expand(t_data *data);
 char					*quotes_remove(char *str);
 void					var_to_val(char *arg, int *i, char **res);
 char					*catch_expnad(char *arg);
-int						is_herdoc(int status);
 int						open_heredoc(char *limiter);
 //===Syntax_error============================================
 t_data					*syntax_error_pipe(t_data *data);
