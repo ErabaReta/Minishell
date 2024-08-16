@@ -6,8 +6,9 @@ TODO ambigus
 TODO exit status
 ========BoGaTo
 TODO SHLVL
-TODO this test case : "$a" (a="ls -al") don't split
+TODO @DONE this test case : "$a" (a="ls -al") don't split
 TODO @DONE for example : echo $"HOME" should output ==> HOME not $HOME
+TODO @DONE for example in heredoc $a (a="   ls    -al  ") expand with same spaces
 
 You can run with : (to suppress readline leaks and track unclosed fds)
 valgrind --suppressions=readline.supp --leak-check=full --track-fds=yes ./minishell

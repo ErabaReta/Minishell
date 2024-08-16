@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/15 23:38:37 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/16 05:16:37 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void signal_handler(int sig)
 
 	svars->exit_status = 128 + sig;
 	
-	if (sig == SIGINT && is_herdoc(-1) == 0)
+	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
@@ -54,7 +54,6 @@ void	looper()
 	str = NULL;
 	while (1)
 	{
-		is_herdoc(0);
 		setup_signal_handler(0, signal_handler, SIG_IGN);
 		str = readline("minishell $> ");
 		if (str == NULL)

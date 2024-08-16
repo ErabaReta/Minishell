@@ -63,15 +63,6 @@ void	redirection(t_data *data)
 	}
 }
 
-int	is_herdoc(int pid)
-{
-	static	int	is;
-
-	if (pid != -1)
-		is = pid;
-	return (is);
-}
-
 void	sighandler(int sig)
 {
 	if (sig == SIGINT)
@@ -119,13 +110,44 @@ void setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(i
 	}
 }
 
+void	openchildherdoc(int tmp_file[2], char	*limiter, int exp)
+{
+	char	*str;
+	char	*res;
+	int		i;
+
+	setup_signal_handler(0, sighandler, SIG_IGN);
+	while (1)
+	{
+		str = readline("HereDoc > ");
+		i = 0;
+		res = ft_strdup("");
+		if (str == NULL || !ft_strncmp(limiter, str, ft_strlen(limiter)))
+		{
+			if (str == NULL)
+				printf("warning: here-document delimited by end-of-file\n");
+			break ;
+		}
+		if (exp == 1)
+		{
+			while (str[i])
+				var_to_val(str, &i, &res);
+			write(tmp_file[PIPE_INPUT], res, ft_strlen(res));
+		}
+		else
+			write(tmp_file[PIPE_INPUT], str, ft_strlen(str));
+		write(tmp_file[PIPE_INPUT], "\n", 1);
+	}
+	exiter(0);
+}
+
 int	open_heredoc(char *limiter)
 {
-	char	*res;
+	// char	*res;
 	int	tmp_file[2];
-	int	i;
+	// int	i;
 	int	exp;
-	char *str;
+	// char *str;
 	int	child_pid;
 	int	status;
 	t_spec	*svars;
@@ -142,41 +164,10 @@ int	open_heredoc(char *limiter)
 	}
 	child_pid = fork();
 	if (child_pid == 0)
-	{
-		setup_signal_handler(0, sighandler, SIG_IGN);
-		while (1)
-		{
-			str = readline("HereDoc > ");
-			i = 0;
-			res = ft_strdup("");
-			if (str == NULL || !ft_strncmp(limiter, str, ft_strlen(limiter)))
-			{
-				if (str == NULL)
-					printf("warning: here-document delimited by end-of-file\n");
-				break ;
-			}
-			if (exp == 1)
-			{
-				while (str[i])
-					var_to_val(str, &i, &res);
-				write(tmp_file[PIPE_INPUT], res, ft_strlen(res));
-				write(tmp_file[PIPE_INPUT], "\n", 1);
-			}
-			else
-			{
-				write(tmp_file[PIPE_INPUT], str, ft_strlen(str));
-				write(tmp_file[PIPE_INPUT], "\n", 1);
-			}
-		}
-		exiter(0);
-	}
-	else
-	{
-		setup_signal_handler(1, SIG_DFL, SIG_IGN);
-		waitpid(child_pid, &status, 0);
-	}
+		openchildherdoc(tmp_file, limiter, exp);
+	setup_signal_handler(1, SIG_DFL, SIG_IGN);
+	waitpid(child_pid, &status, 0);
 	svars->exit_status = status >> 8;
-	is_herdoc(0);
 	close(tmp_file[PIPE_INPUT]); // ?
 	if (svars->exit_status == 130 || svars->exit_status == 131)
 	{
