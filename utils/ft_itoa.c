@@ -34,13 +34,15 @@ static char	*ismin(void)
 	return (ft_strdup("-2147483648"));
 }
 
-static void	n_num(int *n, int *j)
+static void	n_num(int *n, int *j, char *num, int *i)
 {
 	*n *= -1;
 	*j = 0;
+	*num = '-';
+	*i += 1;
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa(int n, int p)
 {
 	int		i;
 	int		j;
@@ -52,14 +54,12 @@ char	*ft_itoa(int n)
 	digits = count_digits(n);
 	if (n == -2147483648)
 		return (ismin());
-	num = (char *)mallocate(digits + 1);
-	if (!num)
-		return (NULL);
+	if (p == 0)
+		num = (char *)mallocate(digits + 1);
+	else
+		num = (char *)malloc(digits + 1);
 	if (n < 0)
-	{
-		num[i++] = '-';
-		n_num(&n, &j);
-	}
+		n_num(&n, &j, num + i, &i);
 	while (i < digits)
 	{
 		num[(digits - j) - i++] = (n % 10) + 48;

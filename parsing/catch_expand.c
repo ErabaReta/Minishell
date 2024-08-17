@@ -68,7 +68,7 @@ char	*expanddor(char *arg, int *i)
 	svars = get_specials();
 	*i += 2;
 	if (arg[*i - 1] == '?')
-		return (ft_itoa(svars->exit_status));
+		return (ft_itoa(svars->exit_status, 0));
 	if (ft_isalnum(arg[*i]) == 0)
 	{
 		if (arg[*i - 1] == '_')

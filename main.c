@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/16 05:16:37 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/17 01:28:21 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,10 @@ int	main(int ac, char **av, char **env)
 	(void)special_vars;
 	special_vars = get_specials();
 	special_vars->exit_status = 0;
+	special_vars->shlvl = 0;
 	env_table_to_list(env);
+	special_vars->shlvl = ft_atoi(env_search("SHLVL")->value) + 1;
+	env_search("SHLVL")->value = ft_itoa(special_vars->shlvl, 1);
 	looper();
 	return (0);
 }
