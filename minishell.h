@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/16 05:17:23 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/17 01:29:32 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_spec
 {
 	t_env	*env;
 	int		exit_status;
-	int		
+	int		shlvl;
 	pid_t	child_p;
 } t_spec;
 
@@ -141,7 +141,7 @@ t_env	*slice_var_value(char *str);
 char	**ft_tabledup(char **tabe);
 char	**ft_tablejoin(char **table, char *new);
 char	**ft_split(char const *s, char c);
-char	*ft_itoa(int n);
+char	*ft_itoa(int n, int p);
 size_t	count_words(char const *s, char c);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -153,7 +153,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 void	ft_lstadd_back(t_data **lst, t_data *new);
 t_data  *ft_lstnew();
 int		ft_isalnum(int c);
-int	ft_iswhitespace(int c);
+int		ft_iswhitespace(int c);
+int		ft_atoi(const char *str);
 t_files_list	*add_last(t_files_list **head, t_files_list *new);
 t_files_list	*make_new(char *redirection, char *file);
 void	print_err(char *str);
