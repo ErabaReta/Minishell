@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/17 01:29:32 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:46:48 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ t_data					*syntax_error_pipe(t_data *data);
 t_data					*syntax_error_red(t_data *data);
 t_data					*syntax_error_her(t_data *data);
 void					setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(int));
-	//== Execution ===============================================
+//== Execution ===============================================
 
 void					execution(t_data *data, int length);
 char					*check_relative_path(char *file);
@@ -123,7 +123,7 @@ char					*check_paths(char *cmd);
 void					piping(t_data *data, int **pipes, int length, int i);
 int						open_infiles(t_data *data);
 int						open_outfiles(t_data *data);
-void					exiter(int code); //-toke as builtin exit too-
+void					exiter(int code);
 int						is_dir(char *path);
 //-- Builtins ------------------------------------------------
 
@@ -135,6 +135,7 @@ void	ft_echo(t_data *data);
 void	ft_unset(t_data *data);
 void	ft_export(t_data *data, int	*status);
 t_env	*slice_var_value(char *str);
+void		ft_exit(t_data *data, int is_parent, int *fd, int *exit_status);
 //------------------------------------------------------------
 //== Utils ===================================================
 
@@ -158,6 +159,8 @@ int		ft_atoi(const char *str);
 t_files_list	*add_last(t_files_list **head, t_files_list *new);
 t_files_list	*make_new(char *redirection, char *file);
 void	print_err(char *str);
+int	ft_isdigit(int c);
+int	include_space(char *str);
 //== env ==========================================================
 
 void	env_table_to_list(char **table);
