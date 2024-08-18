@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/17 01:32:55 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/17 18:10:23 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,12 @@ void execution(t_data *data, int length)
 		}
 		if (child_pids[i] == 0) // if we are in the child proccess do this :
 		{
+			if (svars->shlvl > 0)
+			{
+				svars->shlvl = ft_atoi(env_search("SHLVL")->value) - 1;
+				free(env_search("SHLVL")->value);
+				env_search("SHLVL")->value = ft_itoa(svars->shlvl, 1);
+			}
 			setup_signal_handler(0, SIG_DFL, SIG_DFL);
 			// printf("cmd => \"%s\"\n", tmp->args[0]);
 			if (length >= 2)
