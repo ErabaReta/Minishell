@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/14 20:37:16 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/18 14:13:48 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,12 @@ int	check_builtins(t_data *data, int is_parent)
 			files_status = open_outfiles(data);
 		if (files_status == 0)
 		{
-			if(is_parent)
-				print_err("exit\n");
-			close(fd[0]);
-			close(fd[1]);
-			exiter(svars->exit_status);
+			ft_exit(data, is_parent, fd, &(svars->exit_status));
+			// if(is_parent)
+			// 	print_err("exit\n");
+			// close(fd[0]);
+			// close(fd[1]);
+			// exiter(svars->exit_status);
 		}
 		else
 			svars->exit_status = 1;
