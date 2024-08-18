@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/14 20:58:42 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/18 18:49:25 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ int	open_infiles(t_data *data)
 			// fd = open_heredoc(tmp->file);
 			fd = tmp->heredoc_fd;
 			tmp = tmp->next;
+		}
+		else if (tmp->file[0] == '$')
+		{
+			print_err("minishell: ");
+			print_err(tmp->file);
+			print_err(": ambiguous redirect\n");
+			return (1);
 		}
 		else if (access(tmp->file, F_OK) == 0) // it exist
 		{
@@ -93,7 +100,14 @@ int	open_outfiles(t_data *data)
 	
 	while (tmp != NULL)
 	{
-		if (access(tmp->file, F_OK) == 0) // it exist
+		if (tmp->file[0] == '$')
+		{
+			print_err("minishell: ");
+			print_err(tmp->file);
+			print_err(": ambiguous redirect\n");
+			return (1);
+		}
+		else if (access(tmp->file, F_OK) == 0) // it exist
 		{
 			if (is_dir(tmp->file))
 			{

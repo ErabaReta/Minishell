@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/30 22:46:25 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/18 16:35:36 by eouhrich         ###   ########.fr       */
+/*   Created: 2024/08/18 16:33:39 by eouhrich          #+#    #+#             */
+/*   Updated: 2024/08/18 16:37:13 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-// if the character an alphabet or a number it returns 1 , otherwisre it returns 0
-int	ft_isalnum(int c)
+//returns 1 if c is a digit (from 0 to 9), otherwise retruns 0
+int	ft_isdigit(int c)
 {
-	if (ft_isdigit(c)
-		|| (c >= 'a' && c <= 'z')
-		|| (c >= 'A' && c <= 'Z'))
+	if (c >= '0' && c <= '9')
 		return (1);
 	return (0);
 }
-
