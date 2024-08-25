@@ -7,10 +7,7 @@ TODO make makefile output prettier
 ========BoGaTo
 TODO SHLVL
 TODO ambigus
-TODO dont expand on all file names on redirections (< > << >>) , so I can print the error correctly in ambigus case
-TODO @DONE this test case : "$a" (a="ls -al") don't split
-TODO @DONE for example : echo $"HOME" should output ==> HOME not $HOME
-TODO @DONE for example in heredoc $a (a="   ls    -al  ") expand with same spaces
+TODO return -1 fd if is amigos
 
 You can run with : (to suppress readline leaks and track unclosed fds)
 valgrind --suppressions=readline.supp --leak-check=full --track-fds=yes ./minishell

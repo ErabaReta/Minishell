@@ -109,7 +109,7 @@ void	var_to_val(char *arg, int *i, char **res)
 	}
 }
 
-void	quote_checker(char *arg, char **res, int *i)
+int	quote_checker(char *arg, char **res, int *i, int q)
 {
 	int	end;
 
@@ -125,26 +125,64 @@ void	quote_checker(char *arg, char **res, int *i)
 	}
 	else if (arg[*i] == '\"')
 	{
-		(*i)++;
-		*res = ft_strnjoin(*res, ft_strdup(""), 0);
-		while (arg[*i] != '\"' && arg[*i])
-			var_to_val(arg, i, res);
-		(*i)++;
+		printf("double quotes\n");
+		if (q == 0)
+		{
+			(*i)++;
+			*res = ft_strnjoin(*res, ft_strdup(""), 0);
+			while (arg[*i] != '\"' && arg[*i])
+				var_to_val(arg, i, res);
+			(*i)++;
+		}
+		else
+		{
+			(*i)++;
+			while (arg[*i] != '\"' && arg[*i])
+			{
+				*res = ft_strnjoin(*res, arg + (*i), 1);
+				(*i)++;
+			}
+			(*i)++;
+		}
 	}
 	else
+	{
+		printf("split\n");
 		var_to_val(arg, i, res);
+		return (1);
+	}
+	return (0);
 }
 
-char	*catch_expnad(char *arg)
+char	**catch_expnad(char *arg)
 {
 	int		i;
-	char	*res;
+	int		j;
+	char	**res;
+	char	**tmp;
 
 	i = 0;
-	res = NULL;
+	j = 0;
+	res = malloc(sizeof(char *) * 2);
+	res[0] = NULL;
+	res[1] = NULL;
+	tmp = malloc(sizeof(char *) * 2);
+	tmp[0] = NULL;
+	tmp[1] = NULL;
 	while (arg[i])
 	{
-		quote_checker(arg, &res, &i);
+		printf("start char %c\n", arg[i]);
+		if (quote_checker(arg, tmp, &i, 1))
+		{
+			tmp = ft_split(*tmp, ' ');
+		}
+	}
+	i = 0;
+	while (tmp[j])
+	{
+		while (tmp[j][i])
+			var_to_val(tmp, &i, res);
+		j++;
 	}
 	return (res);
 }

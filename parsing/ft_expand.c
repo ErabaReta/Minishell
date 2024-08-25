@@ -81,8 +81,9 @@ int	expand_in_file(t_data *data)
 
 void	expand(t_data *data)
 {
+	int		j;
 	int		i;
-	char	*res;
+	char	**res;
 	char	**args_res;
 
 	res = NULL;
@@ -93,14 +94,18 @@ void	expand(t_data *data)
 		while (data->args && data->args[i])
 		{
 			res = catch_expnad(data->args[i]);
-			if (i == 0 && data->args[i][0] != '\"')
+			j = 0;
+			while (res[j])
 			{
-				args_res = ft_split(res, ' ');
+				printf("res[%d] ==> %s\n", j, res[j]);
+				j++;
 			}
-			else
-				if (res)
-					args_res = ft_tablejoin(args_res, res);
-			res = NULL;
+			if (*res)
+			{
+				j = 0;
+				while (res[j])
+					args_res = ft_tablejoin(args_res, res[j++]);
+			}
 			i++;
 		}
 		data->args = args_res;

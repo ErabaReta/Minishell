@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/17 18:10:23 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/18 22:14:21 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void execution(t_data *data, int length)
 	t_spec	*svars;
 
 	svars = get_specials();
+	
 	if (length == 1 && check_builtins(data, 1) == 0) // check if there is no pipes and the cmd is a builtin so it executes it on the parent process
 	{
 		return ;

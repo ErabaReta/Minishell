@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/17 20:21:36 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/25 02:25:32 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	main(int ac, char **av, char **env)
 	special_vars->exit_status = 0;
 	special_vars->shlvl = 0;
 	env_table_to_list(env);
-	printf("shlvl = %s\n", env_search("SHLVL")->value);
+	// printf("shlvl = %s\n", env_search("SHLVL")->value);
 	special_vars->shlvl = ft_atoi(env_search("SHLVL")->value) + 1;
 	env_search("SHLVL")->value = ft_itoa(special_vars->shlvl, 1);
 	looper();
