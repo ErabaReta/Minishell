@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/18 20:46:48 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/25 02:42:51 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int						expand_in_file(t_data *data);
 void					expand(t_data *data);
 char					*quotes_remove(char *str);
 void					var_to_val(char *arg, int *i, char **res);
-char					*catch_expnad(char *arg);
+char					**catch_expnad(char *arg);
 int						open_heredoc(char *limiter);
 //===Syntax_error============================================
 t_data					*syntax_error_pipe(t_data *data);

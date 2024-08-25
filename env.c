@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:07:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/18 03:08:07 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/19 22:30:29 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ t_env	*env_new_node(char *var, char *value)
 
 	new = (t_env *)malloc(sizeof(t_env));
 	new->var = var; // there is directly assinging here not strduped !
-	if (ft_strncmp("SHLVL", var, ft_strlen(var)) == 0)
-		printf("shlvl = %s\n", value);
+	// if (ft_strncmp("SHLVL", var, ft_strlen(var)) == 0)
+	// 	printf("shlvl = %s\n", value);
 	new->value = value; //
 	new->next = NULL;
 	return (new);
