@@ -79,13 +79,15 @@ int	expand_in_file(t_data *data)
 	return (1);
 }
 
+
 void	expand(t_data *data)
 {
-	int		j;
 	int		i;
+	int		j;
 	char	**res;
 	char	**args_res;
 
+	j = 0;
 	res = NULL;
 	args_res = NULL;
 	while (data)
@@ -94,12 +96,6 @@ void	expand(t_data *data)
 		while (data->args && data->args[i])
 		{
 			res = catch_expnad(data->args[i]);
-			j = 0;
-			while (res[j])
-			{
-				printf("res[%d] ==> %s\n", j, res[j]);
-				j++;
-			}
 			if (*res)
 			{
 				j = 0;
