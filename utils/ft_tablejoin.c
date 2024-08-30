@@ -100,10 +100,8 @@ t_files_list	*make_new(char *redirection, char *file)
 
 	new = (t_files_list *)mallocate(sizeof(t_files_list));
 	new->redirection = ft_strdup(redirection);
-	if (ft_strncmp(redirection, "<<", 2) != 0)
-		new->file = quotes_remove(ft_strdup(file));
-	else
-		new->file = ft_strdup(file);
+	new->file = ft_strdup(file);
+	new->heredoc_fd = 0;
 	new->next = NULL;
 	return (new);
 }
