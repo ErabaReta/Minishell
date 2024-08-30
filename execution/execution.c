@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/17 01:32:55 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/28 22:59:19 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ void execute_cmd(t_data *data)
 		print_err("minishell: .: filename argument required\n");
 		exiter(2);
 	}
-	if (ft_strncmp(data->args[0] , "..", 3) == 0)
+	if (ft_strncmp(data->args[0] , "..", 3) == 0 || ft_strncmp(data->args[0] , "", 1) == 0)
 	{
-		print_err("..: command not found\n");
+		print_err(data->args[0]);
+		print_err(": command not found\n");
 		exiter(127);
 	}
 	// args = ft_split(data->cmd, ' '); // split the cmd to have it with its args

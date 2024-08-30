@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:07:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/08 20:01:09 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/30 00:33:07 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ char *env_join_var_value(char *var, char *value)
 	return (var_value);
 }
 
-// turns a linked list into 2D chars
+// turns a linked list into 2D chars NULL terminated
 char	**env_list_to_table()
 { 
 	int	count;

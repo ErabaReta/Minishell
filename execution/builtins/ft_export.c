@@ -6,24 +6,88 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:43:18 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/14 19:23:11 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/30 02:52:57 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	print_vars()// TODO sort vars before print
+void	sort_vars(char **vars, int lenght)
 {
-	t_spec	*svars = get_specials();
-	t_env	*tmp = svars->env;
-	
+	int	i;
+	int	j;
+	int	k;
+	char	*tmp;
+
+	if (lenght <= 1)
+		return ;
+	i = 0;
+	while (i < lenght - 1)
+	{
+		j = i + 1;
+		while (j < lenght)
+		{
+			k = 0;
+			while (vars[i][k] == vars[j][k])
+				k++;
+			if (vars[i][k] > vars[j][k])
+			{
+				tmp = vars[i];
+				vars[i] = vars[j];
+				vars[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+		
+	}
+}
+
+char	**get_vars_sorted()
+{
+	int	count;
+	t_env	*tmp;
+	char	**table;
+	int		i;
+
+	t_spec *svar = get_specials();
+	tmp = svar->env;
+	count = 0;
+	while (tmp != NULL )
+	{
+		count++;
+		tmp = tmp->next;
+	}
+	table = (char **)mallocate(sizeof(char *) * (count + 1));///////////
+	tmp = svar->env;
+	i = 0;
 	while (tmp != NULL)
 	{
+		table[i] = ft_strdup(tmp->var);
+		i++;
+		tmp = tmp->next;
+	}
+	table[i] = NULL;
+	sort_vars(table, count);
+	return (table);
+}
+
+void	print_vars()
+{
+	// t_spec	*svars = get_specials();
+	t_env *tmp;
+	char **vars = get_vars_sorted();
+	int	i;
+	
+	i = 0;
+	while (vars[i] != NULL)
+	{
+		tmp = env_search(vars[i]);
 		if (tmp->value == NULL)
 			printf("declare -x %s\n", tmp->var);
 		else
 			printf("declare -x %s=\"%s\"\n", tmp->var, tmp->value);
-		tmp = tmp->next;
+		i++;
 	}
 }
 
