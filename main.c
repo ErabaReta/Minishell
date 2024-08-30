@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/30 05:57:31 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/30 06:43:20 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	main(int ac, char **av, char **env)
 	env_table_to_list(env);
 	// printf("shlvl = %s\n", env_search("SHLVL")->value);
 	special_vars->shlvl = ft_atoi(env_search("SHLVL")->value) + 1;
+	free(env_search("SHLVL")->value);
 	env_search("SHLVL")->value = ft_itoa(special_vars->shlvl, 1);
 	looper();
 	return (0);
