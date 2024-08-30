@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/18 14:13:48 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/30 04:40:30 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int	check_builtins(t_data *data, int is_parent)
 	}
 	if (ft_strncmp(data->args[0], "pwd", 4) == 0)
 	{
-		if (is_parent && data->in_files != NULL)
-			files_status = open_infiles(data);
-		if (is_parent && data->out_files != NULL && files_status == 0)
-			files_status = open_outfiles(data);
+		// if (is_parent && data->in_files != NULL)
+		// 	files_status = open_infiles(data);
+		// if (is_parent && data->out_files != NULL && files_status == 0)
+		// 	files_status = open_outfiles(data);
 		if (files_status == 0)
 		{
 			ft_pwd();
@@ -45,10 +45,10 @@ int	check_builtins(t_data *data, int is_parent)
 	}
 	else if (ft_strncmp(data->args[0], "env", 4) == 0)
 	{
-		if (is_parent && data->in_files != NULL)
-			files_status = open_infiles(data);
-		if (is_parent && data->out_files != NULL && files_status == 0)
-			files_status = open_outfiles(data);
+		// if (is_parent && data->in_files != NULL)
+		// 	files_status = open_infiles(data);
+		// if (is_parent && data->out_files != NULL && files_status == 0)
+		// 	files_status = open_outfiles(data);
 		if (files_status == 0)
 		{
 			ft_env(env_list_to_table());
@@ -59,10 +59,10 @@ int	check_builtins(t_data *data, int is_parent)
 	}
 	else if (ft_strncmp(data->args[0], "exit", 5) == 0)
 	{
-		if (is_parent && data->in_files != NULL)
-			files_status = open_infiles(data);
-		if (is_parent && data->out_files != NULL && files_status == 0)
-			files_status = open_outfiles(data);
+		// if (is_parent && data->in_files != NULL)
+		// 	files_status = open_infiles(data);
+		// if (is_parent && data->out_files != NULL && files_status == 0)
+		// 	files_status = open_outfiles(data);
 		if (files_status == 0)
 		{
 			ft_exit(data, is_parent, fd, &(svars->exit_status));
@@ -77,10 +77,10 @@ int	check_builtins(t_data *data, int is_parent)
 	}
 	else if (ft_strncmp(data->args[0], "cd", 3) == 0)
 	{
-		if (is_parent && data->in_files != NULL)
-			files_status = open_infiles(data);
-		if (is_parent && data->out_files != NULL && files_status == 0)
-			files_status = open_outfiles(data);
+		// if (is_parent && data->in_files != NULL)
+		// 	files_status = open_infiles(data);
+		// if (is_parent && data->out_files != NULL && files_status == 0)
+		// 	files_status = open_outfiles(data);
 		if (files_status == 0)
 		{
 			svars->exit_status = ft_cd(data);
@@ -90,10 +90,10 @@ int	check_builtins(t_data *data, int is_parent)
 	}
 	else if (ft_strncmp(data->args[0], "echo", 5) == 0)
 	{
-		if (is_parent && data->in_files != NULL)
-			files_status = open_infiles(data);
-		if (is_parent && data->out_files != NULL && files_status == 0)
-			files_status = open_outfiles(data);
+		// if (is_parent && data->in_files != NULL)
+		// 	files_status = open_infiles(data);
+		// if (is_parent && data->out_files != NULL && files_status == 0)
+		// 	files_status = open_outfiles(data);
 		if (files_status == 0)
 		{
 			ft_echo(data);
@@ -104,10 +104,10 @@ int	check_builtins(t_data *data, int is_parent)
 	}
 	else if (ft_strncmp(data->args[0], "unset", 6) == 0)
 	{
-		if (is_parent && data->in_files != NULL)
-			files_status = open_infiles(data);
-		if (is_parent && data->out_files != NULL && files_status == 0)
-			files_status = open_outfiles(data);
+		// if (is_parent && data->in_files != NULL)
+		// 	files_status = open_infiles(data);
+		// if (is_parent && data->out_files != NULL && files_status == 0)
+		// 	files_status = open_outfiles(data);
 		if (files_status == 0)
 		{
 			ft_unset(data);
@@ -117,10 +117,10 @@ int	check_builtins(t_data *data, int is_parent)
 	}
 	else if (ft_strncmp(data->args[0], "export", 7) == 0)
 	{
-		if (is_parent && data->in_files != NULL)
-			files_status = open_infiles(data);
-		if (is_parent && data->out_files != NULL && files_status == 0)
-			files_status = open_outfiles(data);
+		// if (is_parent && data->in_files != NULL)
+		// 	files_status = open_infiles(data);
+		// if (is_parent && data->out_files != NULL && files_status == 0)
+		// 	files_status = open_outfiles(data);
 		if (files_status == 0)
 			ft_export(data, &(svars->exit_status));
 		else
