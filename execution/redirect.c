@@ -6,35 +6,40 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/30 04:37:50 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/30 05:18:31 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_files(t_files_list *files)
+int	handle_files(t_files_list *files, int is_parent)
 {
-	t_files_list *tmp;
 	int in_fd = -1;
 	int out_fd = -1;
 	int status;
 
 	if (files == NULL)
-		return ;
+		return 1;
 	while (files != NULL)
 	{
 		status = 0;
-		if (files->file[0] == '<')
+			// fprintf(stderr, "redirect %c || file %s\n");
+		if (files->redirection[0] == '<')
 			status += open_infile(files, &in_fd);
 		else
 			status += open_outfile(files, &out_fd);
 		if (status != 0)
 		{
-			exiter(1);// FIXME not always we exit
+			if (is_parent)
+				return (1);
+			exiter(1);
 		}
+		files = files->next;
 	}
+	// fprintf(stderr, "in filed %d\n", in_fd);
 	if (in_fd != -1)
 	{
+		fprintf(stderr, "fd in duped\n");
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
@@ -43,11 +48,12 @@ void	handle_files(t_files_list *files)
 		dup2(out_fd, STDOUT_FILENO);
 		close(out_fd);
 	}
+	return (0);
 }
 
 
 //opens the file after checking it existence and its permission then redirect the standard intput to it
-int	open_infile(t_files_list *file, *fd)
+int	open_infile(t_files_list *file, int *fd)
 {
 	if (*fd != -1)
 		close(*fd);
@@ -92,21 +98,17 @@ int	open_infile(t_files_list *file, *fd)
 	}
 	else
 	{
-		*fd = open(file->file, O_RDONLY);//TODO protect failing
-		if (*fd < 0)
-		{
-		// printf("minishell: %s: No such file or directory\n",tmp->file);//TODO custume ERR here
-			print_err("minishell: ");
-			print_err(file->file);
-			print_err(": No such file or directory\n");
-			return (1);
-		}
+		print_err("minishell: ");
+		print_err(file->file);
+		print_err(": No such file or directory\n");
+		return (1);
 	}
+	// fprintf(stderr, "returnin\n");
 	return (0);
 }
 
 //opens the file after checking it existence and its permission then redirect the standard output to it
-int	open_outfile(t_files_list *file, *fd)
+int	open_outfile(t_files_list *file, int *fd)
 {
 	if (*fd != -1)
 		close(*fd);
@@ -120,7 +122,7 @@ int	open_outfile(t_files_list *file, *fd)
 		if (is_dir(file->file))
 		{
 			print_err("minishell: ");
-			print_err(tfilemp->file);
+			print_err(file->file);
 			print_err(": Is a directory\n");
 			return (1);
 		}
@@ -208,6 +210,6 @@ void	piping(t_data *data, int **pipes, int length, int i)
 			dup2(pipes[i][PIPE_INPUT], STDOUT_FILENO);
 		close(pipes[i][PIPE_INPUT]);
 	}
-	if (tmp->files != NULL)
-		handle_files(tmp->files);
+	if (data->files != NULL)
+		handle_files(data->files, 0);
 }
