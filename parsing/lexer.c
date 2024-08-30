@@ -6,23 +6,11 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/08/30 04:54:46 by eouhrich         ###   ########.fr       */
-=======
-/*   Updated: 2024/08/30 04:37:33 by ayechcha         ###   ########.fr       */
->>>>>>> BoGaTo
+/*   Updated: 2024/08/30 06:37:49 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*str_maker(char *first, char *second)
-{
-	char	*str;
-
-	str = ft_strnjoin(first, second, 0);
-	return (str);
-}
 
 t_data	*ft_split_args(char *str, int *i)
 {
@@ -146,28 +134,28 @@ t_data	*lexer(char *str)
 		env_search("_")->value = last_arg(data->args[i]);
 	}
 	//=== for debug ==================================
-	i = 0;
-	while (data)
-	{
-		i = 0;
-		printf("args ====================== \n");
-		while (data->args && data->args[i])
-		{
-			printf("cmd = %s\n", data->args[i]);
-			i++;
-		}
-		printf("files ====================== \n");
+	// i = 0;
+	// while (data)
+	// {
+	// 	i = 0;
+	// 	printf("args ====================== \n");
+	// 	while (data->args && data->args[i])
+	// 	{
+	// 		printf("cmd = %s\n", data->args[i]);
+	// 		i++;
+	// 	}
+	// 	printf("files ====================== \n");
 
-		while (data->files)
-		{
-			printf("red = %s, file = %s, fd = %d\n", data->files->redirection,
-				data->files->file, data->files->heredoc_fd);
-			data->files = data->files->next;
-		}
-		data = data->next;
-		if (data != NULL)
-			printf("|\n");
-	}
+	// 	while (data->files)
+	// 	{
+	// 		printf("red = %s, file = %s, fd = %d\n", data->files->redirection,
+	// 			data->files->file, data->files->heredoc_fd);
+	// 		data->files = data->files->next;
+	// 	}
+	// 	data = data->next;
+	// 	if (data != NULL)
+	// 		printf("|\n");
+	// }
 	// ==================================================
 	return (data);
 }
