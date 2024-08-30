@@ -73,11 +73,11 @@ void	expand(t_data *data)
 	char	**args_res;
 
 	j = 0;
-	res = NULL;
-	args_res = NULL;
 	while (data)
 	{
 		i = 0;
+		res = NULL;
+		args_res = NULL;
 		while (data->args && data->args[i])
 		{
 			res = catch_expnad(data->args[i]);

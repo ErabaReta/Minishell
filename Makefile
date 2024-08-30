@@ -6,7 +6,7 @@ UTILS_FILES = ./utils/ft_split.c ./utils/ft_memmove.c ./utils/ft_strncmp.c ./uti
 EXEC_FILES =  ./execution/execution.c execution/check_paths.c  ./execution/builtins/builtins.c ./execution/builtins/ft_env.c ./execution/builtins/ft_pwd.c ./execution/builtins/ft_cd.c ./execution/builtins/ft_echo.c ./execution/builtins/ft_unset.c ./execution/builtins/ft_export.c ./execution/redirect.c ./execution/builtins/ft_exit.c
 PARSING_FILES = ./parsing/lexer.c ./parsing/syntax_error.c ./parsing/ft_expand.c ./parsing/ft_quotes.c ./parsing/ft_redirection.c ./parsing/catch_expand.c ./execution/exiter.c
 ENV=env.c
-CFILES = main.c  ${PARSING_FILES} ${UTILS_FILES} ${GARBAGE_MAKER} ${ENV} #${EXEC_FILES}
+CFILES = main.c  ${PARSING_FILES} ${UTILS_FILES} ${GARBAGE_MAKER} ${ENV} ${EXEC_FILES}
 OFILES = ${CFILES:.c=.o}
 NAME = minishell
 
