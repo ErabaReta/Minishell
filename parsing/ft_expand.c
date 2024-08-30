@@ -12,51 +12,25 @@
 
 #include "../minishell.h"
 
-void	expand_out_file(t_data *data)
-{
-	t_files_list	*tmp;
-	int				i;
-	char			*res;
-
-	res = NULL;
-	while (data)
-	{
-		tmp = data->out_files;
-		while (data->out_files)
-		{
-			i = 0;
-			while (data->out_files->file[i])
-				var_to_val(data->out_files->file, &i, &res);
-			if (res != NULL)
-			{
-				data->out_files->file = ft_strdup(res);
-				res = NULL;
-			}
-			data->out_files = data->out_files->next;
-		}
-		data->out_files = tmp;
-		data = data->next;
-	}
-}
-
+//quotes are removed here !!!!!
 int	herdoc(t_data *data, int *i, char **res)
 {
-	if (ft_strncmp(data->in_files->redirection, "<<", 2) != 0)
+	if (ft_strncmp(data->files->redirection, "<<", 2) != 0)
 	{
-		while (data->in_files->file[*i])
-			var_to_val(data->in_files->file, i, res);
+		while (data->files->file[*i])
+			var_to_val(data->files->file, i, res);
 		if (*res != NULL)
-			data->in_files->file = ft_strdup(*res);
+			data->files->file = ft_strdup(*res);
 		*res = NULL;
 	}
 	else
-		data->in_files->heredoc_fd = open_heredoc(data->in_files->file);
-	if (data->in_files->heredoc_fd == -1)
+		data->files->heredoc_fd = open_heredoc(data->files->file);
+	if (data->files->heredoc_fd == -1)
 		return (0);
 	return (1);
 }
 
-int	expand_in_file(t_data *data)
+int	expand_file(t_data *data)
 {
 	t_files_list	*tmp;
 	int				i;
@@ -65,15 +39,15 @@ int	expand_in_file(t_data *data)
 	res = NULL;
 	while (data)
 	{
-		tmp = data->in_files;
-		while (data->in_files)
+		tmp = data->files;
+		while (data->files)
 		{
 			i = 0;
 			if (herdoc(data, &i, &res) == 0)
 				return (0);
-			data->in_files = data->in_files->next;
+			data->files = data->files->next;
 		}
-		data->in_files = tmp;
+		data->files = tmp;
 		data = data->next;
 	}
 	return (1);

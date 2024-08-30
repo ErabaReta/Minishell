@@ -22,12 +22,8 @@ void	red_checker(char **reds, int *i, t_data *data, int *passed)
 		if (ft_strncmp(data->args[*i], reds[j], 2) == 0)
 		{
 			*passed = 1;
-			if (reds[0][0] == '<')
-				data->in_files = add_last(&data->in_files,
-						make_new(data->args[*i], data->args[*i + 1]));
-			if (reds[0][0] == '>')
-				data->out_files = add_last(&data->out_files,
-						make_new(data->args[*i], data->args[*i + 1]));
+			data->files = add_last(&data->files,
+					make_new(data->args[*i], data->args[*i + 1]));
 			*i = *i + 1;
 		}
 		j++;
@@ -38,12 +34,10 @@ void	redirection(t_data *data)
 {
 	int		i;
 	int		passed;
-	char	**reds_in;
-	char	**reds_out;
+	char	**reds;
 	char	**cmds;
 
-	reds_in = ft_split("< <<", ' ');
-	reds_out = ft_split("> >>", ' ');
+	reds = ft_split("< << > >>", ' ');
 	passed = -1;
 	while (data)
 	{
@@ -51,8 +45,7 @@ void	redirection(t_data *data)
 		cmds = NULL;
 		while (data->args && data->args[i])
 		{
-			red_checker(reds_in, &i, data, &passed);
-			red_checker(reds_out, &i, data, &passed);
+			red_checker(reds, &i, data, &passed);
 			if (passed == -1)
 				cmds = ft_tablejoin(cmds, data->args[i]);
 			passed = -1;
@@ -143,11 +136,8 @@ void	openchildherdoc(int tmp_file[2], char	*limiter, int exp)
 
 int	open_heredoc(char *limiter)
 {
-	// char	*res;
 	int	tmp_file[2];
-	// int	i;
 	int	exp;
-	// char *str;
 	int	child_pid;
 	int	status;
 	t_spec	*svars;

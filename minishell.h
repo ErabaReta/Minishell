@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/26 04:32:58 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/30 03:19:35 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ typedef struct s_files_list
 typedef struct s_data
 {
 	char **args;            //--> cmd args ex: "ls" "-la"
-	t_files_list *in_files; //
-	t_files_list		*out_files;
+	t_files_list	*files; //
 	struct s_data *next; // next node
 	struct s_data *prev; // prev node (not used yet)
 }						t_data;
@@ -103,8 +102,7 @@ t_data					*lexer(char *str);
 int						env_size(char **env);
 void					redirection(t_data *data);
 char					*find_expand(char *arg, char *find);
-void					expand_out_file(t_data *data);
-int						expand_in_file(t_data *data);
+int						expand_file(t_data *data);
 void					expand(t_data *data);
 char					*quotes_remove(char *str);
 void					var_to_val(char *arg, int *i, char **res);
