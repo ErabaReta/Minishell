@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/30 03:29:38 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/30 04:37:16 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,13 +141,15 @@ void execution(t_data *data, int length)
 			else
 			{
 					// printf("it is here tmp->in_files=>%p || tmp->out_files=>%p\n",tmp->in_files, tmp->out_files);
-				int	status = 0;
-				if (tmp->in_files != NULL)
-					status = open_infiles(tmp);
-				if (tmp->out_files != NULL && status == 0)
-					status = open_outfiles(tmp);
-				if (status != 0)
-					exiter(1);
+				// int	status = 0;
+				// if (tmp->in_files != NULL)
+				// 	status = open_infiles(tmp);
+				// if (tmp->out_files != NULL && status == 0)
+				// 	status = open_outfiles(tmp);
+				// if (status != 0)
+				// 	exiter(1);
+				if (tmp->files != NULL)
+					handle_files(tmp->files);
 			}
 			if (tmp->args != NULL && *(tmp->args) != NULL)
 			{
