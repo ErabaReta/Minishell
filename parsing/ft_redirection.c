@@ -83,6 +83,7 @@ void setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(i
 	{
 		sa.sa_handler = sig_handle;
 		sigemptyset(&sa.sa_mask);
+		sa.sa_flags = 0;
 		if (sigaction(SIGINT, &sa, NULL) != 0)
 			exiter(1);
 		sa.sa_handler = sig_ign;
