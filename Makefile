@@ -27,3 +27,10 @@ fclean : clean
 	${RM} ${NAME}
 
 re : fclean all
+
+################# TODO remember to remove this ######################
+run : all clean
+	valgrind --suppressions=readline.supp --leak-check=full --track-fds=yes ./minishell
+
+rerun : re run
+#####################################################################

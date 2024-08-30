@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/16 05:16:31 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/30 02:00:03 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ t_data	*lexer(char *str)
 	expand(data);
 	if (!expand_in_file(data))
 		return (NULL);
-	expand_out_file(data);
+	// expand_out_file(data);
 	i = 0;
 	if (data->args && data->next == NULL)
 	{
@@ -143,35 +143,35 @@ t_data	*lexer(char *str)
 		env_search("_")->value = last_arg(data->args[i]);
 	}
 	//=== for debug ==================================
-	// i = 0;
-	// while (data)
-	// {
-	// 	i = 0;
-	// 	printf("args ====================== \n");
-	// 	while (data->args && data->args[i])
-	// 	{
-	// 		printf("cmd = %s\n", data->args[i]);
-	// 		i++;
-	// 	}
-	// 	printf("in_files ====================== \n");
+	i = 0;
+	while (data)
+	{
+		i = 0;
+		printf("args ====================== \n");
+		while (data->args && data->args[i])
+		{
+			printf("cmd = %s\n", data->args[i]);
+			i++;
+		}
+		printf("in_files ====================== \n");
 
-	// 	while (data->in_files)
-	// 	{
-	// 		printf("red = %s, file = %s\n", data->in_files->redirection,
-	// 			data->in_files->file);
-	// 		data->in_files = data->in_files->next;
-	// 	}
-	// 	printf("out_files ====================== \n");
-	// 	while (data->out_files)
-	// 	{
-	// 		printf("red = %s, file = %s\n", data->out_files->redirection,
-	// 			data->out_files->file);
-	// 		data->out_files = data->out_files->next;
-	// 	}
-	// 	data = data->next;
-	// 	if (data != NULL)
-	// 		printf("|\n");
-	// }
+		while (data->in_files)
+		{
+			printf("red = %s, file = %s\n", data->in_files->redirection,
+				data->in_files->file);
+			data->in_files = data->in_files->next;
+		}
+		printf("out_files ====================== \n");
+		while (data->out_files)
+		{
+			printf("red = %s, file = %s\n", data->out_files->redirection,
+				data->out_files->file);
+			data->out_files = data->out_files->next;
+		}
+		data = data->next;
+		if (data != NULL)
+			printf("|\n");
+	}
 	// ==================================================
 	return (data);
 }
