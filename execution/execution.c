@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/28 22:59:19 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/30 03:29:38 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void execution(t_data *data, int length)
 	t_spec	*svars;
 
 	svars = get_specials();
+	
 	if (length == 1 && check_builtins(data, 1) == 0) // check if there is no pipes and the cmd is a builtin so it executes it on the parent process
 	{
 		return ;
@@ -124,6 +125,12 @@ void execution(t_data *data, int length)
 		}
 		if (child_pids[i] == 0) // if we are in the child proccess do this :
 		{
+			if (svars->shlvl > 0)
+			{
+				svars->shlvl = ft_atoi(env_search("SHLVL")->value) - 1;
+				free(env_search("SHLVL")->value);
+				env_search("SHLVL")->value = ft_itoa(svars->shlvl, 1);
+			}
 			setup_signal_handler(0, SIG_DFL, SIG_DFL);
 			// printf("cmd => \"%s\"\n", tmp->args[0]);
 			if (length >= 2)

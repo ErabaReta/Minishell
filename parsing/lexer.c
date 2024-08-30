@@ -6,7 +6,11 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/08/30 02:00:03 by eouhrich         ###   ########.fr       */
+=======
+/*   Updated: 2024/08/30 03:20:36 by ayechcha         ###   ########.fr       */
+>>>>>>> BoGaTo
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +135,7 @@ t_data	*lexer(char *str)
 	if (!syntax_error_her(data))
 		return (NULL);
 	expand(data);
-	if (!expand_in_file(data))
+	if (!expand_file(data))
 		return (NULL);
 	// expand_out_file(data);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:35:11 by hunter            #+#    #+#             */
-/*   Updated: 2024/08/14 22:09:41 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/30 03:22:10 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,14 @@ t_data	*syntax_error_her(t_data *data)
 	first = data;
 	while (data)
 	{
-		curr = data->in_files;
-		while (data->in_files)
+		curr = data->files;
+		while (data->files)
 		{
-			if (ft_strncmp(data->in_files->redirection, "<<", 2) == 0)
+			if (ft_strncmp(data->files->redirection, "<<", 2) == 0)
 				her_num++;
-			data->in_files = data->in_files->next;
+			data->files = data->files->next;
 		}
-		data->in_files = curr;
+		data->files = curr;
 		data = data->next;
 	}
 	if (her_num > 16)
