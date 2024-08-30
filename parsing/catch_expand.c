@@ -191,8 +191,6 @@ char	**arg_spliter(char *str)
 						cmd = ft_strnjoin(cmd, str + end, 1);
 						end++;
 					}
-					if (str[end] == '\0')
-						return (NULL);
 					cmd = ft_strnjoin(cmd, str + end, 1);
 				}
 				else
@@ -224,7 +222,11 @@ char	**catch_expnad(char *arg)
 	ex_res = NULL;
 	while (arg[i])
 		quote_checker(arg, &str, &i, 1);
+	printf("str = %s\n", str);
 	res = arg_spliter(str);
+	i = 0;
+	while (res[i])
+		printf("res = %s\n", res[i++]);
 	i = 0;
 	while (res[i])
 	{
