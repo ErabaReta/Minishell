@@ -12,21 +12,30 @@
 
 #include "../minishell.h"
 
-//quotes are removed here !!!!!
-int	herdoc(t_data *data, int *i, char **res)
+int	heredoc(t_data *data, int *i, char **res, int j)
 {
 	if (ft_strncmp(data->files->redirection, "<<", 2) != 0)
 	{
 		while (data->files->file[*i])
-			var_to_val(data->files->file, i, res);
-		if (*res != NULL)
+			quote_checker(data->files->file , res, i, 0);
+		if (data->files->file[0] != '\"' && data->files->file[0] != '\'')
+		{
+			if (*res == NULL)
+				data->files->heredoc_fd = -1;
+			while (*res != NULL && res[0][j])
+				if (ft_iswhitespace(res[0][j++]) == 1)
+					data->files->heredoc_fd = -1;
+		}
+		if (data->files->heredoc_fd != -1)
 			data->files->file = ft_strdup(*res);
 		*res = NULL;
 	}
 	else
+	{
 		data->files->heredoc_fd = open_heredoc(data->files->file);
-	if (data->files->heredoc_fd == -1)
-		return (0);
+		if (data->files->heredoc_fd == -1)
+			return (0);
+	}
 	return (1);
 }
 
@@ -34,6 +43,7 @@ int	expand_file(t_data *data)
 {
 	t_files_list	*tmp;
 	int				i;
+	int				j;
 	char			*res;
 
 	res = NULL;
@@ -43,7 +53,8 @@ int	expand_file(t_data *data)
 		while (data->files)
 		{
 			i = 0;
-			if (herdoc(data, &i, &res) == 0)
+			j = 0;
+			if (heredoc(data, &i, &res, j) == 0)
 				return (0);
 			data->files = data->files->next;
 		}
