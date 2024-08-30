@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/30 05:17:37 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/30 06:12:06 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void execution(t_data *data, int length)
 			else
 			{
 					// printf("it is here tmp->in_files=>%p || tmp->out_files=>%p\n",tmp->in_files, tmp->out_files);
-				// int	status = 0;
+				int	status = 0;
 				// if (tmp->in_files != NULL)
 				// 	status = open_infiles(tmp);
 				// if (tmp->out_files != NULL && status == 0)
@@ -149,7 +149,7 @@ void execution(t_data *data, int length)
 				// if (status != 0)
 				// 	exiter(1);
 				if (tmp->files != NULL)
-					handle_files(tmp->files, 0);
+					status = handle_files(tmp->files, 0);
 			}
 			if (tmp->args != NULL && *(tmp->args) != NULL)
 			{

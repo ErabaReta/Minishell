@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:07:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/30 03:30:15 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/30 06:25:06 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ t_env *slice_var_value(char *str)
 	else if (str[i] == '+')
 		i+=2;
 	else if (str[i] == '\0')
-	{
-		value = NULL;
-		return (env_new_node(var, value));
-	}
+		return (env_new_node(var, NULL));
 	count = 0;
 	while (str[i] != '\0')
 	{
