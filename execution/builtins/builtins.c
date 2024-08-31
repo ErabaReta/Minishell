@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/30 05:17:18 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/31 18:51:50 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_builtins(t_data *data, int is_parent)
 			files_status = handle_files(data->files, is_parent);
 		if (files_status == 0)
 		{
-			ft_env(env_list_to_table());
+			ft_env(env_list_to_table(), is_parent);
 			svars->exit_status = 0;
 		}
 		else

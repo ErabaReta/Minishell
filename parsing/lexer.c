@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/08/31 15:13:22 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/31 20:08:24 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,17 @@ t_data	*lexer(char *str)
 	{
 		while (data->args[i] && data->args[i + 1])
 			i++;
-		free(env_search("_")->value);
-		env_search("_")->value = last_arg(data->args[i]);
+		
+		//===== resolving SEGV prob ===============
+		t_env *env_node = env_search("_");
+		if (env_node == NULL)
+			env_lst_addback(env_new_node(ft_strdup2("_"), last_arg(data->args[i])));
+		else
+		{
+			free(env_search("_")->value);
+			env_search("_")->value = last_arg(data->args[i]);		
+		}
+		//==========================================
 	}
 	//=== for debug ==================================
 	// i = 0;
