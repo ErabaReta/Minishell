@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/30 06:43:20 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/30 08:18:55 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	looper()
 		add_history(str);
 		tmp = lexer(str);
 		free(str);
-		// if (tmp != NULL)
-		// 	execution(tmp, ft_lstsize(tmp));
+		if (tmp != NULL)
+			execution(tmp, ft_lstsize(tmp));
 		free_all_heap();
 	}
 
