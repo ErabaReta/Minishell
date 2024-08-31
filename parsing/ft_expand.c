@@ -12,9 +12,25 @@
 
 #include "../minishell.h"
 
-int	heredoc(t_data *data, int *i, char **res, int j)
+int	check_res_whitepaces(char *str)
 {
-	char	quote;
+	int	i;
+
+	i = 0;
+	while (str && ft_iswhitespace(str[i]))
+		i++;
+	while (str && str[i] && !ft_iswhitespace(str[i]))
+		i++;
+	while (str && ft_iswhitespace(str[i]))
+		i++;
+	if (str[i] == '\0')
+		return (1);
+	return (0);
+}
+
+int	heredoc(t_data *data, int *i, char **res)
+{
+	// char	quote;
 
 	if (ft_strncmp(data->files->redirection, "<<", 2) != 0)
 	{
@@ -22,21 +38,8 @@ int	heredoc(t_data *data, int *i, char **res, int j)
 			quote_checker(data->files->file , res, i, 1);
 		if (*res == NULL)
 			data->files->heredoc_fd = -1;
-		while (*res && res[0][j])
-		{
-			if (res[0][j] == '\"' || res[0][j] == '\'')
-			{
-				quote = res[0][j];
-				j++;
-				while (res[0][j] != quote)
-					j++;
-				j++;
-			}
-			if (ft_iswhitespace(res[0][j]))
-				data->files->heredoc_fd = -1;
-			if (res[0][j])
-				j++;
-		}
+		if (!check_res_whitepaces(*res))
+			data->files->heredoc_fd = -1;
 		*res = NULL;
 		*i = 0;
 		while (data->files->file[*i])
@@ -58,7 +61,6 @@ int	expand_file(t_data *data)
 {
 	t_files_list	*tmp;
 	int				i;
-	int				j;
 	char			*res;
 
 	res = NULL;
@@ -68,8 +70,7 @@ int	expand_file(t_data *data)
 		while (data->files)
 		{
 			i = 0;
-			j = 0;
-			if (heredoc(data, &i, &res, j) == 0)
+			if (heredoc(data, &i, &res) == 0)
 				return (0);
 			data->files = data->files->next;
 		}
