@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:43:18 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/30 02:52:57 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/31 18:35:29 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,15 @@ void	print_vars()
 	i = 0;
 	while (vars[i] != NULL)
 	{
-		tmp = env_search(vars[i]);
-		if (tmp->value == NULL)
-			printf("declare -x %s\n", tmp->var);
-		else
-			printf("declare -x %s=\"%s\"\n", tmp->var, tmp->value);
-		i++;
+		if (ft_strncmp(vars[i], "_", 2) != 0)
+		{
+			tmp = env_search(vars[i]);
+			if (tmp->value == NULL)
+				printf("declare -x %s\n", tmp->var);
+			else
+				printf("declare -x %s=\"%s\"\n", tmp->var, tmp->value);
+		}
+			i++;
 	}
 }
 

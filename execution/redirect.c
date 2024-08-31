@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/30 05:18:31 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/31 18:24:57 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	handle_files(t_files_list *files, int is_parent)
 	// fprintf(stderr, "in filed %d\n", in_fd);
 	if (in_fd != -1)
 	{
-		fprintf(stderr, "fd in duped\n");
+		// fprintf(stderr, "fd in duped\n");
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
