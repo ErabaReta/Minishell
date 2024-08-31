@@ -176,7 +176,7 @@ char	**arg_spliter(char *str)
 		{
 			start++;
 		}
-		while (str[start] && str[start] != '|' && ft_iswhitespace(str[start]) == 0)
+		while (str[start] && ft_iswhitespace(str[start]) == 0)
 		{
 			quote = '\0';
 			end = start;
@@ -223,7 +223,11 @@ char	**catch_expnad(char *arg)
 	ex_res = NULL;
 	while (arg[i])
 		quote_checker(arg, &str, &i, 1);
+	printf("str = %s\n", str);
 	res = arg_spliter(str);
+	i = 0;
+	while (res && res[i])
+		printf("res = %s\n", res[i++]);
 	i = 0;
 	while (res && res[i])
 	{
