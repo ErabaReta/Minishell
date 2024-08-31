@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/30 05:24:11 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/08/31 20:08:08 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_spec
 {
 	t_env	*env;
 	int		exit_status;
-	int		shlvl;
+	// int		shlvl;
 	pid_t	child_p;
 } t_spec;
 
@@ -109,6 +109,10 @@ void					var_to_val(char *arg, int *i, char **res);
 char					**catch_expnad(char *arg);
 int						open_heredoc(char *limiter);
 int						quote_checker(char *arg, char **res, int *i, int q);
+
+
+
+char	*ft_strdup2(const char *s1);//////////// TODO remove later
 //===Syntax_error============================================
 t_data					*syntax_error_pipe(t_data *data);
 t_data					*syntax_error_red(t_data *data);
@@ -128,7 +132,7 @@ int						is_dir(char *path);
 //-- Builtins ------------------------------------------------
 
 int		check_builtins(t_data *data, int is_parent);
-void	ft_env(char **env);
+void	ft_env(char **env, int is_parent);
 void	ft_pwd(void);
 int		ft_cd(t_data *data);
 void	ft_echo(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/30 06:12:06 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/31 19:33:57 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,37 +119,20 @@ void execution(t_data *data, int length)
 		child_pids[i] = fork();// creating process
 		if (child_pids[i] == -1) // check if prossess created
 		{
-			// printf("error : cant create process %d\n", i);
 			print_err("minishell: cant create process\n");
 			exiter(1);
 		}
 		if (child_pids[i] == 0) // if we are in the child proccess do this :
 		{
-			if (svars->shlvl > 0)
-			{
-				svars->shlvl = ft_atoi(env_search("SHLVL")->value) - 1;
-				free(env_search("SHLVL")->value);
-				env_search("SHLVL")->value = ft_itoa(svars->shlvl, 1);
-			}
 			setup_signal_handler(0, SIG_DFL, SIG_DFL);
-			// printf("cmd => \"%s\"\n", tmp->args[0]);
 			if (length >= 2)
 			{
-				// fprintf(stderr, "infile1=>%s, cmd=>%s\n", tmp->in_files[0], tmp->cmd);
 				piping(tmp, pipes, length, i);
 			}
 			else
 			{
-					// printf("it is here tmp->in_files=>%p || tmp->out_files=>%p\n",tmp->in_files, tmp->out_files);
-				int	status = 0;
-				// if (tmp->in_files != NULL)
-				// 	status = open_infiles(tmp);
-				// if (tmp->out_files != NULL && status == 0)
-				// 	status = open_outfiles(tmp);
-				// if (status != 0)
-				// 	exiter(1);
 				if (tmp->files != NULL)
-					status = handle_files(tmp->files, 0);
+					handle_files(tmp->files, 0);
 			}
 			if (tmp->args != NULL && *(tmp->args) != NULL)
 			{

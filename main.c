@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/31 14:40:01 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/08/31 20:06:47 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,26 @@ int	main(int ac, char **av, char **env)
 	(void)special_vars;
 	special_vars = get_specials();
 	special_vars->exit_status = 0;
-	special_vars->shlvl = 0;
+	// special_vars->shlvl = 0;
 	env_table_to_list(env);
+
+	//=========== handling shlvl
 	// printf("shlvl = %s\n", env_search("SHLVL")->value);
-	special_vars->shlvl = ft_atoi(env_search("SHLVL")->value) + 1;
-	free(env_search("SHLVL")->value);
-	env_search("SHLVL")->value = ft_itoa(special_vars->shlvl, 1);
+	t_env *env_node = env_search("SHLVL");
+	if (env_node == NULL)
+	{
+		
+		env_lst_addback(env_new_node(ft_strdup2("SHLVL"), ft_strdup2("0")));
+	}
+	else
+	{
+		int new_shlvl = ft_atoi(env_node->value);
+		if (new_shlvl <= 0)
+			new_shlvl = 0;
+		free(env_node->value);
+		env_node->value = ft_itoa(new_shlvl + 1, 1);
+	}
+	//=======================
 	looper();
 	return (0);
 }
