@@ -132,6 +132,7 @@ int	quote_checker(char *arg, char **res, int *i, int q)
 	{
 		if (q == 0)
 		{
+			*res = ft_strnjoin(*res, ft_strdup(""), 0);
 			(*i)++;
 			while (arg[*i] != '\"' && arg[*i])
 				var_to_val(arg, i, res);
@@ -169,13 +170,13 @@ char	**arg_spliter(char *str)
 	cmd = NULL;
 	args = NULL;
 	start = 0;
-	while (str[start])
+	while (str && str[start])
 	{
 		while (str[start] && ft_iswhitespace(str[start]) == 1)
 		{
 			start++;
 		}
-		while (str[start] && str[start] != '|' && ft_iswhitespace(str[start]) == 0)
+		while (str[start] && ft_iswhitespace(str[start]) == 0)
 		{
 			quote = '\0';
 			end = start;
@@ -222,9 +223,13 @@ char	**catch_expnad(char *arg)
 	ex_res = NULL;
 	while (arg[i])
 		quote_checker(arg, &str, &i, 1);
+	printf("str = %s\n", str);
 	res = arg_spliter(str);
 	i = 0;
-	while (res[i])
+	while (res && res[i])
+		printf("res = %s\n", res[i++]);
+	i = 0;
+	while (res && res[i])
 	{
 		j = 0;
 		ex_res = NULL;
