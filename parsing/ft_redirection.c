@@ -79,6 +79,7 @@ void setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(i
 {
     struct sigaction sa;
 
+	sa.sa_flags = 0;
 	if (parent == 0)
 	{
 		sa.sa_handler = sig_handle;
