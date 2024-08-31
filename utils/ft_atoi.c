@@ -23,6 +23,8 @@ int	ft_atoi(const char *str)
 	i = 0;
 	signe = 1;
 	num = (char *)str;
+	if (str == NULL)
+		return (0);
 	while (num[i] == ' ' || (num[i] >= 9 && num[i] <= 13))
 	{
 		i++;

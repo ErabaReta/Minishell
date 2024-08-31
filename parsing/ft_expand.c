@@ -95,7 +95,7 @@ void	expand(t_data *data)
 		while (data->args && data->args[i])
 		{
 			res = catch_expnad(data->args[i]);
-			if (*res)
+			if (res && *res)
 			{
 				j = 0;
 				while (res[j])
