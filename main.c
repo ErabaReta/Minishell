@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/31 20:06:47 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/01 09:46:30 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	t_spec *special_vars;
-	
+
 	(void)special_vars;
 	special_vars = get_specials();
 	special_vars->exit_status = 0;
@@ -89,13 +89,20 @@ int	main(int ac, char **av, char **env)
 	if (env_node == NULL)
 	{
 		
-		env_lst_addback(env_new_node(ft_strdup2("SHLVL"), ft_strdup2("0")));
+		env_lst_addback(env_new_node(ft_strdup2("SHLVL"), ft_strdup2("0"))); // TODO not practical
 	}
 	else
 	{
 		int new_shlvl = ft_atoi(env_node->value);
 		if (new_shlvl <= 0)
 			new_shlvl = 0;
+		if (new_shlvl >= 999)
+		{
+			print_err("minishell: warning: shell level (");
+			print_err(ft_itoa(new_shlvl + 1, 0));
+			print_err(") too high, resetting to 1\n");
+			new_shlvl = 0;
+		}
 		free(env_node->value);
 		env_node->value = ft_itoa(new_shlvl + 1, 1);
 	}
