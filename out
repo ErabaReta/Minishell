@@ -1,0 +1,16 @@
+a.out
+dir
+env.c
+execution
+garbage_collector
+main.c
+Makefile
+minishell
+minishell.h
+out
+parsing
+readline.supp
+README.md
+test.c
+TODO
+utils
