@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/31 19:33:57 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/01 14:23:12 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void execution(t_data *data, int length)
 	 */
 	
 	int *child_pids = (int *)mallocate(sizeof(int) * (length));
+	t_env *env_node;
 	while (i < length && tmp != NULL)
 	{
 		child_pids[i] = fork();// creating process
@@ -124,6 +125,15 @@ void execution(t_data *data, int length)
 		}
 		if (child_pids[i] == 0) // if we are in the child proccess do this :
 		{
+			//==== FIXME TODO fix the mixed err message
+			env_node = env_search("SHLVL");
+			if (env_node != NULL && ft_atoi(env_node->value) - 1 >= 1000)
+			{
+				print_err("minishell: warning: shell level (");
+				print_err(ft_itoa(ft_atoi(env_node->value) - 1, 0));
+				print_err(") too high, resetting to 1\n");
+			}
+			//====
 			setup_signal_handler(0, SIG_DFL, SIG_DFL);
 			if (length >= 2)
 			{

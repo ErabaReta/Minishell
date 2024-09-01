@@ -2,9 +2,17 @@ TODO sort env ?
 TODO also fd leaks must be checked (heredoc ones specially)
 TODO dont forget to remove readline.supp before evaluating the project
 TODO default env vars
-TODO handle (env -i ./minishell)
-TODO handle cd ""
+FIXME handle cd ""
+FIXME
+minishell $> ./
+minishell: ././: Is a directory
+
+
+
 ========BoGaTo
+
+FIXME minishell $> cat << e"of"
+
 TODO if a function failed use perror instead ?
 TODO handle "" and '' as cmd
 TODO make makefile output prettier
