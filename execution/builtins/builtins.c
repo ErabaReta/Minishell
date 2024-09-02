@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/31 18:51:50 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/02 22:03:35 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ int	check_builtins(t_data *data, int is_parent)
 			files_status = handle_files(data->files, is_parent);
 		if (files_status == 0)
 		{
-			ft_pwd();
-			svars->exit_status = 0;
+			svars->exit_status = ft_pwd();
 		}
 		else
 			svars->exit_status = 1;
@@ -60,11 +59,6 @@ int	check_builtins(t_data *data, int is_parent)
 		if (files_status == 0)
 		{
 			ft_exit(data, is_parent, fd, &(svars->exit_status));
-			// if(is_parent)
-			// 	print_err("exit\n");
-			// close(fd[0]);
-			// close(fd[1]);
-			// exiter(svars->exit_status);
 		}
 		else
 			svars->exit_status = 1;
@@ -101,6 +95,7 @@ int	check_builtins(t_data *data, int is_parent)
 			ft_unset(data);
 			svars->exit_status = 0;
 		}
+		else
 			svars->exit_status = 1;
 	}
 	else if (ft_strncmp(data->args[0], "export", 7) == 0)

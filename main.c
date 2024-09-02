@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/01 09:46:30 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/02 23:37:58 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,13 @@ int	main(int ac, char **av, char **env)
 	// special_vars->shlvl = 0;
 	env_table_to_list(env);
 
-	//=========== handling shlvl
+	//=========== (env) handling shlvl =========
 	// printf("shlvl = %s\n", env_search("SHLVL")->value);
 	t_env *env_node = env_search("SHLVL");
 	if (env_node == NULL)
 	{
 		
-		env_lst_addback(env_new_node(ft_strdup2("SHLVL"), ft_strdup2("0"))); // TODO not practical
+		env_lst_addback(env_new_node(ft_strdup2("SHLVL"), ft_strdup2("1")));
 	}
 	else
 	{
@@ -106,7 +106,30 @@ int	main(int ac, char **av, char **env)
 		free(env_node->value);
 		env_node->value = ft_itoa(new_shlvl + 1, 1);
 	}
-	//=======================
+	//========================================
+	//=========== (env) handling PWD & OLDPWD =========
+	env_node = env_search("PWD");
+	special_vars->pwd = getcwd(NULL, 0);
+	if (special_vars->pwd == NULL)
+	{
+		perror("minishell: error retrieving current directory: getcwd: cannot access parent directories");
+	}
+	else if (env_node == NULL)
+	{
+		env_lst_addback(env_new_node(ft_strdup2("PWD"), ft_strdup2(special_vars->pwd)));
+	}
+	else
+	{
+		free(env_node->value);
+		env_node->value = ft_strdup2(special_vars->pwd);
+	}
+	//===== OLDPWD
+	env_node = env_search("OLDPWD");
+	if (env_node == NULL)
+	env_lst_addback(env_new_node(ft_strdup2("OLDPWD"), NULL));
+	//========================================
+
+
 	looper();
 	return (0);
 }
