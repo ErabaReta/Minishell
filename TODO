@@ -14,9 +14,6 @@ minishell: ././: Is a directory
 FIXME minishell $> cat << e"of"
 
 TODO if a function failed use perror instead ?
-TODO handle "" and '' as cmd
-TODO make makefile output prettier
-TODO SHLVL
 TODO ambigus (DONE)
 
 You can run with : (to suppress readline leaks and track unclosed fds)

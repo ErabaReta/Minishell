@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/01 14:23:12 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/01 17:20:40 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void execution(t_data *data, int length)
 	while (i < length) // wait for all the CMDs to be done the continue to give the prompt later
 	{
 		// wait(NULL);
-		// setup_signal_handler(1, SIG_IGN, sighandler_exev);
+		setup_signal_handler(1, SIG_IGN, sighandler_exev);
 		svars->child_p = waitpid(child_pids[i], &status, 0);
 		//execve return 0 if successed or -1 if failed we must hundle manualy -1 it must be 127
 		/*
