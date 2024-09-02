@@ -32,5 +32,5 @@ re : fclean all
 run : all
 	valgrind --suppressions=readline.supp --leak-check=full --track-fds=yes ./minishell
 
-rerun : re run
+rerun : re run clean
 #####################################################################

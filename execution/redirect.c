@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/31 18:24:57 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/02 18:01:53 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,43 +66,53 @@ int	open_infile(t_files_list *file, int *fd)
 		print_err("minishell: ambiguous redirect\n");
 		return (1);
 	}
-	else if (access(file->file, F_OK) == 0) // it exist
-	{
-		if (is_dir(file->file))
-		{
-			print_err("minishell: ");
-			print_err(file->file);
-			print_err(": Is a directory\n");
-			return (1);
-		}
-		if (access(file->file, W_OK) == 0)// can be writen to it
-		{
-			*fd = open(file->file, O_RDONLY);//TODO protect failing
-			if (*fd < 0)
-			{
-				// printf("minishell: %s: failed to open file\n", tmp->file);//TODO custume ERR here
-				print_err("minishell: ");
-				print_err(file->file);
-				print_err(": failed to open file\n");
-				return (1);
-			}
-		}
-		else
-		{
-			// printf("Minishell: permission denied: %s\n", tmp->file);
-			print_err("minishell: permission denied: ");
-			print_err(file->file);
-			print_err("\n");
-			return (1);
-		}
-	}
 	else
 	{
-		print_err("minishell: ");
-		print_err(file->file);
-		print_err(": No such file or directory\n");
-		return (1);
+		*fd = open(file->file, O_RDONLY);
+		if (*fd == -1)
+		{
+			print_err("minishell: ");
+			perror(file->file);
+			return (1);
+		}
 	}
+	// else if (access(file->file, F_OK) == 0) // it exist
+	// {
+	// 	if (is_dir(file->file))
+	// 	{
+	// 		print_err("minishell: ");
+	// 		print_err(file->file);
+	// 		print_err(": Is a directory\n");
+	// 		return (1);
+	// 	}
+	// 	if (access(file->file, R_OK) == 0)// can be writen to it
+	// 	{
+	// 		*fd = open(file->file, O_RDONLY);//TODO protect failing
+	// 		if (*fd < 0)
+	// 		{
+	// 			// printf("minishell: %s: failed to open file\n", tmp->file);//TODO custume ERR here
+	// 			print_err("minishell: ");
+	// 			print_err(file->file);
+	// 			print_err(": failed to open file\n");
+	// 			return (1);
+	// 		}
+	// 	}
+	// 	else
+	// 	{
+	// 		// printf("Minishell: permission denied: %s\n", tmp->file);
+	// 		print_err("minishell: permission denied: ");
+	// 		print_err(file->file);
+	// 		print_err("\n");
+	// 		return (1);
+	// 	}
+	// }
+	// else
+	// {
+	// 	print_err("minishell: ");
+	// 	print_err(file->file);
+	// 	print_err(": No such file or directory\n");
+	// 	return (1);
+	// }
 	// fprintf(stderr, "returnin\n");
 	return (0);
 }
@@ -117,54 +127,71 @@ int	open_outfile(t_files_list *file, int *fd)
 		print_err("minishell: ambiguous redirect\n");
 		return (1);
 	}
-	else if (access(file->file, F_OK) == 0) // it exist
+	if (access(file->file, F_OK) == 0 && is_dir(file->file))
 	{
-		if (is_dir(file->file))
-		{
-			print_err("minishell: ");
-			print_err(file->file);
-			print_err(": Is a directory\n");
-			return (1);
-		}
-		if (access(file->file, W_OK) == 0)// can be writen to it
-		{
-			if (ft_strncmp(file->redirection, ">", 2) == 0)
-				*fd = open(file->file, O_WRONLY | O_TRUNC);// TODO protect failing
-			else
-				*fd = open(file->file, O_WRONLY | O_APPEND);// TODO protect failing
-			if (*fd < 0)
-			{
-				// printf("minishell: %s: failed to open file\n", tmp->file);//TODO custume ERR here
-				print_err("minishell: ");
-				print_err(file->file);
-				print_err(": failed to open file\n");
-				return (1);
-			}
-		}
-		else
-		{
-			// printf("Minishell: permission denied: %s\n", tmp->file);
-			print_err("minishell: permission denied: ");
-			print_err(file->file);
-			print_err("\n");
-			return (1);
-		}
+		print_err("minishell: ");
+		print_err(file->file);
+		print_err(": Is a directory\n");
+		return (1);
 	}
 	else
 	{
-		if (ft_strncmp(file->redirection, ">", 2) == 0)
-			*fd = open(file->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);// TODO  protect failing
-		else
-			*fd = open(file->file, O_WRONLY | O_APPEND | O_CREAT, 0644);// TODO  protect failing	
-		if (*fd < 0)
+		*fd = open(file->file, O_RDONLY);
+		if (*fd == -1)
 		{
-			// printf("minishell: %s: No such file or directory\n",tmp->file);//TODO custume ERR here
 			print_err("minishell: ");
-			print_err(file->file);
-			print_err(": No such file or directory\n");
-			exiter(1);
+			perror(file->file);
+			return (1);
 		}
 	}
+	// else if (access(file->file, F_OK) == 0) // it exist
+	// {
+	// 	if (is_dir(file->file))
+	// 	{
+	// 		print_err("minishell: ");
+	// 		print_err(file->file);
+	// 		print_err(": Is a directory\n");
+	// 		return (1);
+	// 	}
+	// 	if (access(file->file, W_OK) == 0)// can be writen to it
+	// 	{
+	// 		if (ft_strncmp(file->redirection, ">", 2) == 0)
+	// 			*fd = open(file->file, O_WRONLY | O_TRUNC);// TODO protect failing
+	// 		else
+	// 			*fd = open(file->file, O_WRONLY | O_APPEND);// TODO protect failing
+	// 		if (*fd < 0)
+	// 		{
+	// 			// printf("minishell: %s: failed to open file\n", tmp->file);//TODO custume ERR here
+	// 			print_err("minishell: ");
+	// 			print_err(file->file);
+	// 			print_err(": failed to open file\n");
+	// 			return (1);
+	// 		}
+	// 	}
+	// 	else
+	// 	{
+	// 		// printf("Minishell: permission denied: %s\n", tmp->file);
+	// 		print_err("minishell: permission denied: ");
+	// 		print_err(file->file);
+	// 		print_err("\n");
+	// 		return (1);
+	// 	}
+	// }
+	// else
+	// {
+	// 	if (ft_strncmp(file->redirection, ">", 2) == 0)
+	// 		*fd = open(file->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);// TODO  protect failing
+	// 	else
+	// 		*fd = open(file->file, O_WRONLY | O_APPEND | O_CREAT, 0644);// TODO  protect failing	
+	// 	if (*fd < 0)
+	// 	{
+	// 		// printf("minishell: %s: No such file or directory\n",tmp->file);//TODO custume ERR here
+	// 		print_err("minishell: ");
+	// 		print_err(file->file);
+	// 		print_err(": No such file or directory\n");
+	// 		exiter(1);
+	// 	}
+	// }
 	return (0);
 }
 

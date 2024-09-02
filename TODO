@@ -1,20 +1,15 @@
-TODO sort env ?
+TODO sort env ? (probably not)
 TODO also fd leaks must be checked (heredoc ones specially)
 TODO dont forget to remove readline.supp before evaluating the project
-TODO default env vars
-FIXME handle cd ""
-FIXME
-minishell $> ./
-minishell: ././: Is a directory
-
-
+TODO make makefile output prettier
+TODO norms
 
 ========BoGaTo
 
 FIXME minishell $> cat << e"of"
 
 TODO if a function failed use perror instead ?
-TODO ambigus (DONE)
+FIXME ambigus when the file conatin spaces
 
 You can run with : (to suppress readline leaks and track unclosed fds)
 valgrind --suppressions=readline.supp --leak-check=full --track-fds=yes ./minishell

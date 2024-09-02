@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:43:18 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/31 18:35:29 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/02 19:02:03 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	check_env_validity(char *str)
 
 	i = 0;
 	// returned = 2;
-	if (str[0] == '=' || str[0] == '+')
+	if (str[0] == '=' || str[0] == '+' || ft_isdigit(str[0]))
 		return (-1);
 	while (str[i] != '\0')
 	{
@@ -168,7 +168,7 @@ void	ft_export(t_data *data, int	*status)
 			*status = 1;
 			continue ;
 		}
-		else  // doesn't contain '=' || //contains '=' || // contains +=
+		else if (ft_strncmp(data->args[i], "_", 2) != 0)  // doesn't contain '=' || //contains '=' || // contains +=
 		{
 			var_and_value = slice_var_value(data->args[i]);
 			tmp = env_search(var_and_value->var);
