@@ -6,7 +6,11 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/09/02 23:57:44 by ayechcha         ###   ########.fr       */
+=======
+/*   Updated: 2024/09/02 21:59:36 by eouhrich         ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +79,7 @@ typedef struct s_spec
 	t_env	*env;
 	int		exit_status;
 	// int		shlvl;
+	char	*pwd;
 	pid_t	child_p;
 } t_spec;
 
@@ -133,7 +138,7 @@ int						is_dir(char *path);
 
 int		check_builtins(t_data *data, int is_parent);
 void	ft_env(char **env, int is_parent);
-void	ft_pwd(void);
+int		ft_pwd(void);
 int		ft_cd(t_data *data);
 void	ft_echo(t_data *data);
 void	ft_unset(t_data *data);

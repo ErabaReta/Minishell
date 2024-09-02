@@ -6,12 +6,13 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 21:52:38 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/31 20:06:07 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/02 21:42:49 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+// FIXME not practical
 char	*ft_strdup2(const char *s1)
 {
 		char	*ptr;

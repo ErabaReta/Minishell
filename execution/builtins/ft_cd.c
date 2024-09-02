@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:19:43 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/14 14:32:21 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/02 23:43:08 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 int	ft_cd(t_data *data)
 {
 	t_env	*tmp;
+	char *buff;
+	t_spec	*svars = get_specials();
 
 	if (data->args[1] == NULL)
 	{
@@ -27,64 +29,84 @@ int	ft_cd(t_data *data)
 			print_err("minishell: cd: HOME not set\n");
 			return (1);
 		}
-		if (is_dir(tmp->value) == -1)
+		buff = getcwd(NULL, 0);//
+		if (buff == NULL && chdir(tmp->value) == -1)
 		{
 			print_err("minishell: cd: ");
 			print_err(tmp->value);
 			print_err(": No such file or directory\n");
 			return (1);
 		}
-		else if (!is_dir(tmp->value))
+		else if (tmp->value[0] != '\0' && chdir(tmp->value) == -1)
 		{
+			free(buff);
 			print_err("minishell: cd: ");
-			print_err(tmp->value);
-			print_err(": Not a directory\n");
+			perror(tmp->value);
 			return (1);
 		}
-		else if (access(tmp->value, X_OK) != 0)
+		if (env_search("OLDPWD") != NULL)
 		{
-			print_err("minishell: cd: ");
-			print_err(tmp->value);
-			print_err(": Permission denied");
-			return (1);
+			free(env_search("OLDPWD")->value);
+			if (env_search("PWD") == NULL)
+				env_search("OLDPWD")->value = ft_strdup2(buff);
+			if ( env_search("PWD")->value == NULL)
+				env_search("OLDPWD")->value = ft_strdup2("");
+			else
+				env_search("OLDPWD")->value = ft_strdup2(env_search("PWD")->value);
 		}
-		chdir(tmp->value);
+		if (env_search("PWD") != NULL)
+		{
+			free(env_search("PWD")->value);
+			env_search("PWD")->value = getcwd(NULL, 0);
+		}
+		free(svars->pwd);
+		free(buff);
+		svars->pwd = getcwd(NULL, 0);// updated pwd
 		return (0);
 	}
 	else if (data->args[2] != NULL)
 	{
 		// err cd takes only one arg
-		// printf("minishell: cd: too many arguments\n");
 		print_err("minishell: cd: too many arguments\n");
 			return (1);
 	}
 	else
 	{
 		// go to path
-		int cases = is_dir(data->args[1]);
-		
-		if (cases == -1)
+		buff = getcwd(NULL, 0);// current pwd
+		if (buff == NULL && chdir(data->args[1]) == -1)
 		{
 			print_err("minishell: cd: ");
 			print_err(data->args[1]);
 			print_err(": No such file or directory\n");
 			return (1);
 		}
-		else if (cases == 0)
+		if (data->args[1][0] != '\0' && chdir(data->args[1]) == -1)
 		{
+			free(buff);
 			print_err("minishell: cd: ");
-			print_err(data->args[1]);
-			print_err(": Not a directory\n");
+			perror(data->args[1]);
 			return (1);
 		}
-		else if (access(data->args[1], X_OK) != 0)
+		// tmp = env_search("PWD");
+		if (env_search("OLDPWD") != NULL)
 		{
-			print_err("minishell: cd: ");
-			print_err(data->args[1]);
-			print_err(": Permission denied\n");
-			return (1);
+			free(env_search("OLDPWD")->value);
+			if (env_search("PWD") == NULL)
+				env_search("OLDPWD")->value = ft_strdup2(buff);
+			if ( env_search("PWD")->value == NULL)
+				env_search("OLDPWD")->value = ft_strdup2("");
+			else
+				env_search("OLDPWD")->value = ft_strdup2(env_search("PWD")->value);
 		}
-		chdir(data->args[1]);
+		if (env_search("PWD") != NULL)
+		{
+			free(env_search("PWD")->value);
+			env_search("PWD")->value = getcwd(NULL, 0);
+		}
+		free(svars->pwd);
+		free(buff);
+		svars->pwd = getcwd(NULL, 0);// updated pwd
 		return (0);
 	}
 }

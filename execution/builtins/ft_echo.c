@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 20:03:44 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/07/23 18:42:16 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:09:48 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_echo(t_data *data)
 	int	mode;
 	int	i;
 	int	j;
-	
+
 	mode = includes_option_n(data->args, &i);
 	while (data->args[i] != NULL)
 	{
