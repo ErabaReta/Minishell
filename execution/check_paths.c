@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:47:08 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/14 14:31:17 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/02 18:06:58 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,18 @@ int	is_dir(char *path)
 //checks relative path of cmd (existence and permissions)
 char	*check_relative_path( char *file)
 {
-	char	*relative_path = ft_strnjoin("./", file, 0);
+	char	*relative_path ;
+
+	if (file[0] == '/')
+		relative_path = file;
+	else
+		relative_path = ft_strnjoin("./", file, 0);
 	if (access(relative_path, F_OK) == 0)
 	{
 		if (is_dir(relative_path))
 		{
 			print_err("minishell: ");
-			print_err(relative_path);
+			print_err(file);
 			print_err(": Is a directory\n");
 			exiter(126);
 		}

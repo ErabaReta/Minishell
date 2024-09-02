@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:07:52 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/31 20:08:48 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/02 23:00:01 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	free_env()
 	t_env *env;
 
 	svars = get_specials();
+	free(svars->pwd);
 	while (svars->env != NULL)
 	{
 		env = svars->env;
