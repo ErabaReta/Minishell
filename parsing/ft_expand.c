@@ -35,7 +35,7 @@ int	check_res_whitepaces(char *str)
 			i++;
 		}
 	}
-	return (0);
+	return (1);
 }
 
 int	heredoc(t_data *data, int *i, char **res)
@@ -48,7 +48,7 @@ int	heredoc(t_data *data, int *i, char **res)
 			quote_checker(data->files->file , res, i, 1);
 		if (*res == NULL)
 			data->files->heredoc_fd = -1;
-		if (!check_res_whitepaces(*res))
+		if (data->files->file[0] != '\"' && data->files->file[0] != '\'' && !check_res_whitepaces(*res))
 			data->files->heredoc_fd = -1;
 		*res = NULL;
 		*i = 0;
