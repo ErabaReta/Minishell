@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 01:12:14 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 01:18:48 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,31 @@ int	open_outfile(t_files_list *file, int *fd)
 	return (0);
 }
 
+void	sighandler_exev(int sig)
+{
+	t_spec	*svars;
+
+	svars = get_specials();
+	svars->exit_status = 128 + sig;
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+	}
+	else if (sig == SIGQUIT)
+	{
+		write(1, "\n", 1);
+		printf("quit (core dumped)\n");
+	}
+}
+
+void	sig_exit_exev(int sig)
+{
+	t_spec	*svars;
+
+	svars = get_specials();
+	svars->exit_status = 128 + sig;
+}
+
 void	preparation_before_cmd()
 {
 				if (env_search("SHLVL") != NULL && ft_atoi(env_search("SHLVL")->value) - 1 >= 1000)
@@ -203,7 +228,7 @@ void	preparation_before_cmd()
 				print_err(ft_itoa(ft_atoi(env_search("SHLVL")->value) - 1, 0));
 				print_err(") too high, resetting to 1\n");
 			}
-			setup_signal_handler(0, SIG_DFL, SIG_DFL);
+	setup_signal_handler(1, SIG_IGN, sighandler_exev);
 }
 
 

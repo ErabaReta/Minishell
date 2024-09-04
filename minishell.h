@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 01:03:27 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 01:19:32 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void					redirector(t_data *data, char *cmd);
 t_data					*lexer(char *str);
 int						env_size(char **env);
 void					redirection(t_data *data);
-char					*find_expand(char *arg, char *find);
+char					*find_expand(char *find);
 int						expand_file(t_data *data);
 void					expand(t_data *data);
 char					*quotes_remove(char *str);
@@ -166,6 +166,8 @@ t_files_list	*make_new(char *redirection, char *file);
 void	print_err(char *str);
 int	ft_isdigit(int c);
 int	include_space(char *str);
+char	*ft_strchr(const char *s, int c);
+
 //== env ==========================================================
 
 void	env_table_to_list(char **table);

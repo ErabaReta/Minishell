@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 01:14:39 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 01:18:31 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void execution(t_data *data, int length)
 	status = 0;
 	while (i < length) // wait for all the CMDs to be done the continue to give the prompt later
 	{
+		// wait(NULL);
 		svars->child_p = waitpid(child_pids[i], &status, 0);
 		i++;
 	}

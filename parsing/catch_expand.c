@@ -36,7 +36,7 @@ char	*ft_substr_withoutspace(char const *s)
 	return (res);
 }
 
-char	*find_expand(char *arg, char *find)
+char	*find_expand(char *find)
 {
 	t_spec	*svars;
 	t_env	*env;
@@ -45,10 +45,8 @@ char	*find_expand(char *arg, char *find)
 	env = svars->env;
 	while (env)
 	{
-		if (!ft_strncmp(env->var, find, ft_strlen(env->var) + 1) && arg[0] == '\"')
-			return (ft_strdup(env->value));
 		if (!ft_strncmp(env->var, find, ft_strlen(env->var) + 1))
-			return (ft_substr_withoutspace(ft_strdup(env->value)));
+			return (ft_strdup(env->value));
 		env = env->next;
 	}
 	return (NULL);
@@ -93,7 +91,7 @@ void	var_to_val(char *arg, int *i, char **res)
 			&& arg[end] != '\'' && ft_isalnum(arg[end]))
 			end++;
 		exp = ft_substr(arg, *i, end - *i);
-		exp = find_expand(arg, exp);
+		exp = find_expand(exp);
 		*res = ft_strnjoin(*res, exp, 0);
 		exp = NULL;
 		*i = end;
@@ -135,7 +133,12 @@ int	quote_checker(char *arg, char **res, int *i, int q)
 			*res = ft_strnjoin(*res, ft_strdup(""), 0);
 			(*i)++;
 			while (arg[*i] != '\"' && arg[*i])
-				var_to_val(arg, i, res);
+			{
+				if (arg[*i] == '$' && ft_isalnum(arg[*i + 1]) == 0)
+					*res = ft_strnjoin(*res, arg + ((*i)++), 1);
+				else
+					var_to_val(arg, i, res);
+			}
 			(*i)++;
 		}
 		else
@@ -173,9 +176,7 @@ char	**arg_spliter(char *str)
 	while (str && str[start])
 	{
 		while (str[start] && ft_iswhitespace(str[start]) == 1)
-		{
 			start++;
-		}
 		while (str[start] && ft_iswhitespace(str[start]) == 0)
 		{
 			quote = '\0';
@@ -187,7 +188,7 @@ char	**arg_spliter(char *str)
 					quote = str[end];
 					cmd = ft_strnjoin(cmd, str + end, 1);
 					end++;
-					while (str[end] != quote && str[end])
+					while (str[end] && str[end] != quote)
 					{
 						cmd = ft_strnjoin(cmd, str + end, 1);
 						end++;
@@ -197,7 +198,8 @@ char	**arg_spliter(char *str)
 				else
 					cmd = ft_strnjoin(cmd, str + end, 1);
 				quote = '\0';
-				end++;
+				if (str[end])
+					end++;
 			}
 			if (cmd == NULL)
 				return (NULL);
@@ -223,18 +225,26 @@ char	**catch_expnad(char *arg)
 	ex_res = NULL;
 	while (arg[i])
 		quote_checker(arg, &str, &i, 1);
-	// printf("str = %s\n", str);
 	res = arg_spliter(str);
 	i = 0;
-	// while (res && res[i])
-		// printf("res = %s\n", res[i++]);
+	while (res[i])
+	{
+		if (ft_strchr(res[i], '\"') == NULL && ft_strchr(res[i], '\''))
+		{
+			res[i] = ft_strnjoin(ft_strdup("\""), res[i], 0);
+			res[i] = ft_strnjoin(res[i], "\"", 1);
+		}
+		i++;
+	}
 	i = 0;
 	while (res && res[i])
 	{
 		j = 0;
 		ex_res = NULL;
 		while (res[i][j])
+		{
 			quote_checker(res[i], &ex_res, &j, 0);
+		}
 		res[i] = ex_res;
 		i++;
 	}
