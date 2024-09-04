@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:06 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/02 21:59:11 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 21:46:29 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 int	ft_pwd(void)
 {
-	char *buff;
+	char	*buff;
 
 	buff = getcwd(NULL, 0);
 	if (buff == NULL && get_specials()->pwd == NULL)
 	{
-		perror("pwd: error retrieving current directory: getcwd: cannot access parent directories");
+		print_3_err("pwd: error retrieving current directory:",
+			"getcwd: cannot access parent directories", NULL, -1);
+		perror("");
 		return (1);
 	}
 	else if (buff == NULL)

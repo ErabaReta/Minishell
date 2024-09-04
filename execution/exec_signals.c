@@ -1,39 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_err.c                                        :+:      :+:    :+:   */
+/*   exec_signals.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/10 21:14:15 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 18:04:30 by eouhrich         ###   ########.fr       */
+/*   Created: 2024/09/04 19:02:31 by eouhrich          #+#    #+#             */
+/*   Updated: 2024/09/04 19:05:07 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	print_err(char *err)
+void	sighandler_exev(int sig)
 {
-	if (err != NULL)
-		write(STDERR_FILENO, err, ft_strlen(err));
-	return (0);
+	t_spec	*svars;
+
+	svars = get_specials();
+	svars->exit_status = 128 + sig;
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+	}
+	else if (sig == SIGQUIT)
+	{
+		write(1, "\n", 1);
+		printf("quit (core dumped)\n");
+	}
 }
 
-void	print_3_err(char *str1, char *str2, char *str3, int code)
+void	sig_exit_exev(int sig)
 {
-	char	*err;
-	char	*tmp;
+	t_spec	*svars;
 
-	err = NULL;
-	err = ft_strnjoin(err, str1, 0);
-	tmp = err;
-	err = ft_strnjoin(err, str2, 0);
-	ft_free(tmp);
-	tmp = err;
-	err = ft_strnjoin(err, str3, 0);
-	ft_free(tmp);
-	if (err != NULL)
-		print_err(err);
-	if (code != -1 && code != 0)
-		exiter(code);
+	svars = get_specials();
+	svars->exit_status = 128 + sig;
 }
