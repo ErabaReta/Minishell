@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 01:19:32 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 02:32:29 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void	print_err(char *str);
 int	ft_isdigit(int c);
 int	include_space(char *str);
 char	*ft_strchr(const char *s, int c);
-
+void	print_3_err(char *str1, char *str2, char *str3, int code);
 //== env ==========================================================
 
 void	env_table_to_list(char **table);
