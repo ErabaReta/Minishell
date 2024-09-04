@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/01 14:23:12 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 01:14:39 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,16 @@ void execute_cmd(t_data *data)
 		print_err(": command not found\n");
 		exiter(127);
 	}
-	// args = ft_split(data->cmd, ' '); // split the cmd to have it with its args
 	if (char_in_cmd(data->args[0], '/') != -1)// if the cmd include '/'  in it then execute it
-	{
 		full_cmd = check_relative_path(data->args[0]);
-	}
 	else 
-	{
 		full_cmd = check_paths(data->args[0]);
-	}
-	if (full_cmd == NULL)// I geuss i dont need this anymore
-	{
-		exiter(127);
-	}
-
 	if (execve(full_cmd, data->args, env_list_to_table()) == -1)
 	{
 		perror("minishell: ");
-		exiter(127);	
+		exiter(127);
 	}
+	exiter(get_specials()->exit_status);
 }
 
 void	sighandler_exev(int sig)
@@ -75,109 +66,63 @@ void	sig_exit_exev(int sig)
 	svars->exit_status = 128 + sig;
 }
 
-// takes the cmd line and execute or turns an error if it counter one
-void execution(t_data *data, int length)
+
+void	close_unwanted(int a_pipe[2], int length, int *i, int *fd_out)
 {
+	if (*i != length - 1) 
+		close(a_pipe[PIPE_INPUT]);//
+	if (*i != 0)
+		close (*fd_out);
+	*fd_out = a_pipe[PIPE_OUTPUT];//
+	*i += 1;
+}
+
+void	childs_factory(t_data *tmp, int length, int *child_pids)
+{
+	int	fd_out;
+	int	a_pipe[2];
 	int	i;
-	// int	id;
-	int	**pipes;
-	t_data	*tmp;
-	t_spec	*svars;
-
-	svars = get_specials();
-	
-	if (length == 1 && check_builtins(data, 1) == 0) // check if there is no pipes and the cmd is a builtin so it executes it on the parent process
-	{
-		return ;
-	}
-	if (length >= 2) // if there is no '|' in the cmd there is no need to create pipe
-		pipes = (int **)mallocate(sizeof(int *) * (length - 1));
-	i = 0;
-	while (i < length - 1) // allocating needed pipes and open them all (we will close the ones we dont need later)
-	{
-		pipes[i] = (int *)mallocate(sizeof(int) * 2);
-		if (pipe(pipes[i]) == -1)
-		{
-			// printf("error : cant create pipe %d\n", i + 1);
-			print_err("minishell: cannot open a pipe\n");
-			exiter(1);
-		}
-		i++;
-	}
 
 	i = 0;
-	
-	tmp = data;
-	/*
-	 *	creating child prossesse for each cmd then executing the cmd within it,
-	 *	also if there pipes '|' changing the output for the cmd to be the input for the next cmd.
-	 */
-	
-	int *child_pids = (int *)mallocate(sizeof(int) * (length));
-	t_env *env_node;
 	while (i < length && tmp != NULL)
 	{
+		if (length >= 2 && i != length - 1)
+			pipe(a_pipe);
 		child_pids[i] = fork();// creating process
 		if (child_pids[i] == -1) // check if prossess created
 		{
-			print_err("minishell: cant create process\n");
+			perror("minishell ");
 			exiter(1);
 		}
 		if (child_pids[i] == 0) // if we are in the child proccess do this :
 		{
-			//==== FIXME TODO fix the mixed err message
-			env_node = env_search("SHLVL");
-			if (env_node != NULL && ft_atoi(env_node->value) - 1 >= 1000)
-			{
-				print_err("minishell: warning: shell level (");
-				print_err(ft_itoa(ft_atoi(env_node->value) - 1, 0));
-				print_err(") too high, resetting to 1\n");
-			}
-			//====
-			setup_signal_handler(0, SIG_DFL, SIG_DFL);
-			if (length >= 2)
-			{
-				piping(tmp, pipes, length, i);
-			}
-			else
-			{
-				if (tmp->files != NULL)
+			if (piping(a_pipe, length, i, fd_out) && tmp->files != NULL)
 					handle_files(tmp->files, 0);
-			}
-			if (tmp->args != NULL && *(tmp->args) != NULL)
-			{
-				check_builtins(tmp, 0);
+			if (check_builtins(tmp, 0) != 0)
 				execute_cmd(tmp);
-			}
-			exiter(0);
 		}
+		close_unwanted(a_pipe, length, &i, &fd_out);
 		tmp = tmp->next;
-		i++;
 	}
-	//=
-	int j = 0;
-	while (j < length - 1)// for the parent prosses I close all the pipe I created before
-	{
-			close(pipes[j][PIPE_OUTPUT]);
-			close(pipes[j][PIPE_INPUT]);
-		j++;
-	}
-	i = 0;
+}
+
+// takes the cmd line and execute or turns an error if it counter one
+void execution(t_data *data, int length)
+{
+	int	i;
+	t_spec	*svars;
 	int status;
+	
+	svars = get_specials();
+	if (length == 1 && check_builtins(data, 1) == 0) // check if there is no pipes and the cmd is a builtin so it executes it on the parent process
+		return ;
+	int *child_pids = (int *)mallocate(sizeof(int) * (length));
+	childs_factory(data, length, child_pids);
+	i = 0;
+	status = 0;
 	while (i < length) // wait for all the CMDs to be done the continue to give the prompt later
 	{
-		// wait(NULL);
-		// setup_signal_handler(1, SIG_IGN, sighandler_exev);
 		svars->child_p = waitpid(child_pids[i], &status, 0);
-		//execve return 0 if successed or -1 if failed we must hundle manualy -1 it must be 127
-		/*
-		 =================GPT answer===============================
-			Handle Signals in the Child Process Before execve():
-				If you fork a child process and then call execve(),
-				you can set up signal handlers in the child process before the execve() call.
-				However, these handlers will be removed once execve() is called
-		*/
-		// printf("status = %d\n", (((status) & 0xff00) >> 8));
 		i++;
 	}
 	svars->exit_status = ((status >> 8) & 255);

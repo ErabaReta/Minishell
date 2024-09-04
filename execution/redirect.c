@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/02 18:01:53 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 01:12:14 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	handle_files(t_files_list *files, int is_parent)
 	while (files != NULL)
 	{
 		status = 0;
-			// fprintf(stderr, "redirect %c || file %s\n");
 		if (files->redirection[0] == '<')
 			status += open_infile(files, &in_fd);
 		else
@@ -36,10 +35,8 @@ int	handle_files(t_files_list *files, int is_parent)
 		}
 		files = files->next;
 	}
-	// fprintf(stderr, "in filed %d\n", in_fd);
 	if (in_fd != -1)
 	{
-		// fprintf(stderr, "fd in duped\n");
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
@@ -136,7 +133,10 @@ int	open_outfile(t_files_list *file, int *fd)
 	}
 	else
 	{
-		*fd = open(file->file, O_RDONLY);
+		if (ft_strncmp(file->redirection, ">", 2) == 0)
+			*fd = open(file->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		else
+			*fd = open(file->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		if (*fd == -1)
 		{
 			print_err("minishell: ");
@@ -195,48 +195,42 @@ int	open_outfile(t_files_list *file, int *fd)
 	return (0);
 }
 
+void	preparation_before_cmd()
+{
+				if (env_search("SHLVL") != NULL && ft_atoi(env_search("SHLVL")->value) - 1 >= 1000)
+			{
+				print_err("minishell: warning: shell level (");
+				print_err(ft_itoa(ft_atoi(env_search("SHLVL")->value) - 1, 0));
+				print_err(") too high, resetting to 1\n");
+			}
+			setup_signal_handler(0, SIG_DFL, SIG_DFL);
+}
 
 
 // closing all the not needed pipes and redirect the needed ones
-void	piping(t_data *data, int **pipes, int length, int i)
+int	piping(int a_pipe[2], int length, int i, int fd_out)
 {
-	int j = 0;
-
-	while (j < length - 1) // closing all the not needed pipes
+	preparation_before_cmd();
+	if (length < 2)
+		return 1;
+	if (i == 0)
 	{
-		if (j != i)
-		{
-			close(pipes[j][PIPE_INPUT]);
-			// printf("closing the input of pipe %d in child %d\n", j, i);
-		}
-		if ( j != i - 1)
-		{
-			close(pipes[j][PIPE_OUTPUT]);
-			// printf("closing the output of pipe %d in child %d\n", j, i);
-		}
-		j++;
+		dup2(a_pipe[PIPE_INPUT], STDOUT_FILENO);
+		close(a_pipe[PIPE_INPUT]);
+		close(a_pipe[PIPE_OUTPUT]);
 	}
-	if (i != 0) // change the input to be the output of cmd before exept if this is the not first cmd
+	else if (i != 0 && i != length - 1)
 	{
-			
-			// fprintf(stderr, "cmd => \"%s\"data->in_files[0] %s", data->cmd, data->in_files[0]);
-		// if (data->in_files[0] != NULL)
-		// {
-		// 	open_infiles(data);
-		// }
-		// else
-			dup2(pipes[i - 1][PIPE_OUTPUT], STDIN_FILENO);
-		close(pipes[i - 1][PIPE_OUTPUT]);
-				// printf("changing the standard input of child %d to be ouput of pipe %d then close it\n", i, i - 1);
+		dup2(a_pipe[PIPE_INPUT], STDOUT_FILENO);
+		close(a_pipe[PIPE_INPUT]);
+		dup2(fd_out, STDIN_FILENO);
+		close(fd_out);
+		close(a_pipe[PIPE_OUTPUT]);
 	}
-	if (i != length - 1) // chande the output to be the input of the next cmd exept if this is not the last cmd
+	else if (i == length -1)
 	{
-		// if (data->out_files[0] != NULL)
-		// 	open_outfiles(data);
-		// else
-			dup2(pipes[i][PIPE_INPUT], STDOUT_FILENO);
-		close(pipes[i][PIPE_INPUT]);
+		dup2(fd_out, STDIN_FILENO);
+		close(fd_out);
 	}
-	if (data->files != NULL)
-		handle_files(data->files, 0);
+	return (1);
 }

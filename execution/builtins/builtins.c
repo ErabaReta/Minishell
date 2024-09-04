@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/02 22:03:35 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 00:59:09 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,17 @@ int	check_builtins(t_data *data, int is_parent)
 	
 	if (data->args == NULL || *(data->args) == NULL)
 	{
+		if (data->files != NULL)
+			svars->exit_status = handle_files(data->files, is_parent);
+		dup2(fd[0], STDIN_FILENO);
+		dup2(fd[1], STDOUT_FILENO);
 		close(fd[0]);
 		close(fd[1]);
-		return (-1);
+		return (0);
 	}
 	if (ft_strncmp(data->args[0], "pwd", 4) == 0)
 	{
-		if (data->files != NULL)
+		if (data->files != NULL && is_parent)
 			files_status = handle_files(data->files, is_parent);
 		if (files_status == 0)
 		{
@@ -42,7 +46,7 @@ int	check_builtins(t_data *data, int is_parent)
 	}
 	else if (ft_strncmp(data->args[0], "env", 4) == 0)
 	{
-		if (data->files != NULL)
+		if (data->files != NULL && is_parent)
 			files_status = handle_files(data->files, is_parent);
 		if (files_status == 0)
 		{
@@ -54,7 +58,7 @@ int	check_builtins(t_data *data, int is_parent)
 	}
 	else if (ft_strncmp(data->args[0], "exit", 5) == 0)
 	{
-		if (data->files != NULL)
+		if (data->files != NULL && is_parent)
 			files_status = handle_files(data->files, is_parent);
 		if (files_status == 0)
 		{
@@ -65,7 +69,7 @@ int	check_builtins(t_data *data, int is_parent)
 	}
 	else if (ft_strncmp(data->args[0], "cd", 3) == 0)
 	{
-		if (data->files != NULL)
+		if (data->files != NULL && is_parent)
 			files_status = handle_files(data->files, is_parent);
 		if (files_status == 0)
 		{
@@ -76,7 +80,7 @@ int	check_builtins(t_data *data, int is_parent)
 	}
 	else if (ft_strncmp(data->args[0], "echo", 5) == 0)
 	{
-		if (data->files != NULL)
+		if (data->files != NULL && is_parent)
 			files_status = handle_files(data->files, is_parent);
 		if (files_status == 0)
 		{
@@ -88,7 +92,7 @@ int	check_builtins(t_data *data, int is_parent)
 	}
 	else if (ft_strncmp(data->args[0], "unset", 6) == 0)
 	{
-		if (data->files != NULL)
+		if (data->files != NULL && is_parent)
 			files_status = handle_files(data->files, is_parent);
 		if (files_status == 0)
 		{
@@ -100,7 +104,7 @@ int	check_builtins(t_data *data, int is_parent)
 	}
 	else if (ft_strncmp(data->args[0], "export", 7) == 0)
 	{
-		if (data->files != NULL)
+		if (data->files != NULL && is_parent)
 			files_status = handle_files(data->files, is_parent);
 		if (files_status == 0)
 			ft_export(data, &(svars->exit_status));
