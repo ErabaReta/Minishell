@@ -3,13 +3,14 @@ TODO also fd leaks must be checked (heredoc ones specially)
 TODO dont forget to remove readline.supp before evaluating the project
 TODO make makefile output prettier
 TODO norms
+TODO test everything again cs you missed alot with the code for the norms
 
 ========BoGaTo
 
 FIXME minishell $> cat << e"of"
 
 TODO if a function failed use perror instead ?
-FIXME ambigus when the file conatin spaces
+FIXME ambigus when the file contain spaces
 
 You can run with : (to suppress readline leaks and track unclosed fds)
 valgrind --suppressions=readline.supp --leak-check=full --track-fds=yes ./minishell

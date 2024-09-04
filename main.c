@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/02 23:37:58 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:09:32 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	looper()
 		free(str);
 		if (tmp != NULL)
 			execution(tmp, ft_lstsize(tmp));
+		clean_pool();
 		free_all_heap();
 	}
 
