@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/02 21:59:36 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 01:03:27 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void					setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ig
 void					execution(t_data *data, int length);
 char					*check_relative_path(char *file);
 char					*check_paths(char *cmd);
-void					piping(t_data *data, int **pipes, int length, int i);
+int					piping(int a_pipe[2], int length, int i, int fd_out);
 int						open_outfile(t_files_list *file, int *fd);
 int						open_infile(t_files_list *file, int *fd);
 int						handle_files(t_files_list *files, int is_parent);
