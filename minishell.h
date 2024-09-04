@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/03 00:48:23 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/09/04 02:32:29 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void					setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ig
 void					execution(t_data *data, int length);
 char					*check_relative_path(char *file);
 char					*check_paths(char *cmd);
-void					piping(t_data *data, int **pipes, int length, int i);
+int					piping(int a_pipe[2], int length, int i, int fd_out);
 int						open_outfile(t_files_list *file, int *fd);
 int						open_infile(t_files_list *file, int *fd);
 int						handle_files(t_files_list *files, int is_parent);
@@ -167,7 +167,7 @@ void	print_err(char *str);
 int	ft_isdigit(int c);
 int	include_space(char *str);
 char	*ft_strchr(const char *s, int c);
-
+void	print_3_err(char *str1, char *str2, char *str3, int code);
 //== env ==========================================================
 
 void	env_table_to_list(char **table);

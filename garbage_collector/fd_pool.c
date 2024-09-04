@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:48:12 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/07 20:12:18 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:03:19 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	clean_pool()
 		ft_free(tmp);
 	}
 }
-// free specefic ptr allocated by heap controller(still on test phase)
+// close specefic fd allocated by fd pool
 void	ft_close(int fd)
 {
 	t_fd	**pool;

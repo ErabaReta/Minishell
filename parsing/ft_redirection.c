@@ -117,7 +117,7 @@ void	openchildherdoc(int tmp_file[2], char	*limiter, int exp)
 		str = readline("HereDoc > ");
 		i = 0;
 		res = ft_strdup("");
-		if (str == NULL || !ft_strncmp(limiter, str, ft_strlen(limiter)))
+		if (str == NULL || !ft_strncmp(limiter, str, ft_strlen(limiter) + 1))
 		{
 			if (str == NULL)
 				printf("warning: here-document delimited by end-of-file\n");
@@ -149,7 +149,9 @@ int	open_heredoc(char *limiter)
 	svars = get_specials();
 	if (pipe(tmp_file) == -1 )
 			printf("error : cant create pipe in here docement\n");
-	if (ft_strchr(limiter, '\'') || ft_strchr(limiter, '\"'))
+	store_fd(tmp_file[PIPE_OUTPUT]);/////////////////////////
+	store_fd(tmp_file[PIPE_INPUT]);///////////////////////////
+	if (limiter[0] == '\"' || limiter[0] == '\'')
 	{
 		exp = 0;
 		limiter = quotes_remove(limiter);
@@ -160,7 +162,7 @@ int	open_heredoc(char *limiter)
 	setup_signal_handler(1, SIG_DFL, SIG_IGN);
 	waitpid(child_pid, &status, 0);
 	svars->exit_status = status >> 8;
-	close(tmp_file[PIPE_INPUT]); // ?
+	ft_close(tmp_file[PIPE_INPUT]);
 	if (svars->exit_status == 130 || svars->exit_status == 131)
 	{
 		close(tmp_file[PIPE_OUTPUT]); // ?
