@@ -14,18 +14,28 @@
 
 int	check_res_whitepaces(char *str)
 {
-	int	i;
+	int		i;
+	char	quote;
 
 	i = 0;
-	while (str && ft_iswhitespace(str[i]))
-		i++;
-	while (str && str[i] && !ft_iswhitespace(str[i]))
-		i++;
-	while (str && ft_iswhitespace(str[i]))
-		i++;
-	if (str[i] == '\0')
-		return (1);
-	return (0);
+	quote = '\0';
+	while (str[i])
+	{
+		if (str[i] == '\"' || str[i] == '\'')
+		{
+			quote = str[i];
+			i++;
+			while (str[i] && str[i - 1] != quote)
+				i++;
+		}
+		else
+		{
+			if (ft_iswhitespace(str[i]) == 1)
+				return (0);
+			i++;
+		}
+	}
+	return (1);
 }
 
 int	heredoc(t_data *data, int *i, char **res)
@@ -38,7 +48,7 @@ int	heredoc(t_data *data, int *i, char **res)
 			quote_checker(data->files->file , res, i, 1);
 		if (*res == NULL)
 			data->files->heredoc_fd = -1;
-		if (!check_res_whitepaces(*res))
+		if (data->files->file[0] != '\"' && data->files->file[0] != '\'' && !check_res_whitepaces(*res))
 			data->files->heredoc_fd = -1;
 		*res = NULL;
 		*i = 0;
