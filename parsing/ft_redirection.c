@@ -151,7 +151,7 @@ int	open_heredoc(char *limiter)
 			printf("error : cant create pipe in here docement\n");
 	store_fd(tmp_file[PIPE_OUTPUT]);/////////////////////////
 	store_fd(tmp_file[PIPE_INPUT]);///////////////////////////
-	if (limiter[0] == '\"' || limiter[0] == '\'')
+	if (ft_strchr(limiter, '\"') || ft_strchr(limiter, '\''))
 	{
 		exp = 0;
 		limiter = quotes_remove(limiter);
