@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 02:32:29 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 22:59:55 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,23 +124,25 @@ void					setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ig
 void					execution(t_data *data, int length);
 char					*check_relative_path(char *file);
 char					*check_paths(char *cmd);
-int					piping(int a_pipe[2], int length, int i, int fd_out);
+int						piping(int a_pipe[2], int length, int i, int fd_out);
 int						open_outfile(t_files_list *file, int *fd);
 int						open_infile(t_files_list *file, int *fd);
 int						handle_files(t_files_list *files, int is_parent);
 void					exiter(int code);
 int						is_dir(char *path);
+void	sighandler_exev(int sig);
+void	sig_exit_exev(int sig);
 //-- Builtins ------------------------------------------------
 
 int		check_builtins(t_data *data, int is_parent);
-void	ft_env(char **env, int is_parent);
+int	ft_env(char **env, int is_parent);
 int		ft_pwd(void);
 int		ft_cd(t_data *data);
-void	ft_echo(t_data *data);
-void	ft_unset(t_data *data);
+int	ft_echo(t_data *data);
+int	ft_unset(t_data *data);
 void	ft_export(t_data *data, int	*status);
 t_env	*slice_var_value(char *str);
-void		ft_exit(t_data *data, int is_parent, int *fd, int *exit_status);
+void		ft_exit(t_data *data, int is_parent, int *exit_status);
 //------------------------------------------------------------
 //== Utils ===================================================
 
@@ -163,11 +165,12 @@ int		ft_iswhitespace(int c);
 int		ft_atoi(const char *str);
 t_files_list	*add_last(t_files_list **head, t_files_list *new);
 t_files_list	*make_new(char *redirection, char *file);
-void	print_err(char *str);
+int	print_err(char *str);
 int	ft_isdigit(int c);
 int	include_space(char *str);
 char	*ft_strchr(const char *s, int c);
 void	print_3_err(char *str1, char *str2, char *str3, int code);
+void	sort_table(char **table, int lenght);
 //== env ==========================================================
 
 void	env_table_to_list(char **table);
@@ -177,6 +180,8 @@ t_env	*env_lstlast(t_env *env);
 void	env_lst_addback(t_env *new);
 t_env	*env_search(char *var);
 char	*env_join_var_value(char *var, char *value);
+char	**get_vars_sorted(void);
+void	append_value(t_env	*env, char *value);
 // char	**slice_var_value(char *str);////
 //=================================================================
 #endif

@@ -6,22 +6,20 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:47:08 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 02:31:19 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 18:52:29 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
 int	is_dir(char *path)
 {
-	struct stat buff;
-	
+	struct stat	buff;
+
 	stat(path, &buff);
-	// printf("path =\'%s\'   , buf ==>%o\n", path, buff.st_mode);
 	if (buff.st_mode <= 0 || access(path, F_OK) != 0)
 		return (-1);
-	if (buff.st_mode > 20000)// TODO check the right number
+	if (buff.st_mode > 20000)
 		return (0);
 	return (1);
 }
@@ -48,17 +46,17 @@ char	*check_relative_path( char *file)
 		print_3_err("minishell: ", file, ": No such file or directory\n", 127);
 	return (NULL);
 }
-//checks if the cmd exist in any path the are in the enveriment (env)
+
 char	*check_paths(char *cmd)
 {
-	int	i;
-	char **paths;
-	char *tmp_path;
-	i = 0;
-	t_env *tmp = env_search("PATH");
-	if (tmp == NULL || tmp->value == NULL || tmp->value[0] == '\0')
+	int		i;
+	char	**paths;
+	char	*tmp_path;
+
+	if (env_search("PATH") == NULL || env_search("PATH")->value == NULL
+		|| env_search("PATH")->value[0] == '\0')
 		return (check_relative_path(cmd));
-	paths = ft_split(tmp->value, ':');
+	paths = ft_split(env_search("PATH")->value, ':');
 	i = -1;
 	while (paths[++i] != NULL)
 	{
@@ -68,12 +66,12 @@ char	*check_paths(char *cmd)
 			if (is_dir(tmp_path))
 				print_3_err("minishell: ", tmp_path, ": Is a directory\n", 126);
 			if (access(tmp_path, X_OK) == 0)
-				return tmp_path;
+				return (tmp_path);
 			else
 				print_3_err("minishell: ", cmd, ": Permission denied\n", 126);
 		}
 		ft_free(tmp_path);
 	}
-	print_3_err("Minishell: command not found: ", cmd, "\n", 127);
+	print_3_err("minishell: command not found: ", cmd, "\n", 127);
 	return (NULL);
 }

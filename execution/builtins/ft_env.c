@@ -6,17 +6,17 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:38:47 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/31 19:31:27 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 22:37:00 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_env(char **env, int is_parent)
+int	ft_env(char **env, int is_parent)
 {
 	int	i;
-	int new_shlvl;
-	
+	int	new_shlvl;
+
 	if (!is_parent && env_search("SHLVL") == NULL)
 		printf("SHLVL=0\n");
 	i = 0;
@@ -33,4 +33,5 @@ void	ft_env(char **env, int is_parent)
 			printf("%s\n", env[i]);
 		i++;
 	}
+	return (0);
 }

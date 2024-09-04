@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:07:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/30 06:25:06 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 21:43:04 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,4 +194,57 @@ t_env	*env_search(char *var)
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+char	**get_vars_sorted(void)
+{
+	int		count;
+	t_env	*tmp;
+	char	**table;
+	int		i;
+
+	tmp = get_specials()->env;
+	count = 0;
+	while (tmp != NULL )
+	{
+		count++;
+		tmp = tmp->next;
+	}
+	table = (char **)mallocate(sizeof(char *) * (count + 1));
+	tmp = get_specials()->env;
+	i = 0;
+	while (tmp != NULL)
+	{
+		table[i] = ft_strdup(tmp->var);
+		i++;
+		tmp = tmp->next;
+	}
+	table[i] = NULL;
+	sort_table(table, count);
+	return (table);
+}
+
+void	append_value(t_env	*env, char *value)
+{
+	char	*new_value;
+	int		i;
+	int		j;
+
+	new_value = (char *)malloc(sizeof(char)
+			* (ft_strlen(env->value) + ft_strlen(value) + 1));
+	i = 0;
+	while (env->value[i] != '\0')
+	{
+		new_value[i] = env->value[i];
+		i++;
+	}
+	j = 0;
+	while (value[j] != '\0')
+	{
+		new_value[i + j] = value[j];
+		j++;
+	}
+	new_value[i + j] = '\0';
+	free(env->value);
+	free(value);
+	env->value = new_value;
 }

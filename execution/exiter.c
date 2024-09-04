@@ -6,16 +6,16 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:07:52 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/02 23:00:01 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:18:17 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_env()
+void	free_env(void)
 {
-	t_spec *svars;
-	t_env *env;
+	t_spec	*svars;
+	t_env	*env;
 
 	svars = get_specials();
 	free(svars->pwd);

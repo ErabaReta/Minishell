@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 16:49:33 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:17:13 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ void	redirect_to_files(int in_fd, int out_fd)
 
 int	handle_files(t_files_list *files, int is_parent)
 {
-	int in_fd = -1;
-	int out_fd = -1;
-	int status;
+	int	in_fd;
+	int	out_fd;
+	int	status;
 
+	in_fd = -1;
+	out_fd = -1;
 	if (files == NULL)
-		return 1;
+		return (1);
 	while (files != NULL)
 	{
 		status = 0;
@@ -82,10 +84,7 @@ int	open_outfile(t_files_list *file, int *fd)
 	if (*fd != -1)
 		close(*fd);
 	if (file->heredoc_fd == -1)
-	{
-		print_err("minishell: ambiguous redirect\n");
-		return (1);
-	}
+		return (print_err("minishell: ambiguous redirect\n") + 1);
 	if (access(file->file, F_OK) == 0 && is_dir(file->file))
 	{
 		print_3_err("minishell: ", file->file, ": Is a directory\n", -1);
@@ -111,7 +110,7 @@ int	piping(int a_pipe[2], int length, int i, int fd_out)
 {
 	setup_signal_handler(1, SIG_IGN, SIG_DFL);
 	if (length < 2)
-		return 1;
+		return (1);
 	if (i == 0)
 	{
 		dup2(a_pipe[PIPE_INPUT], STDOUT_FILENO);
