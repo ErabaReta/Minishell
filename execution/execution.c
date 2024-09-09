@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 21:57:41 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/09 23:24:08 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,10 @@ void	execute_cmd(t_data *data)
 {
 	char	*full_cmd;
 
-	if (ft_strncmp(data->args[0], ".", 2) == 0)
-	{
-		print_err("minishell: .: filename argument required\n");
-		exiter(2);
-	}
 	if (ft_strncmp(data->args[0], "..", 3) == 0
+		|| ft_strncmp(data->args[0], ".", 2) == 0
 		|| ft_strncmp(data->args[0], "", 1) == 0)
-	{
-		print_err(data->args[0]);
-		print_err(": command not found\n");
-		exiter(127);
-	}
+		print_3_err(data->args[0], ": command not found\n", NULL, 127);
 	if (char_in_cmd(data->args[0], '/') != -1)
 		full_cmd = check_relative_path(data->args[0]);
 	else
@@ -76,7 +68,7 @@ void	childs_factory(t_data *tmp, int length, int *child_pids)
 		child_pids[i] = fork();
 		if (child_pids[i] == -1)
 		{
-			perror("minishell ");
+			perror("minishell");
 			exiter(1);
 		}
 		if (child_pids[i] == 0)
@@ -102,14 +94,22 @@ void	execution(t_data *data, int length)
 	if (length == 1 && check_builtins(data, 1) == 0)
 		return ;
 	child_pids = (int *)mallocate(sizeof(int) * (length));
-	childs_factory(data, length, child_pids);
 	setup_signal_handler(1, SIG_IGN, sighandler_exev);
+	svars->exit_status = 0;
+	childs_factory(data, length, child_pids);
 	i = 0;
-	status = 1;
+	status = 0;//// no need to 
 	while (i < length)
 	{
 		svars->child_p = waitpid(child_pids[i], &status, 0);
 		i++;
 	}
-	svars->exit_status = ((status >> 8) & 255);
+	// fprintf(stderr, "svars->child_p ==> %d\n", get_specials()->child_p);
+	// fprintf(stderr, "status ==> %d\n", status);
+	// fprintf(stderr, "exit_status ==> %d\n", get_specials()->exit_status);
+	fprintf(stderr, "(status & 127) ==> %d\n", (((status & 127))));
+	if ((((status & 127) + 1) >> 1) > 0)// check if it is terminated wth SIG
+		svars->exit_status = (status & 127) + 128;
+	else
+		svars->exit_status = ((status >> 8) & 255);
 }
