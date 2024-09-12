@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 17:09:32 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/12 01:16:02 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,10 @@ void signal_handler(int sig)
 	}
 }
 
-void	looper()
+void	looper(void)
 {
 	char *str;
 	t_data *tmp;
-	t_spec *svars = get_specials();
 
 	str = NULL;
 	while (1)
@@ -59,7 +58,7 @@ void	looper()
 		if (str == NULL)
 		{
 			print_err("exit\n");
-			exiter(svars->exit_status);
+			exiter(get_specials()->exit_status);
 		}
 		add_history(str);
 		tmp = lexer(str);
@@ -69,7 +68,6 @@ void	looper()
 		clean_pool();
 		free_all_heap();
 	}
-
 }
 
 int	main(int ac, char **av, char **env)
@@ -89,7 +87,6 @@ int	main(int ac, char **av, char **env)
 	t_env *env_node = env_search("SHLVL");
 	if (env_node == NULL)
 	{
-		
 		env_lst_addback(env_new_node(ft_strdup2("SHLVL"), ft_strdup2("1")));
 	}
 	else
@@ -124,7 +121,7 @@ int	main(int ac, char **av, char **env)
 		free(env_node->value);
 		env_node->value = ft_strdup2(special_vars->pwd);
 	}
-	//===== OLDPWD
+	//===== OLDPWD ==========================
 	env_node = env_search("OLDPWD");
 	if (env_node == NULL)
 	env_lst_addback(env_new_node(ft_strdup2("OLDPWD"), NULL));
