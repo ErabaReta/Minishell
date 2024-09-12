@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 22:59:55 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:53:45 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,26 +98,29 @@ void	ft_close(int fd);
 
 //== Parsing =================================================
 
-void					redirector(t_data *data, char *cmd);
-t_data					*lexer(char *str);
-int						env_size(char **env);
-void					redirection(t_data *data);
-char					*find_expand(char *find);
-int						expand_file(t_data *data);
-void					expand(t_data *data);
-char					*quotes_remove(char *str);
-void					var_to_val(char *arg, int *i, char **res);
-char					**catch_expnad(char *arg);
-int						open_heredoc(char *limiter);
-int						quote_checker(char *arg, char **res, int *i, int q);
-
-
-
-char	*ft_strdup2(const char *s1);//////////// TODO remove later
+void		redirector(t_data *data, char *cmd);
+t_data		*lexer(char *str);
+int			env_size(char **env);
+void		redirection(t_data *data);
+char		*find_expand(char *find, int q);
+int			expand_file(t_data *data);
+void		expand(t_data *data);
+char		*quotes_remove(char *str, int *exp);
+void		var_to_val(char *arg, int *i, char **res, int q);
+char		**catch_expnad(char *arg);
+int			open_heredoc(char *limiter);
+void		quote_checker(char *arg, char **res, int *i, int q);
+void		sighandler(int sig);
+char		*ft_strdup2(const char *s1);
+char		*quotes_adder(char *str);
+int			isdou(char c);
+t_data		*check_errors(t_data *data);
+char		*last_arg(char	*s1);
+void		set_last_arg(t_data *data);
 //===Syntax_error============================================
 t_data					*syntax_error_pipe(t_data *data);
 t_data					*syntax_error_red(t_data *data);
-t_data					*syntax_error_her(t_data *data);
+int						syntax_error_her(t_data *data);
 void					setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(int));
 //== Execution ===============================================
 
@@ -171,6 +174,7 @@ int	include_space(char *str);
 char	*ft_strchr(const char *s, int c);
 void	print_3_err(char *str1, char *str2, char *str3, int code);
 void	sort_table(char **table, int lenght);
+char	*quotes_adder(char *str);
 //== env ==========================================================
 
 void	env_table_to_list(char **table);
