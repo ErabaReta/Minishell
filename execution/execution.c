@@ -6,14 +6,16 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/09 23:24:08 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:56:47 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_shlvl(void)
+void	handle_shlvl(int length)
 {
+	if (length < 2)
+		return ;
 	if (env_search("SHLVL") != NULL
 		&& ft_atoi(env_search("SHLVL")->value) - 1 >= 1000)
 	{
@@ -21,9 +23,11 @@ void	handle_shlvl(void)
 			ft_itoa(ft_atoi(env_search("SHLVL")->value) - 1, 0),
 			") too high, resetting to 1\n", -1);
 	}
+	free(env_search("SHLVL")->value);
+	env_search("SHLVL")->value = ft_itoa(1, 1);
 }
 
-void	execute_cmd(t_data *data)
+void	execute_cmd(t_data *data, int length)
 {
 	char	*full_cmd;
 
@@ -35,7 +39,7 @@ void	execute_cmd(t_data *data)
 		full_cmd = check_relative_path(data->args[0]);
 	else
 		full_cmd = check_paths(data->args[0]);
-	handle_shlvl();
+	handle_shlvl(length);
 	if (execve(full_cmd, data->args, env_list_to_table()) == -1)
 	{
 		perror("minishell: ");
@@ -76,7 +80,8 @@ void	childs_factory(t_data *tmp, int length, int *child_pids)
 			if (piping(a_pipe, length, i, fd_out) && tmp->files != NULL)
 				handle_files(tmp->files, 0);
 			if (check_builtins(tmp, 0) != 0)
-				execute_cmd(tmp);
+				execute_cmd(tmp, length);
+			exiter(get_specials()->exit_status);
 		}
 		close_unwanted(a_pipe, length, &i, &fd_out);
 		tmp = tmp->next;
@@ -98,7 +103,7 @@ void	execution(t_data *data, int length)
 	svars->exit_status = 0;
 	childs_factory(data, length, child_pids);
 	i = 0;
-	status = 0;//// no need to 
+	status = 0;//// no need to
 	while (i < length)
 	{
 		svars->child_p = waitpid(child_pids[i], &status, 0);
@@ -107,7 +112,7 @@ void	execution(t_data *data, int length)
 	// fprintf(stderr, "svars->child_p ==> %d\n", get_specials()->child_p);
 	// fprintf(stderr, "status ==> %d\n", status);
 	// fprintf(stderr, "exit_status ==> %d\n", get_specials()->exit_status);
-	fprintf(stderr, "(status & 127) ==> %d\n", (((status & 127))));
+	// fprintf(stderr, "(status & 127) ==> %d\n", (((status & 127))));
 	if ((((status & 127) + 1) >> 1) > 0)// check if it is terminated wth SIG
 		svars->exit_status = (status & 127) + 128;
 	else
