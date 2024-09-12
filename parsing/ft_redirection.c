@@ -56,53 +56,21 @@ void	redirection(t_data *data)
 	}
 }
 
-void	sighandler(int sig)
+void	her_writer(char *str, int tmp_file[2], int exp)
 {
-	if (sig == SIGINT)
+	int		i;
+	char	*res;
+
+	res = ft_strdup("");
+	i = 0;
+	if (exp == 1)
 	{
-		write(1, "\n", 1);
-		rl_redisplay();
-		rl_on_new_line();
+		while (str[i])
+			var_to_val(str, &i, &res, 0);
+		write(tmp_file[PIPE_INPUT], res, ft_strlen(res));
 	}
-	exiter(128 + sig);
-}
-
-void	sig_exit(int sig)
-{
-	t_spec	*svars;
-
-	svars = get_specials();
-	svars->exit_status = 128 + sig;
-}
-
-void setup_signal_handler(int parent, void (*sig_handle)(int), void (*sig_ign)(int))
-{
-    struct sigaction sa;
-
-	sa.sa_flags = 0;
-	if (parent == 0)
-	{
-		sa.sa_handler = sig_handle;
-		sigemptyset(&sa.sa_mask);
-		sa.sa_flags = 0;
-		if (sigaction(SIGINT, &sa, NULL) != 0)
-			exiter(1);
-		sa.sa_handler = sig_ign;
-		if (sigaction(SIGQUIT, &sa, NULL) != 0)
-			exiter(1);
-	}
-	else if (parent == 1)
-	{
-		sa.sa_handler = sig_handle;
-		sigemptyset(&sa.sa_mask);
-		if (sigaction(SIGCHLD, &sa, NULL) != 0)
-			exiter(1);
-		sa.sa_handler = sig_ign;
-		if (sigaction(SIGINT, &sa, NULL) != 0)
-			exiter(1);
-		if (sigaction(SIGQUIT, &sa, NULL) != 0)
-			exiter(1);
-	}
+	else
+		write(tmp_file[PIPE_INPUT], str, ft_strlen(str));
 }
 
 void	openchildherdoc(int tmp_file[2], char	*limiter, int exp)
@@ -123,14 +91,7 @@ void	openchildherdoc(int tmp_file[2], char	*limiter, int exp)
 				printf("warning: here-document delimited by end-of-file\n");
 			break ;
 		}
-		if (exp == 1)
-		{
-			while (str[i])
-				var_to_val(str, &i, &res);
-			write(tmp_file[PIPE_INPUT], res, ft_strlen(res));
-		}
-		else
-			write(tmp_file[PIPE_INPUT], str, ft_strlen(str));
+		her_writer(str, tmp_file, exp);
 		write(tmp_file[PIPE_INPUT], "\n", 1);
 	}
 	exiter(0);
@@ -138,24 +99,21 @@ void	openchildherdoc(int tmp_file[2], char	*limiter, int exp)
 
 int	open_heredoc(char *limiter)
 {
-	int	tmp_file[2];
-	int	exp;
-	int	child_pid;
-	int	status;
+	int		tmp_file[2];
+	int		exp;
+	int		child_pid;
+	int		status;
 	t_spec	*svars;
 
 	exp = 1;
 	status = 0;
 	svars = get_specials();
-	if (pipe(tmp_file) == -1 )
-			printf("error : cant create pipe in here docement\n");
-	store_fd(tmp_file[PIPE_OUTPUT]);/////////////////////////
-	store_fd(tmp_file[PIPE_INPUT]);///////////////////////////
-	if (limiter[0] == '\"' || limiter[0] == '\'')
-	{
-		exp = 0;
-		limiter = quotes_remove(limiter);
-	}
+	if (pipe(tmp_file) == -1)
+		printf("error : cant create pipe in here docement\n");
+	store_fd(tmp_file[PIPE_OUTPUT]);
+	store_fd(tmp_file[PIPE_INPUT]);
+	if (ft_strchr(limiter, '\"') || ft_strchr(limiter, '\''))
+		limiter = quotes_remove(limiter, &exp);
 	child_pid = fork();
 	if (child_pid == 0)
 		openchildherdoc(tmp_file, limiter, exp);
@@ -164,9 +122,6 @@ int	open_heredoc(char *limiter)
 	svars->exit_status = status >> 8;
 	ft_close(tmp_file[PIPE_INPUT]);
 	if (svars->exit_status == 130 || svars->exit_status == 131)
-	{
-		close(tmp_file[PIPE_OUTPUT]); // ?
 		return (-1);
-	}
 	return (tmp_file[PIPE_OUTPUT]);
 }
