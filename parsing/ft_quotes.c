@@ -12,19 +12,20 @@
 
 #include "../minishell.h"
 
-void	init_vars(char **cmd, int *start)
+void	init_vars(char **cmd, int *start, int *exp)
 {
 	*cmd = NULL;
 	*start = 0;
+	*exp = 0;
 }
 
-char	*quotes_remove(char *str)
+char	*quotes_remove(char *str, int *exp)
 {
 	int		start;
 	int		end;
 	char	*cmd;
 
-	init_vars(&cmd, &start);
+	init_vars(&cmd, &start, exp);
 	while (str[start])
 	{
 		if (str[start] == '\"' || str[start] == '\'')
@@ -45,4 +46,49 @@ char	*quotes_remove(char *str)
 		}
 	}
 	return (cmd);
+}
+
+char	*quotes_adder(char *str)
+{
+	int		i;
+	char	*res;
+	char	*quote;
+
+	i = 0;
+	res = NULL;
+	quote = ft_strchr(str, '\'');
+	if (quote)
+	{
+		while (str[i])
+		{
+			if (str[i] != '\'')
+				res = ft_strnjoin(res, str + i, 1);
+			else
+				res = ft_strnjoin(res, "\"\'\"", 0);
+			i++;
+		}
+	}
+	else
+		return (str);
+	return (res);
+}
+
+char	*last_arg(char	*s1)
+{
+	char	*ptr;
+	size_t	len;
+	size_t	i;
+
+	if (s1 == NULL)
+		return (NULL);
+	len = ft_strlen(s1);
+	ptr = (char *)malloc((len + 1) * sizeof(char));
+	i = 0;
+	while (s1[i] != '\0')
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
 }

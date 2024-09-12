@@ -40,20 +40,19 @@ int	check_res_whitepaces(char *str)
 
 int	heredoc(t_data *data, int *i, char **res)
 {
-	// char	quote;
-
 	if (ft_strncmp(data->files->redirection, "<<", 2) != 0)
 	{
 		while (data->files->file[*i])
-			quote_checker(data->files->file , res, i, 1);
+			quote_checker(data->files->file, res, i, 1);
 		if (*res == NULL)
 			data->files->heredoc_fd = -1;
-		if (data->files->file[0] != '\"' && data->files->file[0] != '\'' && !check_res_whitepaces(*res))
+		if (data->files->file[0] != '\"' && data->files->file[0] != '\''
+			&& !check_res_whitepaces(*res))
 			data->files->heredoc_fd = -1;
 		*res = NULL;
 		*i = 0;
 		while (data->files->file[*i])
-			quote_checker(data->files->file , res, i, 0);
+			quote_checker(data->files->file, res, i, 0);
 		if (data->files->heredoc_fd != -1)
 			data->files->file = ft_strdup(*res);
 		*res = NULL;
@@ -90,7 +89,6 @@ int	expand_file(t_data *data)
 	return (1);
 }
 
-
 void	expand(t_data *data)
 {
 	int		i;
@@ -116,5 +114,27 @@ void	expand(t_data *data)
 		}
 		data->args = args_res;
 		data = data->next;
+	}
+}
+
+void	set_last_arg(t_data *data)
+{
+	int		i;
+	t_env	*env_node;
+
+	i = 0;
+	if (data->args && data->next == NULL)
+	{
+		while (data->args[i] && data->args[i + 1])
+			i++;
+		env_node = env_search("_");
+		if (env_node == NULL)
+			env_lst_addback(env_new_node(ft_strdup2("_"),
+					last_arg(data->args[i])));
+		else
+		{
+			free(env_search("_")->value);
+			env_search("_")->value = last_arg(data->args[i]);
+		}
 	}
 }
