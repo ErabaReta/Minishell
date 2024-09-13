@@ -25,30 +25,34 @@ void	sighandler(int sig)
 
 void	setup_signal_handler(int p, void (*sig_h)(int), void (*sig_ign)(int))
 {
-	struct sigaction	sa;
+	// struct sigaction	sa;
 
-	sa.sa_flags = 0;
+	// sa.sa_flags = 0;
 	if (p == 0)
 	{
-		sa.sa_handler = sig_h;
-		sigemptyset(&sa.sa_mask);
-		if (sigaction(SIGINT, &sa, NULL) != 0)
-			exiter(1);
-		sa.sa_handler = sig_ign;
-		if (sigaction(SIGQUIT, &sa, NULL) != 0)
-			exiter(1);
+		// sa.sa_handler = sig_h;
+		// sigemptyset(&sa.sa_mask);
+		// if (sigaction(SIGINT, &sa, NULL) != 0)
+			// exiter(1);
+		// sa.sa_handler = sig_ign;
+		// if (sigaction(SIGQUIT, &sa, NULL) != 0)
+			// exiter(1);
+		signal(SIGINT, sig_h);
+		signal(SIGQUIT, sig_ign);
 	}
 	else if (p == 1)
 	{
-		sa.sa_handler = sig_h;
-		sigemptyset(&sa.sa_mask);
-		if (sigaction(SIGCHLD, &sa, NULL) != 0)
-			exiter(1);
-		sa.sa_handler = sig_ign;
-		if (sigaction(SIGINT, &sa, NULL) != 0)
-			exiter(1);
-		if (sigaction(SIGQUIT, &sa, NULL) != 0)
-			exiter(1);
+		// sa.sa_handler = sig_h;
+		// sigemptyset(&sa.sa_mask);
+		// if (sigaction(SIGCHLD, &sa, NULL) != 0)
+		// 	exiter(1);
+		// sa.sa_handler = sig_ign;
+		// if (sigaction(SIGINT, &sa, NULL) != 0)
+		// 	exiter(1);
+		// if (sigaction(SIGQUIT, &sa, NULL) != 0)
+		// 	exiter(1);
+		signal(SIGINT, sig_ign);
+		signal(SIGQUIT, sig_ign);
 	}
 }
 

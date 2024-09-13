@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 10:07:52 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 17:18:17 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/13 19:36:53 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,8 @@ void	exiter(int code)
 	clean_pool();
 	free_all_heap();
 	free_env();
+	// close(STDERR_FILENO);//////////// TODO remove this ugliness, it makes no sense
+	// close(STDIN_FILENO);/////////////
+	// close(STDOUT_FILENO);////////////
 	exit(code);
 }
