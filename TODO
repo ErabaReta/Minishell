@@ -1,23 +1,9 @@
-TODO sort env ? (probably not)
-TODO also fd leaks must be checked (heredoc ones specially)
 TODO dont forget to remove readline.supp before evaluating the project
-TODO make makefile output prettier
-TODO norms
-TODO handle SHLVL more perfictly or remove it
+
 TODO test everything again cs you missed alot with the code for the norms
-TODO should handle SIGPIPE? :  echo | < out
 
-========BoGaTo
-TODO: shoud we keep thing that ar not required?
-_ cd with only a relative or absolute path.
-_ SHLVL
-_ interacting cd with PWD and OLDPWD
-_ ...
 
-FIXME minishell $> cat << e"of"
-
-TODO if a function failed use perror instead ?
-FIXME ambigus when the file contain spaces
+========BoGaTo === 
 
 You can run with : (to suppress readline leaks and track unclosed fds)
 valgrind --suppressions=readline.supp --leak-check=full --track-fds=yes ./minishell

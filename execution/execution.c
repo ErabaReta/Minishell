@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/12 17:56:47 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/13 19:41:37 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,13 @@ void	execution(t_data *data, int length)
 	svars->exit_status = 0;
 	childs_factory(data, length, child_pids);
 	i = 0;
-	status = 0;//// no need to
+	status = 0;
 	while (i < length)
 	{
 		svars->child_p = waitpid(child_pids[i], &status, 0);
 		i++;
 	}
-	// fprintf(stderr, "svars->child_p ==> %d\n", get_specials()->child_p);
-	// fprintf(stderr, "status ==> %d\n", status);
-	// fprintf(stderr, "exit_status ==> %d\n", get_specials()->exit_status);
-	// fprintf(stderr, "(status & 127) ==> %d\n", (((status & 127))));
-	if ((((status & 127) + 1) >> 1) > 0)// check if it is terminated wth SIG
+	if ((((status & 127) + 1) >> 1) > 0)
 		svars->exit_status = (status & 127) + 128;
 	else
 		svars->exit_status = ((status >> 8) & 255);

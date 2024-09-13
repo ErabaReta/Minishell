@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:47:08 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 18:52:29 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/13 19:31:35 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_dir(char *path)
 	stat(path, &buff);
 	if (buff.st_mode <= 0 || access(path, F_OK) != 0)
 		return (-1);
-	if (buff.st_mode > 20000)
+	if (buff.st_mode > 16895 || buff.st_mode < 16384)
 		return (0);
 	return (1);
 }
