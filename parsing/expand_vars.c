@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   expand_vars.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/09/12 10:48:40 by ayechcha          #+#    #+#             */
 /*   Updated: 2024/09/12 13:01:12 by ayechcha         ###   ########.fr       */
 /*                                                                            */
@@ -47,8 +50,9 @@ char	*find_expand(char *find, int q)
 	{
 		if (!ft_strncmp(env->var, find, ft_strlen(env->var) + 1) && q == 0)
 			return (ft_strdup(env->value));
-		else if (!ft_strncmp(env->var, find, ft_strlen(env->var) + 1) && q == 1)
-			return (quotes_adder(ft_strdup(env->value)));
+		else if (!ft_strncmp(env->var, find, ft_strlen(env->var) + 1)
+			&& q == 1)
+			return (quotes_adder_toquote(ft_strdup(env->value)));
 		env = env->next;
 	}
 	return (NULL);

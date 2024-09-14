@@ -89,6 +89,25 @@ int	expand_file(t_data *data)
 	return (1);
 }
 
+char	*export_handle(char *arg)
+{
+	char	*res;
+	int		i_eq;
+
+	res = NULL;
+	i_eq = 0;
+	if (ft_strchr(arg, '=', &i_eq))
+	{
+		res = ft_strnjoin(res, arg, (i_eq + 1));
+		if (!ft_strchr(res, '$', NULL) && ft_strchr(arg + i_eq, '$', NULL))
+		{
+			res = ft_strnjoin(res, quotes_adder(arg + (i_eq + 1)), 0);
+			return (res);
+		}
+	}
+	return (arg);
+}
+
 void	expand(t_data *data)
 {
 	int		i;
@@ -98,11 +117,13 @@ void	expand(t_data *data)
 
 	while (data)
 	{
-		i = 0;
+		i = -1;
 		res = NULL;
 		args_res = NULL;
-		while (data->args && data->args[i])
+		while (data->args && data->args[++i])
 		{
+			if (!ft_strncmp("export", data->args[0], ft_strlen(data->args[0])))
+				data->args[i] = export_handle(data->args[i]);
 			res = catch_expnad(data->args[i]);
 			if (res && *res)
 			{
@@ -110,31 +131,8 @@ void	expand(t_data *data)
 				while (res[j])
 					args_res = ft_tablejoin(args_res, res[j++]);
 			}
-			i++;
 		}
 		data->args = args_res;
 		data = data->next;
-	}
-}
-
-void	set_last_arg(t_data *data)
-{
-	int		i;
-	t_env	*env_node;
-
-	i = 0;
-	if (data->args && data->next == NULL)
-	{
-		while (data->args[i] && data->args[i + 1])
-			i++;
-		env_node = env_search("_");
-		if (env_node == NULL)
-			env_lst_addback(env_new_node(ft_strdup2("_"),
-					last_arg(data->args[i])));
-		else
-		{
-			free(env_search("_")->value);
-			env_search("_")->value = last_arg(data->args[i]);
-		}
 	}
 }
