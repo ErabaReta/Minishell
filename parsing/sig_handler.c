@@ -44,3 +44,25 @@ void	sig_exit(int sig)
 	svars = get_specials();
 	svars->exit_status = 128 + sig;
 }
+
+void	set_last_arg(t_data *data)
+{
+	int		i;
+	t_env	*env_node;
+
+	i = 0;
+	if (data->args && data->next == NULL)
+	{
+		while (data->args[i] && data->args[i + 1])
+			i++;
+		env_node = env_search("_");
+		if (env_node == NULL)
+			env_lst_addback(env_new_node(ft_strdup2("_"),
+					last_arg(data->args[i])));
+		else
+		{
+			free(env_search("_")->value);
+			env_search("_")->value = last_arg(data->args[i]);
+		}
+	}
+}

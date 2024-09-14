@@ -3,27 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   fd_pool.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:48:12 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 17:03:19 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:22:25 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-t_fd	**get_fd_pool()
+t_fd	**get_fd_pool(void)
 {
 	static t_fd	*head;
-	
+
 	return (&head);
 }
 
 // add front
 void	add_to_pool(t_fd *new)
 {
-	t_fd **pool;
+	t_fd	**pool;
 
 	pool = get_fd_pool();
 	if (new != NULL)
@@ -44,7 +43,7 @@ void	store_fd(int fd)
 }
 
 // close all fds stored by FD POOL
-void	clean_pool()
+void	clean_pool(void)
 {
 	t_fd	**pool;
 	t_fd	*tmp;
@@ -54,17 +53,18 @@ void	clean_pool()
 	{
 		tmp = *pool;
 		(*pool) = (*pool)->next;
-		close(tmp->fd);//
+		close(tmp->fd);
 		ft_free(tmp);
 	}
 }
+
 // close specefic fd allocated by fd pool
 void	ft_close(int fd)
 {
 	t_fd	**pool;
 	t_fd	*tmp;
 	t_fd	*to_close;
-	
+
 	pool = get_fd_pool();
 	tmp = *pool;
 	if (tmp == NULL)
@@ -115,8 +115,5 @@ void	ft_close(int fd)
 // 	clean_pool();
 // 	free_all_heap();
 // 	return (0);
-	
-	
 
-	
 // }

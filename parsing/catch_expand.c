@@ -134,9 +134,7 @@ char	**catch_expnad(char *arg)
 	char	*str;
 
 	i = 0;
-	j = 0;
 	str = NULL;
-	ex_res = NULL;
 	while (arg[i])
 		quote_checker(arg, &str, &i, 1);
 	res = arg_spliter(str);
