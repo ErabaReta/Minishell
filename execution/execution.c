@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/13 19:41:37 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/14 16:27:01 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	handle_shlvl(int length)
 		print_3_err("minishell: warning: shell level (",
 			ft_itoa(ft_atoi(env_search("SHLVL")->value) - 1, 0),
 			") too high, resetting to 1\n", -1);
+		free(env_search("SHLVL")->value);
+		env_search("SHLVL")->value = ft_itoa(1, 1);
 	}
-	free(env_search("SHLVL")->value);
-	env_search("SHLVL")->value = ft_itoa(1, 1);
 }
 
 void	execute_cmd(t_data *data, int length)
