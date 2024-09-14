@@ -48,7 +48,7 @@ char	*quotes_remove(char *str, int *exp)
 	return (cmd);
 }
 
-char	*quotes_adder(char *str)
+char	*quotes_adder_toquote(char *str)
 {
 	int		i;
 	char	*res;
@@ -56,7 +56,7 @@ char	*quotes_adder(char *str)
 
 	i = 0;
 	res = NULL;
-	quote = ft_strchr(str, '\'');
+	quote = ft_strchr(str, '\'', NULL);
 	if (quote)
 	{
 		while (str[i])
@@ -73,7 +73,17 @@ char	*quotes_adder(char *str)
 	return (res);
 }
 
-char	*last_arg(char	*s1)
+char	*quotes_adder(char *str)
+{
+	char	*res;
+
+	res = ft_strdup("\"");
+	res = ft_strnjoin(res, str, 0);
+	res = ft_strnjoin(res, "\"", 0);
+	return (res);
+}
+
+char	*last_arg(char *s1)
 {
 	char	*ptr;
 	size_t	len;

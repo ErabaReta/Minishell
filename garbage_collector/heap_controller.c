@@ -3,27 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   heap_controller.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:48:12 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/08/13 11:38:49 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:18:17 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-t_heap	**get_heap()
+t_heap	**get_heap(void)
 {
 	static t_heap	*head;
-	
+
 	return (&head);
 }
 
 // add front
 void	add_to_heap(t_heap *new)
 {
-	t_heap **heap;
+	t_heap	**heap;
 
 	heap = get_heap();
 	if (new != NULL)
@@ -33,15 +32,15 @@ void	add_to_heap(t_heap *new)
 	}
 }
 
-// allocat memory and save to free later, returns pointer (void *) to the allocated memory
-void	*mallocate(size_t	size)
+// allocat memory and save to free later,
+// returns pointer (void *) to the allocated memory
+void	*mallocate(size_t size)
 {
 	t_heap	*new;
 
 	new = (t_heap *)malloc(sizeof(t_heap));
 	if (new == NULL)
 	{
-		// printf("minishell: allocation failed, exiting ..\n");
 		print_err("minishell: allocation failed, exiting ..\n");
 		exiter(1);
 	}
@@ -49,9 +48,7 @@ void	*mallocate(size_t	size)
 	if (new->ptr == NULL)
 	{
 		free(new);
-		// printf("minishell: allocation failed, exiting ..\n");
 		print_err("minishell: allocation failed, exiting ..\n");
-
 		exiter(1);
 	}
 	add_to_heap(new);
@@ -59,12 +56,12 @@ void	*mallocate(size_t	size)
 }
 
 // free all alloccated memory by heap controller
-void	free_all_heap()
+void	free_all_heap(void)
 {
 	t_heap	**heap;
 	t_heap	*tmp;
 
-	clean_pool();//<- close all fd opened
+	clean_pool();
 	heap = get_heap();
 	while (*heap != NULL)
 	{
@@ -72,15 +69,16 @@ void	free_all_heap()
 		(*heap) = (*heap)->next;
 		free(tmp->ptr);
 		free(tmp);
-	}	
+	}
 }
+
 // free specefic ptr allocated by heap controller
 void	ft_free(void *ptr)
 {
 	t_heap	**heap;
 	t_heap	*tmp;
 	t_heap	*to_delete;
-	
+
 	heap = get_heap();
 	tmp = *heap;
 	if (tmp == NULL)
@@ -115,14 +113,14 @@ void	ft_free(void *ptr)
 // 	matrix = (int **)mallocate(sizeof(int *) * 10);
 // 	for (int i =0;i < 10; i++)
 // 	{
-// 		matrix[i] = (int *)mallocate(sizeof(int));	
+// 		matrix[i] = (int *)mallocate(sizeof(int));
 // 	}
 // 	//=======================
 // 	for (int i =0;i < 10; i++)
 // 	{
-// 		matrix[i][0] = i;	
+// 		matrix[i][0] = i;
 // 	}
-	
+
 // 	for (int i =0;i < 10; i++)
 // 	{
 // 		printf("nbr[%d] => %d", i, matrix[i][0]);
