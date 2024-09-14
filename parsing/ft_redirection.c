@@ -112,7 +112,7 @@ int	open_heredoc(char *limiter)
 		printf("error : cant create pipe in here docement\n");
 	store_fd(tmp_file[PIPE_OUTPUT]);
 	store_fd(tmp_file[PIPE_INPUT]);
-	if (ft_strchr(limiter, '\"') || ft_strchr(limiter, '\''))
+	if (ft_strchr(limiter, '\"', NULL) || ft_strchr(limiter, '\'', NULL))
 		limiter = quotes_remove(limiter, &exp);
 	child_pid = fork();
 	if (child_pid == 0)

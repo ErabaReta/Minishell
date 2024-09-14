@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 21:52:38 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/02 21:42:49 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:50:49 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // FIXME not practical
 char	*ft_strdup2(const char *s1)
 {
-		char	*ptr;
+	char	*ptr;
 	size_t	len;
 	size_t	i;
 
