@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/14 10:54:55 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/09/14 21:31:46 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,15 @@ void	looper(void)
 		if(isatty(STDIN_FILENO))////////////////////
 			str = readline("minishell $> ");
 		else/////////////////////////////////////////
-			str = readline(NULL);//////////////////////
+		{
+			str = readline(">");//////////////////////
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
 		if (str == NULL)
 		{
-			print_err("exit\n");
+			if(isatty(STDIN_FILENO))////////////////////
+				print_err("exit\n");
 			exiter(get_specials()->exit_status);
 		}
 		add_history(str);

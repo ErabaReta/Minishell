@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 17:17:13 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/14 18:33:22 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	handle_files(t_files_list *files, int is_parent)
 	{
 		status = 0;
 		if (files->redirection[0] == '<')
-			status += open_infile(files, &in_fd);
+			status += open_infile(files, &in_fd, out_fd);
 		else
-			status += open_outfile(files, &out_fd);
+			status += open_outfile(files, &out_fd, in_fd);
 		if (status != 0)
 		{
 			if (is_parent)
@@ -55,7 +55,7 @@ int	handle_files(t_files_list *files, int is_parent)
 	return (0);
 }
 
-int	open_infile(t_files_list *file, int *fd)
+int	open_infile(t_files_list *file, int *fd, int other_fd)
 {
 	if (*fd != -1)
 		close(*fd);
@@ -73,23 +73,20 @@ int	open_infile(t_files_list *file, int *fd)
 		{
 			print_err("minishell: ");
 			perror(file->file);
+			if (other_fd != -1)
+				close(other_fd);
 			return (1);
 		}
 	}
 	return (0);
 }
 
-int	open_outfile(t_files_list *file, int *fd)
+int	open_outfile(t_files_list *file, int *fd, int other_fd)
 {
 	if (*fd != -1)
 		close(*fd);
 	if (file->heredoc_fd == -1)
 		return (print_err("minishell: ambiguous redirect\n") + 1);
-	if (access(file->file, F_OK) == 0 && is_dir(file->file))
-	{
-		print_3_err("minishell: ", file->file, ": Is a directory\n", -1);
-		return (1);
-	}
 	else
 	{
 		if (ft_strncmp(file->redirection, ">", 2) == 0)
@@ -100,6 +97,8 @@ int	open_outfile(t_files_list *file, int *fd)
 		{
 			print_err("minishell: ");
 			perror(file->file);
+			if (other_fd != -1)
+				close(other_fd);
 			return (1);
 		}
 	}

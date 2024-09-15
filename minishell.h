@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/14 10:18:01 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/09/14 18:31:56 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,8 @@ void					execution(t_data *data, int length);
 char					*check_relative_path(char *file);
 char					*check_paths(char *cmd);
 int						piping(int a_pipe[2], int length, int i, int fd_out);
-int						open_outfile(t_files_list *file, int *fd);
-int						open_infile(t_files_list *file, int *fd);
+int						open_outfile(t_files_list *file, int *fd, int other_fd);
+int						open_infile(t_files_list *file, int *fd, int other_fd);
 int						handle_files(t_files_list *files, int is_parent);
 void					exiter(int code);
 int						is_dir(char *path);
