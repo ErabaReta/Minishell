@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/09/12 17:50:12 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/09/15 14:14:34 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	split_helper(char *str, int *start, int *end)
 	if (str[*start] == '<' || str[*start] == '>')
 	{
 		quote = str[*start];
-		*end = *start;
-		while (str[*end] == quote && str[*end])
-			(*end)++;
+		*end = *start + 1;
+		if (str[*start + 1] && str[*start] == str[*start + 1])
+			*end = *start + 2;
 	}
 	while (checker_in_line(str, end, quote))
 	{
@@ -90,25 +90,50 @@ t_data	*lexer(char *str)
 	int		i;
 	t_data	*data;
 	t_data	*new;
-	t_spec	*svars;
 
 	i = 0;
 	data = NULL;
-	svars = get_specials();
 	str = ft_strnjoin(str, " ", 1);
 	while (str[i])
 	{
 		new = ft_split_args(str, &i, i, 0);
 		if (new == NULL)
 		{
-			svars->exit_status = 2;
+			get_specials()->exit_status = 2;
 			printf("syntax error near unexpected token\n");
 			return (NULL);
 		}
 		ft_lstadd_back(&data, new);
 	}
-	if (!check_errors(data))
+	if (data && !check_errors(data))
 		return (NULL);
+	if (data)
+		get_specials()->exit_status = 0;
 	set_last_arg(data);
 	return (data);
 }
+
+	//=== for debug ==================================
+	// i = 0;
+	// while (data)
+	// {
+	// 	i = 0;
+	// 	printf("args ====================== \n");
+	// 	while (data->args && data->args[i])
+	// 	{
+	// 		printf("cmd = %s\n", data->args[i]);
+	// 		i++;
+	// 	}
+	// 	printf("files ====================== \n");
+
+	// 	while (data->files)
+	// 	{
+	// 		printf("red = %s, file = %s, fd = %d\n", data->files->redirection,
+	// 			data->files->file, data->files->heredoc_fd);
+	// 		data->files = data->files->next;
+	// 	}
+	// 	data = data->next;
+	// 	if (data != NULL)
+	// 		printf("|\n");
+	// }
+	// // ==================================================

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:43:18 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 22:18:52 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/14 20:51:02 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	check_env_validity(char *str)
 	int	i;
 
 	i = 0;
-	if (str[0] == '=' || str[0] == '+' || ft_isdigit(str[0]))
+	if (str[0] == '=' || str[0] == '+' || ft_isdigit(str[0]) || str[0] == '\0')
 		return (-1);
 	while (str[i] != '\0')
 	{
