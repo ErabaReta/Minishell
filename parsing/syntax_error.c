@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:35:11 by hunter            #+#    #+#             */
-/*   Updated: 2024/09/12 17:46:19 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/09/15 14:14:23 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ t_data	*check_errors(t_data *data)
 	t_spec	*svars;
 
 	svars = get_specials();
-	if (!syntax_error_pipe(data) || !syntax_error_red(data))
+	redirection(data);
+	if (!syntax_error_red(data) || !syntax_error_pipe(data))
 	{
 		svars->exit_status = 2;
 		return (NULL);
 	}
-	redirection(data);
 	if (!syntax_error_her(data))
 		return (NULL);
 	expand(data);
@@ -31,49 +31,27 @@ t_data	*check_errors(t_data *data)
 	return (data);
 }
 
-t_data	*reds_check(char **reds, t_data *curr, int i)
-{
-	int		j;
-	t_spec	*svars;
-
-	j = 0;
-	svars = get_specials();
-	while (reds[j])
-	{
-		if (ft_strncmp(curr->args[i], reds[j], 2) == 0
-			&& curr->args[i + 1] == NULL)
-		{
-			svars->exit_status = 2;
-			return (printf("syntax error near unexpected token %s\n"
-					, curr->args[i]), NULL);
-		}
-		j++;
-	}
-	return (curr);
-}
-
 t_data	*syntax_error_red(t_data *data)
 {
-	int		i;
-	t_data	*curr;
-	t_spec	*svars;
-	char	**reds;
+	t_data			*curr;
+	t_files_list	*tmp;
 
-	reds = ft_split("< << > >>", ' ');
 	curr = data;
-	svars = get_specials();
 	while (curr)
 	{
-		i = 0;
-		while (curr->args[i])
+		tmp = curr->files;
+		while (curr->files)
 		{
-			if (reds_check(reds, curr, i) == NULL)
+			if (curr->files->file == NULL)
 			{
-				svars->exit_status = 2;
+				get_specials()->exit_status = 2;
+				printf("syntax error near unexpected token %s\n",
+					curr->files->redirection);
 				return (NULL);
 			}
-			i++;
+			curr->files = curr->files->next;
 		}
+		curr->files = tmp;
 		curr = curr->next;
 	}
 	return (data);
@@ -90,7 +68,7 @@ t_data	*syntax_error_pipe(t_data *data)
 	{
 		if (curr->next != NULL)
 		{
-			if (curr->next->args[0] == NULL || curr->args[0] == NULL)
+			if (curr->next->args == NULL && curr->next->files == NULL)
 			{
 				svars->exit_status = 2;
 				return (printf("syntax error near unexpected token `|'\n")
