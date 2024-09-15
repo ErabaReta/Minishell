@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:19:43 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/04 19:25:43 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/16 00:15:58 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	update_pwd_oldpwd(char *buff)
 		free(env_search("OLDPWD")->value);
 		if (env_search("PWD") == NULL)
 			env_search("OLDPWD")->value = ft_strdup2(buff);
-		if (env_search("PWD")->value == NULL)
+		else if (env_search("PWD")->value == NULL)
 			env_search("OLDPWD")->value = ft_strdup2("");
 		else
 			env_search("OLDPWD")->value = ft_strdup2(env_search("PWD")->value);
