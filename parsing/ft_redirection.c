@@ -14,19 +14,21 @@
 
 void	red_checker(char **reds, int *i, t_data *data, int *passed)
 {
-	int	j;
-
-	j = 0;
-	while (reds[j])
+	if (is_red(reds, data->args[*i]))
 	{
-		if (ft_strncmp(data->args[*i], reds[j], 2) == 0)
+		*passed = 1;
+		if (data->args[*i + 1] && !is_red(reds, data->args[*i + 1]))
 		{
-			*passed = 1;
 			data->files = add_last(&data->files,
 					make_new(data->args[*i], data->args[*i + 1]));
+			*i = *i + 2;
+		}
+		else
+		{
+			data->files = add_last(&data->files,
+					make_new(data->args[*i], NULL));
 			*i = *i + 1;
 		}
-		j++;
 	}
 }
 
@@ -47,9 +49,11 @@ void	redirection(t_data *data)
 		{
 			red_checker(reds, &i, data, &passed);
 			if (passed == -1)
+			{
 				cmds = ft_tablejoin(cmds, data->args[i]);
+				i++;
+			}
 			passed = -1;
-			i++;
 		}
 		data->args = ft_tabledup(cmds);
 		data = data->next;

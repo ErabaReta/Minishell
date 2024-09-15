@@ -19,7 +19,7 @@ int	check_res_whitepaces(char *str)
 
 	i = 0;
 	quote = '\0';
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == '\"' || str[i] == '\'')
 		{
@@ -40,7 +40,7 @@ int	check_res_whitepaces(char *str)
 
 int	heredoc(t_data *data, int *i, char **res)
 {
-	if (ft_strncmp(data->files->redirection, "<<", 2) != 0)
+	if (ft_strncmp(data->files->redirection, "<<", 3) != 0 && data->files->file)
 	{
 		while (data->files->file[*i])
 			quote_checker(data->files->file, res, i, 1);
@@ -57,7 +57,8 @@ int	heredoc(t_data *data, int *i, char **res)
 			data->files->file = ft_strdup(*res);
 		*res = NULL;
 	}
-	else
+	else if (!ft_strncmp(data->files->redirection, "<<", 3)
+		&& data->files->file)
 	{
 		data->files->heredoc_fd = open_heredoc(data->files->file);
 		if (data->files->heredoc_fd == -1)
