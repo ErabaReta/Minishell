@@ -5,5 +5,7 @@ TODO test everything again cs you missed alot with the code for the norms
 ========EraBareta======
 ========BoGaTo ===
 
+TODO exit status changes after hit enter
+
 You can run with : (to suppress readline leaks and track unclosed fds)
 valgrind --suppressions=readline.supp --leak-check=full --track-fds=yes ./minishell

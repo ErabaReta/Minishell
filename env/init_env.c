@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:50:47 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/15 21:53:54 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/15 22:32:23 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,19 @@ void	init_shlvl(void)
 		}
 		free(env_search("SHLVL")->value);
 		env_search("SHLVL")->value = ft_itoa(new_shlvl + 1, 1);
+	}
+}
+
+void	env_table_to_list(char **table)
+{
+	int		i;
+	t_env	*tmp;
+
+	i = 0;
+	while (table[i] != NULL)
+	{
+		tmp = slice_var_value(table[i]);
+		env_lst_addback(tmp);
+		i++;
 	}
 }
