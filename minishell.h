@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/15 21:55:05 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/15 22:06:50 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,11 @@ void					ft_free(void *ptr);
 void					store_fd(int fd);
 void					clean_pool(void);
 void					ft_close(int fd);
-void	safer_pipe(int _pipe[2]);
-pid_t	safer_fork();
-int		safer_dup(int _fd);
-int		safer_dup2(int _fd, int _fd2);
-__sighandler_t	safer_signal(int _sig, __sighandler_t _handler);
-// void					add_front(t_malloc **list, t_malloc *node);
-// t_malloc				*new_node(void *ptr);
-// void					*allocator(int size, int time, t_malloc *malloc_list);
-// void					free_allocator(t_malloc **list);
-
+void					safer_pipe(int _pipe[2]);
+pid_t					safer_fork(void);
+int						safer_dup(int _fd);
+int						safer_dup2(int _fd, int _fd2);
+__sighandler_t			safer_signal(int _sig, __sighandler_t _handler);
 //== Parsing =================================================
 
 void					redirector(t_data *data, char *cmd);
@@ -195,8 +190,8 @@ t_env					*env_search(char *var);
 char					*env_join_var_value(char *var, char *value);
 char					**get_vars_sorted(void);
 void					append_value(t_env *env, char *value);
-void	init_pwd_oldpwd(void);
-void	init_shlvl(void);
+void					init_pwd_oldpwd(void);
+void					init_shlvl(void);
 // char	**slice_var_value(char *str);////
 //=================================================================
 #endif
