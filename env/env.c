@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:07:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/13 17:29:49 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/09/15 21:53:51 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*env_join_var_value(char *var, char *value)
 {
@@ -41,31 +41,25 @@ char	*env_join_var_value(char *var, char *value)
 // turns a linked list into 2D chars NULL terminated
 char	**env_list_to_table(void)
 {
-	int		count;
 	t_env	*tmp;
 	char	**table;
 	int		i;
-	t_spec	*svar;
 
-	svar = get_specials();
-	tmp = svar->env;
-	count = 0;
-	while (tmp != NULL)
-	{
-		if (tmp->value != NULL)
-			count++;
-		tmp = tmp->next;
-	}
-	table = (char **)mallocate(sizeof(char *) * (count + 1));
-	tmp = svar->env;
+	tmp = get_specials()->env;
 	i = 0;
 	while (tmp != NULL)
 	{
 		if (tmp->value != NULL)
-		{
-			table[i] = env_join_var_value(tmp->var, tmp->value);
 			i++;
-		}
+		tmp = tmp->next;
+	}
+	table = (char **)mallocate(sizeof(char *) * (i + 1));
+	tmp = get_specials()->env;
+	i = 0;
+	while (tmp != NULL)
+	{
+		if (tmp->value != NULL)
+			table[i++] = env_join_var_value(tmp->var, tmp->value);
 		tmp = tmp->next;
 	}
 	table[i] = NULL;

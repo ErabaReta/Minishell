@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /*it splits str int 2d char pointer by '=' ir '+' ,
 	you find variable in indice 0 and value in indice 1 ,

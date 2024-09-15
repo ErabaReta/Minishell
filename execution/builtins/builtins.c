@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:25:57 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/11 17:19:05 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/15 20:22:23 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,15 @@ int	check_builtins(t_data *data, int is_parent)
 	int	fd[2];
 	int	files_status;
 
-	fd[0] = dup(STDIN_FILENO);
-	fd[1] = dup(STDOUT_FILENO);
-	store_fd(fd[0]);
-	store_fd(fd[1]);
+	fd[0] = safer_dup(STDIN_FILENO);
+	fd[1] = safer_dup(STDOUT_FILENO);
 	files_status = 0;
 	if ((data->args == NULL || *(data->args) == NULL))
 	{
 		if (data->files != NULL && is_parent)
 			get_specials()->exit_status = handle_files(data->files, is_parent);
-		dup2(fd[0], STDIN_FILENO);
-		dup2(fd[1], STDOUT_FILENO);
+		safer_dup2(fd[0], STDIN_FILENO);
+		safer_dup2(fd[1], STDOUT_FILENO);
 		return (0);
 	}
 	if (is_builtin(data->args[0]))
@@ -74,7 +72,7 @@ int	check_builtins(t_data *data, int is_parent)
 		return (-1);
 	if (!is_parent)
 		exiter(get_specials()->exit_status);
-	dup2(fd[0], STDIN_FILENO);
-	dup2(fd[1], STDOUT_FILENO);
+	safer_dup2(fd[0], STDIN_FILENO);
+	safer_dup2(fd[1], STDOUT_FILENO);
 	return (0);
 }
