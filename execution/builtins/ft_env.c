@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:38:47 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/14 16:33:22 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/15 20:23:17 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_env(char **env, int is_parent)
 	i = 0;
 	while (env != NULL && env[i] != NULL)
 	{
-		if (ft_strncmp(env[i], "_=", 2)== 0)
+		if (ft_strncmp(env[i], "_=", 2) == 0)
 			printf("_=env\n");
 		else if (!is_parent && ft_strncmp(env[i], "SHLVL=", 6) == 0)
 		{

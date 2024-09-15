@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/14 16:27:01 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/15 20:21:24 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void	execute_cmd(t_data *data, int length)
 void	close_unwanted(int a_pipe[2], int length, int *i, int *fd_out)
 {
 	if (*i != length - 1)
-		close(a_pipe[PIPE_INPUT]);
+		ft_close(a_pipe[PIPE_INPUT]);
 	if (*i != 0)
-		close (*fd_out);
+		ft_close(*fd_out);
 	*fd_out = a_pipe[PIPE_OUTPUT];
 	*i += 1;
 }
@@ -68,13 +68,8 @@ void	childs_factory(t_data *tmp, int length, int *child_pids)
 	while (i < length && tmp != NULL)
 	{
 		if (length >= 2 && i != length - 1)
-			pipe(a_pipe);
-		child_pids[i] = fork();
-		if (child_pids[i] == -1)
-		{
-			perror("minishell");
-			exiter(1);
-		}
+			safer_pipe(a_pipe);
+		child_pids[i] = safer_fork();
 		if (child_pids[i] == 0)
 		{
 			if (piping(a_pipe, length, i, fd_out) && tmp->files != NULL)

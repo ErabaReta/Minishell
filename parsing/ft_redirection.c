@@ -112,13 +112,10 @@ int	open_heredoc(char *limiter)
 	exp = 1;
 	status = 0;
 	svars = get_specials();
-	if (pipe(tmp_file) == -1)
-		printf("error : cant create pipe in here docement\n");
-	store_fd(tmp_file[PIPE_OUTPUT]);
-	store_fd(tmp_file[PIPE_INPUT]);
+	safer_pipe(tmp_file);
 	if (ft_strchr(limiter, '\"', NULL) || ft_strchr(limiter, '\'', NULL))
 		limiter = quotes_remove(limiter, &exp);
-	child_pid = fork();
+	child_pid = safer_fork();
 	if (child_pid == 0)
 		openchildherdoc(tmp_file, limiter, exp);
 	setup_signal_handler(1, SIG_DFL, SIG_IGN);

@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 19:02:27 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/14 18:33:22 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/15 20:02:11 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void	redirect_to_files(int in_fd, int out_fd)
 {
 	if (in_fd != -1)
 	{
-		dup2(in_fd, STDIN_FILENO);
-		close(in_fd);
+		safer_dup2(in_fd, STDIN_FILENO);
+		ft_close(in_fd);
 	}
 	if (out_fd != -1)
 	{
-		dup2(out_fd, STDOUT_FILENO);
-		close(out_fd);
+		safer_dup2(out_fd, STDOUT_FILENO);
+		ft_close(out_fd);
 	}
 }
 
@@ -58,7 +58,7 @@ int	handle_files(t_files_list *files, int is_parent)
 int	open_infile(t_files_list *file, int *fd, int other_fd)
 {
 	if (*fd != -1)
-		close(*fd);
+		ft_close(*fd);
 	if (ft_strncmp(file->redirection, "<<", 3) == 0)
 		*fd = file->heredoc_fd;
 	else if (file->heredoc_fd == -1)
@@ -74,9 +74,10 @@ int	open_infile(t_files_list *file, int *fd, int other_fd)
 			print_err("minishell: ");
 			perror(file->file);
 			if (other_fd != -1)
-				close(other_fd);
+				ft_close(other_fd);
 			return (1);
 		}
+		store_fd(*fd);
 	}
 	return (0);
 }
@@ -84,7 +85,7 @@ int	open_infile(t_files_list *file, int *fd, int other_fd)
 int	open_outfile(t_files_list *file, int *fd, int other_fd)
 {
 	if (*fd != -1)
-		close(*fd);
+		ft_close(*fd);
 	if (file->heredoc_fd == -1)
 		return (print_err("minishell: ambiguous redirect\n") + 1);
 	else
@@ -98,9 +99,10 @@ int	open_outfile(t_files_list *file, int *fd, int other_fd)
 			print_err("minishell: ");
 			perror(file->file);
 			if (other_fd != -1)
-				close(other_fd);
+				ft_close(other_fd);
 			return (1);
 		}
+		store_fd(*fd);
 	}
 	return (0);
 }
@@ -112,22 +114,22 @@ int	piping(int a_pipe[2], int length, int i, int fd_out)
 		return (1);
 	if (i == 0)
 	{
-		dup2(a_pipe[PIPE_INPUT], STDOUT_FILENO);
-		close(a_pipe[PIPE_INPUT]);
-		close(a_pipe[PIPE_OUTPUT]);
+		safer_dup2(a_pipe[PIPE_INPUT], STDOUT_FILENO);
+		ft_close(a_pipe[PIPE_INPUT]);
+		ft_close(a_pipe[PIPE_OUTPUT]);
 	}
 	else if (i != 0 && i != length - 1)
 	{
-		dup2(a_pipe[PIPE_INPUT], STDOUT_FILENO);
-		close(a_pipe[PIPE_INPUT]);
-		dup2(fd_out, STDIN_FILENO);
-		close(fd_out);
-		close(a_pipe[PIPE_OUTPUT]);
+		safer_dup2(a_pipe[PIPE_INPUT], STDOUT_FILENO);
+		ft_close(a_pipe[PIPE_INPUT]);
+		safer_dup2(fd_out, STDIN_FILENO);
+		ft_close(fd_out);
+		ft_close(a_pipe[PIPE_OUTPUT]);
 	}
 	else if (i == length -1)
 	{
-		dup2(fd_out, STDIN_FILENO);
-		close(fd_out);
+		safer_dup2(fd_out, STDIN_FILENO);
+		ft_close(fd_out);
 	}
 	return (1);
 }

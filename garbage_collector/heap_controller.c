@@ -3,33 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   heap_controller.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:48:12 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/14 10:54:16 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/09/15 20:38:13 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_heap	**get_heap(void)
+static t_heap	**get_heap(void)
 {
 	static t_heap	*head;
 
 	return (&head);
-}
-
-// add front
-void	add_to_heap(t_heap *new)
-{
-	t_heap	**heap;
-
-	heap = get_heap();
-	if (new != NULL)
-	{
-		new->next = *heap;
-		*heap = new;
-	}
 }
 
 // allocat memory and save to free later,
@@ -37,6 +24,7 @@ void	add_to_heap(t_heap *new)
 void	*mallocate(size_t size)
 {
 	t_heap	*new;
+	t_heap	**heap;
 
 	new = (t_heap *)malloc(sizeof(t_heap));
 	if (new == NULL)
@@ -51,7 +39,12 @@ void	*mallocate(size_t size)
 		print_err("minishell: allocation failed, exiting ..\n");
 		exiter(1);
 	}
-	add_to_heap(new);
+	heap = get_heap();
+	if (new != NULL)
+	{
+		new->next = *heap;
+		*heap = new;
+	}
 	return (new->ptr);
 }
 
@@ -72,6 +65,18 @@ void	free_all_heap(void)
 	}
 }
 
+static int	check_first(t_heap **heap, t_heap *tmp, void *ptr)
+{
+	if (ptr == tmp->ptr)
+	{
+		*heap = tmp->next;
+		free(tmp->ptr);
+		free(tmp);
+		return (1);
+	}
+	return (0);
+}
+
 // free specefic ptr allocated by heap controller
 void	ft_free(void *ptr)
 {
@@ -83,13 +88,8 @@ void	ft_free(void *ptr)
 	tmp = *heap;
 	if (tmp == NULL)
 		return ;
-	if (ptr == tmp->ptr)
-	{
-		*heap = tmp->next;
-		free(tmp->ptr);
-		free(tmp);
+	if (check_first(heap, tmp, ptr))
 		return ;
-	}
 	while (tmp != NULL && tmp->next != NULL)
 	{
 		if (tmp->next->ptr == ptr)

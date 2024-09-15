@@ -42,23 +42,24 @@ void	setup_signal_handler(int p, void (*sig_h)(int), void (*sig_ign)(int))
 {
 	if (p == 0)
 	{
-		signal(SIGINT, sig_h);
-		signal(SIGQUIT, sig_ign);
+		safer_signal(SIGINT, sig_h);
+		safer_signal(SIGQUIT, sig_ign);
 	}
 	else if (p == 1)
 	{
-		signal(SIGINT, sig_ign);
-		signal(SIGQUIT, sig_ign);
+		safer_signal(SIGINT, sig_ign);
+		safer_signal(SIGQUIT, sig_ign);
 	}
 }
 
-void	sig_exit(int sig)
-{
-	t_spec	*svars;
+// void	sig_exit(int sig) // TODO useless??
+// {
+// 	t_spec	*svars;
 
-	svars = get_specials();
-	svars->exit_status = 128 + sig;
-}
+// 	svars = get_specials();
+// 	svars->exit_status = 128 + sig;
+// 	// safer_signal(sig, sig_exit);
+// }
 
 void	set_last_arg(t_data *data)
 {
