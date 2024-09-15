@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:47:08 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/15 19:32:35 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/15 23:40:08 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ char	*check_paths(char *cmd)
 		}
 		ft_free(tmp_path);
 	}
-	print_3_err("minishell: command not found: ", cmd, "\n", 127);
+	print_3_err(cmd, ": command not found", "\n", 127);
 	return (NULL);
 }
