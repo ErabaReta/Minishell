@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:09 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/14 21:31:46 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/15 16:41:34 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	looper(void)
 	while (1)
 	{
 		setup_signal_handler(0, signal_handler, SIG_IGN);
-		if(isatty(STDIN_FILENO))////////////////////
+		if(isatty(STDIN_FILENO))
 			str = readline("minishell $> ");
 		else/////////////////////////////////////////
 		{

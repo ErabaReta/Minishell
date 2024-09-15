@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/14 18:31:56 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/15 16:41:14 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int						isdou(char c);
 t_data					*check_errors(t_data *data);
 char					*last_arg(char *s1);
 void					set_last_arg(t_data *data);
+int						is_red(char **reds, char *file);
 //===Syntax_error============================================
 t_data					*syntax_error_pipe(t_data *data);
 t_data					*syntax_error_red(t_data *data);

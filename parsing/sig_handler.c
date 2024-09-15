@@ -12,6 +12,21 @@
 
 #include "../minishell.h"
 
+int	is_red(char **reds, char *file)
+{
+	int	i;
+
+	i = 0;
+	while (file && reds[i])
+	{
+		if (ft_strncmp(file, reds[i], 3) == 0)
+			return (1);
+		else
+			i++;
+	}
+	return (0);
+}
+
 void	sighandler(int sig)
 {
 	if (sig == SIGINT)
@@ -51,7 +66,7 @@ void	set_last_arg(t_data *data)
 	t_env	*env_node;
 
 	i = 0;
-	if (data->args && data->next == NULL)
+	if (data && data->args && data->next == NULL)
 	{
 		while (data->args[i] && data->args[i + 1])
 			i++;
