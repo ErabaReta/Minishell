@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/09/16 14:22:09 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/09/16 15:30:39 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_data	*lexer(char *str)
 		if (new == NULL)
 		{
 			get_specials()->exit_status = 2;
-			printf("syntax error near unexpected token\n");
+			print_err("syntax error near unexpected token\n");
 			return (NULL);
 		}
 		ft_lstadd_back(&data, new);
@@ -113,28 +113,3 @@ t_data	*lexer(char *str)
 	set_last_arg(data);
 	return (data);
 }
-
-	//=== for debug ==================================
-	// i = 0;
-	// while (data)
-	// {
-	// 	i = 0;
-	// 	printf("args ====================== \n");
-	// 	while (data->args && data->args[i])
-	// 	{
-	// 		printf("cmd = %s\n", data->args[i]);
-	// 		i++;
-	// 	}
-	// 	printf("files ====================== \n");
-
-	// 	while (data->files)
-	// 	{
-	// 		printf("red = %s, file = %s, fd = %d\n", data->files->redirection,
-	// 			data->files->file, data->files->heredoc_fd);
-	// 		data->files = data->files->next;
-	// 	}
-	// 	data = data->next;
-	// 	if (data != NULL)
-	// 		printf("|\n");
-	// }
-	// // ==================================================

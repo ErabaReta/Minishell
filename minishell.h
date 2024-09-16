@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/16 14:33:25 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:21:16 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,8 +192,6 @@ char					**get_vars_sorted(void);
 void					append_value(t_env *env, char *value);
 void					init_pwd_oldpwd(void);
 void					init_shlvl(void);
-// char	**slice_var_value(char *str);////
 //=================================================================
-
 
 #endif

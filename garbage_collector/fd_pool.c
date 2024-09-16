@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:48:12 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/15 20:37:49 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/16 15:29:43 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,31 +92,3 @@ void	ft_close(int fd)
 		tmp = tmp->next;
 	}
 }
-//===== testing ===========
-// int main()
-// {
-// 	int fd;
-// 	int pipes[2];
-
-// 	fd = open("input.txt", O_RDONLY);
-// 	store_fd(fd);
-// 	char *str = (char *)mallocate(10);
-// 	char *str2 = (char *)mallocate(3);
-// 	read(fd, str, 9);
-// 	str[9] = '\0';
-// 	pipe(pipes);
-// 	store_fd(pipes[PIPE_INPUT]);
-// 	store_fd(pipes[PIPE_OUTPUT]);
-
-// 	write(pipes[PIPE_INPUT], str, 2);
-// 	ft_close(pipes[PIPE_INPUT]);
-// 	read(pipes[PIPE_OUTPUT], str2, 2);
-// 	str2[2] = '\0';
-
-// 	printf("%s\n", str2);
-
-// 	clean_pool();
-// 	free_all_heap();
-// 	return (0);
-
-// }

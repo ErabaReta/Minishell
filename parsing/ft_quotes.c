@@ -12,17 +12,10 @@
 
 #include "../minishell.h"
 
-void	init_vars(char **cmd, int *start, int *exp)
-{
-	*cmd = NULL;
-	*start = 0;
-	*exp = 0;
-}
-
 char	*lim_writer(char *str, int *start, char *cmd)
 {
 	int		end;
-	
+
 	if (str[*start] == '\"' || str[*start] == '\'')
 	{
 		end = ++(*start);
@@ -52,7 +45,9 @@ char	*quotes_remove(char *str, int *exp)
 	int		start;
 	char	*cmd;
 
-	init_vars(&cmd, &start, exp);
+	cmd = NULL;
+	start = 0;
+	*exp = 0;
 	while (str[start])
 		cmd = lim_writer(str, &start, cmd);
 	return (cmd);
