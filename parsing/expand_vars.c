@@ -60,7 +60,7 @@ char	*find_expand(char *find, int q)
 
 int	isdou(char c)
 {
-	if (c == '?' || c == '_')
+	if (c == '?' || c == '_' || c == '$')
 		return (1);
 	return (0);
 }
@@ -73,6 +73,8 @@ char	*expanddor(char *arg, int *i)
 	*i += 2;
 	if (arg[*i - 1] == '?')
 		return (ft_itoa(svars->exit_status, 0));
+	if (arg[*i - 1] == '$')
+		return (ft_strdup("$$"));
 	if (ft_isalnum(arg[*i]) == 0)
 	{
 		if (arg[*i - 1] == '_')
