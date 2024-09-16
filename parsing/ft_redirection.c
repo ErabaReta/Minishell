@@ -86,7 +86,7 @@ void	openchildherdoc(int tmp_file[2], char	*limiter, int exp)
 	setup_signal_handler(0, sighandler, SIG_IGN);
 	while (1)
 	{
-		str = readline("HereDoc > ");
+		str = readline("> ");
 		i = 0;
 		res = ft_strdup("");
 		if (str == NULL || !ft_strncmp(limiter, str, ft_strlen(limiter) + 1))
@@ -97,7 +97,9 @@ void	openchildherdoc(int tmp_file[2], char	*limiter, int exp)
 		}
 		her_writer(str, tmp_file, exp);
 		write(tmp_file[PIPE_INPUT], "\n", 1);
+		free(str);
 	}
+	free(str);
 	exiter(0);
 }
 
