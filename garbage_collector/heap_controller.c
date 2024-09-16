@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:48:12 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/15 20:38:13 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/16 15:29:50 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,27 +103,3 @@ void	ft_free(void *ptr)
 		tmp = tmp->next;
 	}
 }
-// == for testing ============================================================
-// #include <stdio.h>
-
-// int main()
-// {
-// 	int **matrix;
-
-// 	matrix = (int **)mallocate(sizeof(int *) * 10);
-// 	for (int i =0;i < 10; i++)
-// 	{
-// 		matrix[i] = (int *)mallocate(sizeof(int));
-// 	}
-// 	//=======================
-// 	for (int i =0;i < 10; i++)
-// 	{
-// 		matrix[i][0] = i;
-// 	}
-
-// 	for (int i =0;i < 10; i++)
-// 	{
-// 		printf("nbr[%d] => %d", i, matrix[i][0]);
-// 	}
-// 	free_all_heap();
-// }

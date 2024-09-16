@@ -92,7 +92,7 @@ void	openchildherdoc(int tmp_file[2], char	*limiter, int exp)
 		if (str == NULL || !ft_strncmp(limiter, str, ft_strlen(limiter) + 1))
 		{
 			if (str == NULL)
-				printf("warning: here-document delimited by end-of-file\n");
+				print_err("warning: here-document delimited by end-of-file\n");
 			break ;
 		}
 		her_writer(str, tmp_file, exp);

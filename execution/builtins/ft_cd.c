@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:19:43 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/16 00:15:58 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:19:03 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,30 +59,38 @@ int	chdir_to_home(void)
 	return (update_pwd_oldpwd(buff));
 }
 
-int	ft_cd(t_data *data)
+int	chdir_to_path(t_data *data)
 {
 	char	*buff;
 
+	buff = getcwd(NULL, 0);
+	if (buff == NULL && chdir(data->args[1]) == -1)
+	{
+		if (get_specials()->pwd == NULL)
+			print_3_err("chdir: error retrieving current directory: ",
+				"getcwd: cannot access parent directories: ",
+				"No such file or directory\n", -1);
+		else
+			print_3_err("minishell: cd: ", data->args[1],
+				": No such file or directory\n", -1);
+		return (1);
+	}
+	else if (data->args[1][0] != '\0' && chdir(data->args[1]) == -1)
+	{
+		free(buff);
+		print_err("minishell: cd: ");
+		perror(data->args[1]);
+		return (1);
+	}
+	return (update_pwd_oldpwd(buff));
+}
+
+int	ft_cd(t_data *data)
+{
 	if (data->args[1] == NULL)
 		return (chdir_to_home());
 	else if (data->args[2] != NULL)
 		return (print_err("minishell: cd: too many arguments\n") + 1);
 	else
-	{
-		buff = getcwd(NULL, 0);
-		if (buff == NULL && chdir(data->args[1]) == -1)
-		{
-			print_3_err("minishell: cd: ", data->args[1],
-				": No such file or directory\n", -1);
-			return (1);
-		}
-		if (data->args[1][0] != '\0' && chdir(data->args[1]) == -1)
-		{
-			free(buff);
-			print_err("minishell: cd: ");
-			perror(data->args[1]);
-			return (1);
-		}
-		return (update_pwd_oldpwd(buff));
-	}
+		return (chdir_to_path(data));
 }
