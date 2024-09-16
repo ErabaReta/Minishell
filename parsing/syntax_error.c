@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:35:11 by hunter            #+#    #+#             */
-/*   Updated: 2024/09/15 14:14:23 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:02:05 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,15 @@ t_data	*check_errors(t_data *data)
 	redirection(data);
 	if (!syntax_error_red(data) || !syntax_error_pipe(data))
 	{
+		expand_file(data);
 		svars->exit_status = 2;
 		return (NULL);
 	}
+	if (!expand_file(data))
+		return (NULL);
 	if (!syntax_error_her(data))
 		return (NULL);
 	expand(data);
-	if (!expand_file(data))
-		return (NULL);
 	return (data);
 }
 
@@ -47,6 +48,7 @@ t_data	*syntax_error_red(t_data *data)
 				get_specials()->exit_status = 2;
 				printf("syntax error near unexpected token %s\n",
 					curr->files->redirection);
+				curr->files = tmp;
 				return (NULL);
 			}
 			curr->files = curr->files->next;
@@ -68,7 +70,7 @@ t_data	*syntax_error_pipe(t_data *data)
 	{
 		if (curr->next != NULL)
 		{
-			if (curr->next->args == NULL && curr->next->files == NULL)
+			if ((curr->args == NULL && curr->files == NULL) || (curr->next->args == NULL && curr->next->files == NULL))
 			{
 				svars->exit_status = 2;
 				return (printf("syntax error near unexpected token `|'\n")

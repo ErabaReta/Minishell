@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 01:30:51 by ayechcha          #+#    #+#             */
-/*   Updated: 2024/09/15 14:14:34 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:22:09 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ t_data	*lexer(char *str)
 
 	i = 0;
 	data = NULL;
-	str = ft_strnjoin(str, " ", 1);
+	if (str && str[0] != '\0')
+		str = ft_strnjoin(str, " ", 1);
 	while (str[i])
 	{
 		new = ft_split_args(str, &i, i, 0);

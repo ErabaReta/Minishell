@@ -19,32 +19,42 @@ void	init_vars(char **cmd, int *start, int *exp)
 	*exp = 0;
 }
 
+char	*lim_writer(char *str, int *start, char *cmd)
+{
+	int		end;
+	
+	if (str[*start] == '\"' || str[*start] == '\'')
+	{
+		end = ++(*start);
+		while (str[end] != str[*start - 1] && str[end])
+			end++;
+		if (str[end] == '\0')
+			return (NULL);
+		cmd = ft_strnjoin(cmd, ft_substr(str, *start, (end - (*start))), 0);
+		*start = end + 1;
+	}
+	else if (str[(*start)] == '$')
+	{
+		(*start)++;
+		if (str[*start] != '\"' && str[*start] != '\'')
+		{
+			cmd = ft_strnjoin(cmd, str + ((*start) - 1), 2);
+			(*start)++;
+		}
+	}
+	else
+		cmd = ft_strnjoin(cmd, str + (*start)++, 1);
+	return (cmd);
+}
+
 char	*quotes_remove(char *str, int *exp)
 {
 	int		start;
-	int		end;
 	char	*cmd;
 
 	init_vars(&cmd, &start, exp);
 	while (str[start])
-	{
-		if (str[start] == '\"' || str[start] == '\'')
-		{
-			end = ++start;
-			while (str[end] != str[start - 1] && str[end])
-				end++;
-			if (str[end] == '\0')
-				return (NULL);
-			cmd = ft_strnjoin(cmd, ft_substr(str, start,
-						(end - start)), 0);
-			start = end + 1;
-		}
-		else
-		{
-			cmd = ft_strnjoin(cmd, str + start, 1);
-			start++;
-		}
-	}
+		cmd = lim_writer(str, &start, cmd);
 	return (cmd);
 }
 

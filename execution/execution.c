@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:56:56 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/15 20:21:24 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:33:37 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,26 +86,27 @@ void	childs_factory(t_data *tmp, int length, int *child_pids)
 void	execution(t_data *data, int length)
 {
 	int		i;
-	t_spec	*svars;
 	int		status;
 	int		*child_pids;
 
-	svars = get_specials();
 	if (length == 1 && check_builtins(data, 1) == 0)
 		return ;
 	child_pids = (int *)mallocate(sizeof(int) * (length));
-	setup_signal_handler(1, SIG_IGN, sighandler_exev);
-	svars->exit_status = 0;
+	if (ft_strncmp("./minishell", data->args[0], ft_strlen(data->args[0])))
+		setup_signal_handler(1, SIG_IGN, sighandler_exev);
+	else
+		setup_signal_handler(1, SIG_IGN, SIG_IGN);
+	get_specials()->exit_status = 0;
 	childs_factory(data, length, child_pids);
 	i = 0;
 	status = 0;
 	while (i < length)
 	{
-		svars->child_p = waitpid(child_pids[i], &status, 0);
+		get_specials()->child_p = waitpid(child_pids[i], &status, 0);
 		i++;
 	}
 	if ((((status & 127) + 1) >> 1) > 0)
-		svars->exit_status = (status & 127) + 128;
+		get_specials()->exit_status = (status & 127) + 128;
 	else
-		svars->exit_status = ((status >> 8) & 255);
+		get_specials()->exit_status = ((status >> 8) & 255);
 }
