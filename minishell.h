@@ -6,7 +6,7 @@
 /*   By: ayechcha <ayechcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:01:05 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/15 11:52:09 by ayechcha         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:42:59 by ayechcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,4 +192,6 @@ char					**get_vars_sorted(void);
 void					append_value(t_env *env, char *value);
 // char	**slice_var_value(char *str);////
 //=================================================================
+
+
 #endif
