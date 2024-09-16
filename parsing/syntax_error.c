@@ -18,6 +18,8 @@ t_data	*check_errors(t_data *data)
 
 	svars = get_specials();
 	redirection(data);
+	if (!syntax_error_her(data))
+		return (NULL);
 	if (!syntax_error_red(data) || !syntax_error_pipe(data))
 	{
 		expand_file(data);
@@ -25,8 +27,6 @@ t_data	*check_errors(t_data *data)
 		return (NULL);
 	}
 	if (!expand_file(data))
-		return (NULL);
-	if (!syntax_error_her(data))
 		return (NULL);
 	expand(data);
 	return (data);
