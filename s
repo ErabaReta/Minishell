@@ -1,0 +1,17 @@
+env.c
+env_helper.c
+env_helper.o
+env.o
+execution
+garbage_collector
+main.c
+main.o
+Makefile
+minishell
+minishell.h
+parsing
+readline.supp
+README.md
+s
+TODO
+utils
