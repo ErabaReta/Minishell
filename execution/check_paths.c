@@ -6,7 +6,7 @@
 /*   By: eouhrich <eouhrich@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:47:08 by eouhrich          #+#    #+#             */
-/*   Updated: 2024/09/15 23:40:08 by eouhrich         ###   ########.fr       */
+/*   Updated: 2024/09/17 20:40:36 by eouhrich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_dir(char *path)
 {
-	struct stat	buff;
+	struct stat	buff;s
 
 	stat(path, &buff);
 	if (buff.st_mode <= 0 || access(path, F_OK) != 0)

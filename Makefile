@@ -10,8 +10,6 @@ CFILES = main.c  ${PARSING_FILES} ${UTILS_FILES} ${GARBAGE_MAKER} ${ENV} ${EXEC_
 OFILES = ${CFILES:.c=.o}
 NAME = minishell
 
-# INCLUDES = -I. -I./get_next_line/ -I./execution/
-
 all : ${NAME}
 
 ${NAME} : ${OFILES}
