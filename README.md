@@ -9,4 +9,4 @@ At the time, all developers agreed that communicating with a computer using alig
 It was only logical that they came up with the idea of creating a software to communicate with a computer using interactive lines of commands in a language somewhat
 close to the human language.
 Thanks to Minishell, we’ll be able to travel through time and come back to problems
-people faced when Windows didn’t exist.
+people faced when Windows didn’t exist. 
