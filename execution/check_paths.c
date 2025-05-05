@@ -14,7 +14,7 @@
 
 int	is_dir(char *path)
 {
-	struct stat	buff;s
+	struct stat	buff;
 
 	stat(path, &buff);
 	if (buff.st_mode <= 0 || access(path, F_OK) != 0)
